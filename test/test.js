@@ -86,5 +86,21 @@ function tests() {
         });
     });
 
+    it('convert data url', function () {
+      var dataURL = 'data:image/png;base64,' + transparent1x1Png;
+      return blobUtil.dataURLToBlob(dataURL).then(function (blob) {
+        return blobUtil.blobToBase64String(blob);
+      }).then(function (string) {
+        string.should.equal(transparent1x1Png);
+      });
+    });
+
+    it('convert to dataURL', function () {
+      var img = document.getElementById('transparent');
+      return blobUtil.imgSrcToDataURL(img.src).then(function (url) {
+        url.should.match(/^data:image\/png;base64/);
+      });
+    });
+
   });
 }

@@ -86,10 +86,12 @@ function loadImage(src) {
 }
 
 function dataURLToBlob(dataURL) {
-  var type = dataURL.match(/data:([^;]+)/)[1];
-  var base64 = dataURL.replace(/^[^,]+,/, '');
+  return Promise.resolve().then(function () {
+    var type = dataURL.match(/data:([^;]+)/)[1];
+    var base64 = dataURL.replace(/^[^,]+,/, '');
 
-  return createBlob([binaryStringToArrayBuffer(atob(base64))], {type: type});
+    return createBlob([binaryStringToArrayBuffer(atob(base64))], {type: type});
+  });
 }
 
 function createObjectURL(blob) {

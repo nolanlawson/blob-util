@@ -70,9 +70,10 @@ newImg.src = blobURL;
 document.body.appendChild(newImg);
 ```
 
-So now we have two Kirbys - one with a normal URL, and the other with a blob URL. Neato!
+So now we have two Kirbys - one with a normal URL, and the other with a blob URL. You can try this out yourself in the [blob-util playground](http://nolanlawson.github.io/blob-util). Super fun!
 
-You can try this out yourself in the [blob-util playground](http://blob-util.github.io). Super fun!
+<img src="./static/blob-util.gif"/>
+
 
 API
 -------

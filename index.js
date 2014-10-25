@@ -5,7 +5,11 @@ var blob = require('blob');
 var Promise = utils.Promise;
 
 function createBlob(parts, opts) {
-  return blob(parts, opts);
+  opts = opts || {};
+  if (typeof opts === 'string') {
+    opts = {type: opts}; // do you a solid here
+  }
+  return new blob(parts, opts);
 }
 
 // From http://stackoverflow.com/questions/14967647/ (continues on next line)
@@ -117,7 +121,7 @@ function imgToCanvas(img) {
 }
 
 function imgSrcToDataURL(src, type) {
-  type = type || 'image/jpeg';
+  type = type || 'image/png';
 
   return loadImage(src).then(function (img) {
     return imgToCanvas(img);
@@ -127,18 +131,22 @@ function imgSrcToDataURL(src, type) {
 }
 
 function imgSrcToBlob(src, type) {
-  type = type || 'image/jpeg';
+  type = type || 'image/png';
 
   return loadImage(src).then(function (img) {
     return imgToCanvas(img);
   }).then(function (canvas) {
     if (typeof canvas.toBlob === 'function') {
       return new Promise(function (resolve) {
-        canvas.toBlob(type, resolve);
+        canvas.toBlob(resolve, type);
       });
     }
     return dataURLToBlob(canvas.toDataURL(type));
   });
+}
+
+function plainTextToBlob(text) {
+  return createBlob([text], 'text/plain');
 }
 
 module.exports = {
@@ -149,5 +157,6 @@ module.exports = {
   imgSrcToDataURL    : imgSrcToDataURL,
   dataURLToBlob      : dataURLToBlob,
   blobToBase64String : blobToBase64String,
-  base64StringToBlob : base64StringToBlob
+  base64StringToBlob : base64StringToBlob,
+  plainTextToBlob    : plainTextToBlob
 };

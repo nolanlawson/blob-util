@@ -67,6 +67,12 @@ function base64StringToBlob(base64, type) {
   });
 }
 
+function binaryStringToBlob(binary, type) {
+  return Promise.resolve().then(function () {
+    return base64StringToBlob(btoa(binary), type);
+  });
+}
+
 function blobToBase64String(blob) {
   return blobToBinaryString(blob).then(function (binary) {
     return btoa(binary);
@@ -147,8 +153,16 @@ function imgSrcToBlob(src, type) {
   });
 }
 
-function plainTextToBlob(text) {
-  return createBlob([text], 'text/plain');
+function arrayBufferToBlob(buffer, type) {
+  return Promise.resolve().then(function () {
+    return createBlob([buffer], type);
+  });
+}
+
+function blobToArrayBuffer(blob) {
+  return blobToBinaryString(blob).then(function (binary) {
+    return binaryStringToArrayBuffer(binary);
+  });
 }
 
 module.exports = {
@@ -160,5 +174,8 @@ module.exports = {
   dataURLToBlob      : dataURLToBlob,
   blobToBase64String : blobToBase64String,
   base64StringToBlob : base64StringToBlob,
-  plainTextToBlob    : plainTextToBlob
+  binaryStringToBlob : binaryStringToBlob,
+  blobToBinaryString : blobToBinaryString,
+  arrayBufferToBlob  : arrayBufferToBlob,
+  blobToArrayBuffer  : blobToArrayBuffer
 };

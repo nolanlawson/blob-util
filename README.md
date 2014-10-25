@@ -17,20 +17,16 @@ If you want an easy way to work with binary data in the browser, or you don't ev
 
 It's also a good pairing with the attachment API in [PouchDB](http://pouchdb.com).
 
-`blob-util` is a browser library. If you need to work with binary data in Node.js, see [Buffers](http://nodejs.org/api/buffer.html).
+**Note**: this is a browser library. For Node.js, see [Buffers](http://nodejs.org/api/buffer.html).
 
-Install
+Usage
 ------
 
-Grab it from the `dist/` folder above, or use NPM:
+Download it from the `dist/` folder above, or use NPM or Bower:
 
-```
+```bash
 npm install blob-util
-```
-
-Or Bower:
-
-```
+# or:
 bower install blob-util
 ```
 
@@ -40,9 +36,7 @@ Then stick it in your HTML:
 <script src="blob-util.js"></script>
 ```
 
-Now you have a `window.blobUtil` object that contains the API. Or if you don't like
-globals, you can use Browserify.
-
+Now you have a `window.blobUtil` object. Or if you don't like globals, you can use Browserify.
 
 Quick Start
 --------
@@ -51,7 +45,7 @@ Here's Kirby. He's a famous little Blob.
 
 <img id="kirby" alt="Kirby" src="./test/kirby.gif"/>
 
-So let's fulfill his manifest destiny, and convert him to a real `Blob` object.
+So let's fulfill his destiny, and convert him to a real `Blob` object.
 
 ```js
 var img = document.getElementById('kirby');
@@ -75,7 +69,7 @@ var newImg = document.createElement('img');
 newImg.src = blobURL;
 ```
 
-So now we have to Kirbys - one with a normal URL, and the other with a blob URL. Neato!
+So now we have two Kirbys - one with a normal URL, and the other with a blob URL. Neato!
 
 API
 -------

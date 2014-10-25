@@ -102,5 +102,19 @@ function tests() {
       });
     });
 
+    it('convert to dataURL 2', function () {
+      var img = document.getElementById('kirby');
+      return blobUtil.imgSrcToDataURL(img.src).then(function (url) {
+        url.should.match(/^data:image\/png;base64/);
+      });
+    });
+
+    it('convert to dataURL 3', function () {
+      var img = document.getElementById('kirby');
+      return blobUtil.imgSrcToDataURL(img.src, 'image/jpeg').then(function (url) {
+        url.should.match(/^data:image\/jpeg;base64/);
+      });
+    });
+
   });
 }

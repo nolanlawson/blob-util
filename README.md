@@ -9,10 +9,10 @@ You know what's hard to work with? Yeah, you guessed it.
 
 If you just want to work with binary data in the browser and not pull your hair out, then this is the library for you.
 
-This library offers various utilities for transforming Blobs between different formats (base 64, data URL, image), and it works
+`blob-util` offers various utilities for transforming Blobs between different formats (base 64, data URL, image), and it works
 cross-browser.
 
-This library is also a good pairing with the attachment API in [PouchDB](http://pouchdb.com).
+This is also a good pairing with the attachment API in [PouchDB](http://pouchdb.com).
 
 Building
 ----

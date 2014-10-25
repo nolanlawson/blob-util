@@ -54,7 +54,7 @@ blobUtil.imgSrcToBlob(img.src).then(function (blob) {
   // ladies and gents, we have a blob
 }).catch(function (err) {
   // image failed to load
-})
+});
 ```
 
 (Don't worry, this won't download the image twice, because browsers are smart.)
@@ -65,8 +65,9 @@ Now that we have a `Blob`, we can convert it to a URL and use that as the source
 var blobURL = blobUtil.createObjectURL(blob);
 
 var newImg = document.createElement('img');
-
 newImg.src = blobURL;
+
+document.body.appendChild(newImg);
 ```
 
 So now we have two Kirbys - one with a normal URL, and the other with a blob URL. Neato!
@@ -246,9 +247,13 @@ Building the library
 
 Your plugin is now located at `dist/pouchdb.mypluginname.js` and `dist/pouchdb.mypluginname.min.js` and is ready for distribution.
 
-To generate documentation:
+To generate documentation in `doc/`:
 
     npm run jsdoc
+
+or in markdown format as `api.md`
+
+    npm run jsdoc2md
 
 
 Testing the library

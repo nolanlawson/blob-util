@@ -24,16 +24,19 @@
     "test-browser": "./bin/test-browser.js",
     "jshint": "jshint -c .jshintrc *.js test/test.js",
     "test": "npm run jshint && ./bin/run-test.sh",
-    "build": "mkdir -p dist && browserify index.js -o dist/blob-util.js && npm run min",
+    "build": "mkdir -p dist && browserify index.js -s blobUtil -o dist/blob-util.js && npm run min",
     "min": "uglifyjs dist/blob-util.js -mc > dist/blob-util.min.js",
-    "dev": "browserify -s blobUtil test/test.js > test/test-bundle.js && npm run dev-server",
+    "dev": "browserify test/test.js > test/test-bundle.js && npm run dev-server",
     "dev-server": "./bin/dev-server.js",
     "coverage": "npm test --coverage && istanbul check-coverage --lines 100 --function 100 --statements 100 --branches 100",
-    "jsdoc": "jsdoc2md --heading-depth 3 ./index.js > api.md"
+    "jsdoc2md": "jsdoc2md --heading-depth 3 ./index.js > api.md",
+    "jsdoc": "jsdoc -d doc ./index.js"
+
   },
   "dependencies": {
     "blob": "0.0.4",
     "es3ify": "^0.1.3",
+    "jsdoc": "^3.3.0-alpha10",
     "lie": "^2.6.0"
   },
   "devDependencies": {

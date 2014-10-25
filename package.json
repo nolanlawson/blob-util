@@ -2,7 +2,7 @@
   "name": "blob-util",
   "version": "0.0.1",
   "description": "Utilities for working with Blob objects in the browser",
-  "main": "index.js",
+  "main": "lib/index.js",
   "repository": {
     "type": "git",
     "url": "git://github.com/nolanlawson/blob-util.git"
@@ -24,13 +24,13 @@
     "test-browser": "./bin/test-browser.js",
     "jshint": "jshint -c .jshintrc *.js test/test.js",
     "test": "npm run jshint && ./bin/run-test.sh",
-    "build": "mkdir -p dist && browserify index.js -s blobUtil -o dist/blob-util.js && npm run min",
+    "build": "mkdir -p dist && browserify lib/index.js -s blobUtil -o dist/blob-util.js && npm run min",
     "min": "uglifyjs dist/blob-util.js -mc > dist/blob-util.min.js",
     "dev": "browserify test/test.js > test/test-bundle.js && npm run dev-server",
     "dev-server": "./bin/dev-server.js",
     "coverage": "npm test --coverage && istanbul check-coverage --lines 100 --function 100 --statements 100 --branches 100",
-    "jsdoc2md": "jsdoc2md --heading-depth 3 ./index.js > api.md",
-    "jsdoc": "jsdoc -d doc ./index.js"
+    "jsdoc2md": "jsdoc2md --heading-depth 3 ./lib/index.js > api.md",
+    "jsdoc": "jsdoc -d doc ./lib/index.js"
 
   },
   "dependencies": {

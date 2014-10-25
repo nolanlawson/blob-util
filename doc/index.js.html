@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: index.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: index.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
+
+var utils = require('./utils');
+/* jshint -W079 */
+var Blob = require('blob');
+var Promise = utils.Promise;
+
+//
+// PRIVATE
+//
+
+// From http://stackoverflow.com/questions/14967647/ (continues on next line)
+// encode-decode-image-with-base64-breaks-image (2013-04-21)
+function binaryStringToArrayBuffer(binary) {
+  var length = binary.length;
+  var buf = new ArrayBuffer(length);
+  var arr = new Uint8Array(buf);
+  var i = -1;
+  while (++i &lt; length) {
+    arr[i] = binary.charCodeAt(i);
+  }
+  return buf;
+}
+
+// Can't find original post, but this is close
+// http://stackoverflow.com/questions/6965107/ (continues on next line)
+// converting-between-strings-and-arraybuffers
+function arrayBufferToBinaryString(buffer) {
+  var binary = '';
+  var bytes = new Uint8Array(buffer);
+  var length = bytes.byteLength;
+  var i = -1;
+  while (++i &lt; length) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+  return binary;
+}
+
+// doesn't download the image more than once, because
+// browsers aren't dumb. uses the cache
+function loadImage(src) {
+  return new Promise(function (resolve, reject) {
+    var img = new Image();
+
+    img.onload = function () {
+      resolve(img);
+    };
+    img.onerror = reject;
+    img.src = src;
+  });
+}
+
+function imgToCanvas(img) {
+  var canvas = document.createElement('canvas');
+
+  canvas.width = img.width;
+  canvas.height = img.height;
+
+  // copy the image contents to the canvas
+  var context = canvas.getContext('2d');
+  context.drawImage(
+    img,
+    0, 0,
+    img.width, img.height,
+    0, 0,
+    img.width, img.height);
+
+  return canvas;
+}
+
+//
+// PUBLIC
+//
+
+/**
+ * Shim for
+ * [new Blob()]{@link https://developer.mozilla.org/en-US/docs/Web/API/Blob.Blob}
+ * to support
+ * [older browsers that use the deprecated &lt;code>BlobBuilder&lt;/code> API]{@link http://caniuse.com/blob}.
+ *
+ * @param {Array} parts - content of the &lt;code>Blob&lt;/code>
+ * @param {Object} options - usually just &lt;code>{type: myContentType}&lt;/code>
+ * @returns {Blob}
+ */
+function createBlob(parts, options) {
+  options = options || {};
+  if (typeof options === 'string') {
+    options = {type: options}; // do you a solid here
+  }
+  return new Blob(parts, options);
+}
+
+/**
+ * Shim for
+ * [URL.createObjectURL()]{@link https://developer.mozilla.org/en-US/docs/Web/API/URL.createObjectURL}
+ * to support browsers that only have the prefixed
+ * &lt;code>webkitURL&lt;/code> (e.g. Android &lt;4.4).
+ * @param {Blob} blob
+ * @returns {string} url
+ */
+function createObjectURL(blob) {
+  return (window.URL || window.webkitURL).createObjectURL(blob);
+}
+
+/**
+ * Shim for
+ * [URL.revokeObjectURL()]{@link https://developer.mozilla.org/en-US/docs/Web/API/URL.revokeObjectURL}
+ * to support browsers that only have the prefixed
+ * &lt;code>webkitURL&lt;/code> (e.g. Android &lt;4.4).
+ * @param {string} url
+ */
+function revokeObjectURL(url) {
+  return (window.URL || window.webkitURL).revokeObjectURL(url);
+}
+
+/**
+ * Convert a &lt;code>Blob&lt;/code> to a binary string. Returns a Promise.
+ *
+ * @param {Blob} blob
+ * @returns {Promise} Promise that resolves with the binary string
+ */
+function blobToBinaryString(blob) {
+  return new Promise(function (resolve, reject) {
+    var reader = new FileReader();
+    var hasBinaryString = typeof reader.readAsBinaryString === 'function';
+    reader.onloadend = function (e) {
+      var result = e.target.result || '';
+      if (hasBinaryString) {
+        return resolve(result);
+      }
+      resolve(arrayBufferToBinaryString(result));
+    };
+    reader.onerror = reject;
+    if (hasBinaryString) {
+      reader.readAsBinaryString(blob);
+    } else {
+      reader.readAsArrayBuffer(blob);
+    }
+  });
+}
+
+/**
+ * Convert a base64-encoded string to a &lt;code>Blob&lt;/code>. Returns a Promise.
+ * @param {string} base64
+ * @param {string|undefined} type - the content type (optional)
+ * @returns {Promise} Promise that resolves with the &lt;code>Blob&lt;/code>
+ */
+function base64StringToBlob(base64, type) {
+  return Promise.resolve().then(function () {
+    var parts = [binaryStringToArrayBuffer(atob(base64))];
+    return type ? createBlob(parts, {type: type}) : createBlob(parts);
+  });
+}
+
+/**
+ * Convert a binary string to a &lt;code>Blob&lt;/code>. Returns a Promise.
+ * @param {string} binary
+ * @param {string|undefined} type - the content type (optional)
+ * @returns {Promise} Promise that resolves with the &lt;code>Blob&lt;/code>
+ */
+function binaryStringToBlob(binary, type) {
+  return Promise.resolve().then(function () {
+    return base64StringToBlob(btoa(binary), type);
+  });
+}
+
+/**
+ * Convert a &lt;code>Blob&lt;/code> to a binary string. Returns a Promise.
+ * @param {Blob} blob
+ * @returns {Promise} Promise that resolves with the binary string
+ */
+function blobToBase64String(blob) {
+  return blobToBinaryString(blob).then(function (binary) {
+    return btoa(binary);
+  });
+}
+
+/**
+ * Convert a data URL string
+ * (e.g. &lt;code>'data:image/png;base64,iVBORw0KG...'&lt;/code>)
+ * to a &lt;code>Blob&lt;/code>. Returns a Promise.
+ * @param {string} dataURL
+ * @returns {Promise} Promise that resolves with the &lt;code>Blob&lt;/code>
+ */
+function dataURLToBlob(dataURL) {
+  return Promise.resolve().then(function () {
+    var type = dataURL.match(/data:([^;]+)/)[1];
+    var base64 = dataURL.replace(/^[^,]+,/, '');
+
+    var buff = binaryStringToArrayBuffer(atob(base64));
+    return createBlob([buff], {type: type});
+  });
+}
+
+/**
+ * Convert an image's &lt;code>src&lt;/code> URL to a data URL by loading the image and painting
+ * it to a &lt;code>canvas&lt;/code>. Returns a Promise.
+ *
+ * &lt;p/>Note: this will coerce the image to the desired content type, and it
+ * will only paint the first frame of an animated GIF.
+ *
+ * @param {string} src
+ * @param {string|undefined} type - the content type (optional, defaults to 'image/png')
+ * @returns {Promise} Promise that resolves with the data URL string
+ */
+function imgSrcToDataURL(src, type) {
+  type = type || 'image/png';
+
+  return loadImage(src).then(function (img) {
+    return imgToCanvas(img);
+  }).then(function (canvas) {
+    return canvas.toDataURL(type);
+  });
+}
+
+/**
+ * Convert a &lt;code>canvas&lt;/code> to a &lt;code>Blob&lt;/code>. Returns a Promise.
+ * @param {string} canvas
+ * @param {string|undefined} type - the content type (optional, defaults to 'image/png')
+ * @returns {Promise} Promise that resolves with the &lt;code>Blob&lt;/code>
+ */
+function canvasToBlob(canvas, type) {
+  return Promise.resolve().then(function () {
+    if (typeof canvas.toBlob === 'function') {
+      return new Promise(function (resolve) {
+        canvas.toBlob(resolve, type);
+      });
+    }
+    return dataURLToBlob(canvas.toDataURL(type));
+  });
+}
+
+/**
+ * Convert an image's &lt;code>src&lt;/code> URL to a &lt;code>Blob&lt;/code> by loading the image and painting
+ * it to a &lt;code>canvas&lt;/code>. Returns a Promise.
+ *
+ * &lt;p/>Note: this will coerce the image to the desired content type, and it
+ * will only paint the first frame of an animated GIF.
+ *
+ * @param {string} src
+ * @param {string|undefined} type - the content type (optional, defaults to 'image/png')
+ * @returns {Promise} Promise that resolves with the &lt;code>Blob&lt;/code>
+ */
+function imgSrcToBlob(src, type) {
+  type = type || 'image/png';
+
+  return loadImage(src).then(function (img) {
+    return imgToCanvas(img);
+  }).then(function (canvas) {
+    return canvasToBlob(canvas, type);
+  });
+}
+
+/**
+ * Convert an &lt;code>ArrayBuffer&lt;/code> to a &lt;code>Blob&lt;/code>. Returns a Promise.
+ *
+ * @param {ArrayBuffer} buffer
+ * @param {string|undefined} type - the content type (optional)
+ * @returns {Promise} Promise that resolves with the &lt;code>Blob&lt;/code>
+ */
+function arrayBufferToBlob(buffer, type) {
+  return Promise.resolve().then(function () {
+    return createBlob([buffer], type);
+  });
+}
+
+/**
+ * Convert a &lt;code>Blob&lt;/code> to an &lt;code>ArrayBuffer&lt;/code>. Returns a Promise.
+ * @param {Blob} blob
+ * @returns {Promise} Promise that resolves with the &lt;code>ArrayBuffer&lt;/code>
+ */
+function blobToArrayBuffer(blob) {
+  return blobToBinaryString(blob).then(function (binary) {
+    return binaryStringToArrayBuffer(binary);
+  });
+}
+
+module.exports = {
+  createBlob         : createBlob,
+  createObjectURL    : createObjectURL,
+  revokeObjectURL    : revokeObjectURL,
+  imgSrcToBlob       : imgSrcToBlob,
+  imgSrcToDataURL    : imgSrcToDataURL,
+  canvasToBlob       : canvasToBlob,
+  dataURLToBlob      : dataURLToBlob,
+  blobToBase64String : blobToBase64String,
+  base64StringToBlob : base64StringToBlob,
+  binaryStringToBlob : binaryStringToBlob,
+  blobToBinaryString : blobToBinaryString,
+  arrayBufferToBlob  : arrayBufferToBlob,
+  blobToArrayBuffer  : blobToArrayBuffer
+};</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Global</h3><ul><li><a href="global.html#arrayBufferToBlob">arrayBufferToBlob</a></li><li><a href="global.html#base64StringToBlob">base64StringToBlob</a></li><li><a href="global.html#binaryStringToBlob">binaryStringToBlob</a></li><li><a href="global.html#blobToArrayBuffer">blobToArrayBuffer</a></li><li><a href="global.html#blobToBase64String">blobToBase64String</a></li><li><a href="global.html#blobToBinaryString">blobToBinaryString</a></li><li><a href="global.html#canvasToBlob">canvasToBlob</a></li><li><a href="global.html#createBlob">createBlob</a></li><li><a href="global.html#createObjectURL">createObjectURL</a></li><li><a href="global.html#dataURLToBlob">dataURLToBlob</a></li><li><a href="global.html#imgSrcToBlob">imgSrcToBlob</a></li><li><a href="global.html#imgSrcToDataURL">imgSrcToDataURL</a></li><li><a href="global.html#revokeObjectURL">revokeObjectURL</a></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha10</a> on Sat Oct 25 2014 13:35:47 GMT-0400 (EDT)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

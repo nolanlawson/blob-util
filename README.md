@@ -79,7 +79,7 @@ document.body.appendChild(newImg);
 
 So now we have two Kirbys - one with a normal URL, and the other with a blob URL. You can try this out yourself in the [blob-util playground](http://nolanlawson.github.io/blob-util). Super fun!
 
-<img src="./static/blob-util.gif"/>
+<img src="./doc/blob-util.gif"/>
 
 
 API

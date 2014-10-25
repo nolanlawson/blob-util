@@ -1,7 +1,7 @@
 /*jshint expr:true */
 'use strict';
 
-var blobUtil = require('..');
+var blobUtil = require('../lib');
 
 var chai = require('chai');
 chai.use(require("chai-as-promised"));

@@ -14,6 +14,31 @@ cross-browser.
 
 It's also a good pairing with the attachment API in [PouchDB](http://pouchdb.com).
 
+Usage
+------
+
+Grab it from the `dist/` folder above, or npm:
+
+```
+npm install blob-util
+```
+
+Or Bower:
+
+```
+bower install blob-util
+```
+
+Then stick it in your HTML:
+
+```html
+<script src="blob-util.js"></script>
+```
+
+Now you have a `window.blobUtil` object that contains the API. Or if you don't like
+globals, you can use Browserify.
+
+
 Building
 ----
     npm install

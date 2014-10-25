@@ -58,7 +58,7 @@ function tests() {
             blobUtil.blobToBase64String(otherBlob)
           ]).then(function (strings) {
             strings[0].should.equal(strings[1]);
-          })
+          });
         });
       });
     });

@@ -12,7 +12,7 @@ If you just want to work with binary data in the browser and not pull your hair 
 `blob-util` offers various utilities for transforming Blobs between different formats (base 64, data URL, image), and it works
 cross-browser.
 
-This is also a good pairing with the attachment API in [PouchDB](http://pouchdb.com).
+It's also a good pairing with the attachment API in [PouchDB](http://pouchdb.com).
 
 Building
 ----

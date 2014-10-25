@@ -19,6 +19,13 @@ It's also a good pairing with the attachment API in [PouchDB](http://pouchdb.com
 
 **Note**: this is a browser library. For Node.js, see [Buffers](http://nodejs.org/api/buffer.html).
 
+**Topics**:
+
+* [Usage](#usage)
+* [Tutorial](#tutorial)
+* [Playground](http://nolanlawson.github.io/blob-util)
+* [API](#api)
+
 Usage
 ------
 
@@ -38,7 +45,7 @@ Then stick it in your HTML:
 
 Now you have a `window.blobUtil` object. Or if you don't like globals, you can use Browserify.
 
-Quick Start
+Tutorial
 --------
 
 Here's Kirby. He's a famous little Blob.

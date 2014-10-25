@@ -246,6 +246,10 @@ Convert a <code>Blob</code> to an <code>ArrayBuffer</code>. Returns a Promise.
 
 **Returns**: `Promise` - Promise that resolves with the <code>ArrayBuffer</code>  
 
+Credits
+----
+
+Thanks to [webmodules/blob](https://github.com/webmodules/blob) for the Blob constructor shim, and to the rest of [the PouchDB team](https://github.com/pouchdb/pouchdb/graphs/contributors) for figuring most of this crazy stuff out.
 
 Building the library
 ----

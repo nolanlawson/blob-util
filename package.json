@@ -20,7 +20,7 @@
     "url": "https://github.com/nolanlawson/blob-util/issues"
   },
   "scripts": {
-    "test-node": "istanbul test ./node_modules/mocha/bin/_mocha test/test.js",
+    "test-node": "echo 'node tests disabled'",
     "test-browser": "./bin/test-browser.js",
     "jshint": "jshint -c .jshintrc *.js test/test.js",
     "test": "npm run jshint && ./bin/run-test.sh",
@@ -28,7 +28,8 @@
     "min": "uglifyjs dist/blob-util.js -mc > dist/blob-util.min.js",
     "dev": "browserify -s blobUtil test/test.js > test/test-bundle.js && npm run dev-server",
     "dev-server": "./bin/dev-server.js",
-    "coverage": "npm test --coverage && istanbul check-coverage --lines 100 --function 100 --statements 100 --branches 100"
+    "coverage": "npm test --coverage && istanbul check-coverage --lines 100 --function 100 --statements 100 --branches 100",
+    "jsdoc": "jsdoc2md --heading-depth 3 ./index.js > api.md"
   },
   "dependencies": {
     "blob": "0.0.4",
@@ -42,6 +43,8 @@
     "chai-as-promised": "~4.1.0",
     "http-server": "~0.5.5",
     "istanbul": "^0.2.7",
+    "jsdoc": "^3.3.0-alpha10",
+    "jsdoc-to-markdown": "^0.5.9",
     "jshint": "~2.3.0",
     "mocha": "~1.18",
     "phantomjs": "^1.9.7-5",

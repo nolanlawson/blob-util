@@ -15,7 +15,7 @@
   "globals": { "Pouch": true},
   "white": true,
   "indent": 2,
-  "maxlen": 100,
+  "maxlen": 120,
   "predef": [
     "process",
     "global",

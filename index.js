@@ -1,26 +1,23 @@
 'use strict';
 
 var utils = require('./utils');
-var blob = require('blob');
+/* jshint -W079 */
+var Blob = require('blob');
 var Promise = utils.Promise;
 
-function createBlob(parts, opts) {
-  opts = opts || {};
-  if (typeof opts === 'string') {
-    opts = {type: opts}; // do you a solid here
-  }
-  return new blob(parts, opts);
-}
+//
+// PRIVATE
+//
 
 // From http://stackoverflow.com/questions/14967647/ (continues on next line)
 // encode-decode-image-with-base64-breaks-image (2013-04-21)
-function binaryStringToArrayBuffer(bin) {
-  var length = bin.length;
+function binaryStringToArrayBuffer(binary) {
+  var length = binary.length;
   var buf = new ArrayBuffer(length);
   var arr = new Uint8Array(buf);
   var i = -1;
   while (++i < length) {
-    arr[i] = bin.charCodeAt(i);
+    arr[i] = binary.charCodeAt(i);
   }
   return buf;
 }
@@ -39,46 +36,8 @@ function arrayBufferToBinaryString(buffer) {
   return binary;
 }
 
-// shim for browsers that don't support it
-function blobToBinaryString(blob) {
-  return new Promise(function (resolve, reject) {
-    var reader = new FileReader();
-    var hasBinaryString = typeof reader.readAsBinaryString === 'function';
-    reader.onloadend = function (e) {
-      var result = e.target.result || '';
-      if (hasBinaryString) {
-        return resolve(result);
-      }
-      resolve(arrayBufferToBinaryString(result));
-    };
-    reader.onerror = reject;
-    if (hasBinaryString) {
-      reader.readAsBinaryString(blob);
-    } else {
-      reader.readAsArrayBuffer(blob);
-    }
-  });
-}
-
-function base64StringToBlob(base64, type) {
-  return Promise.resolve().then(function () {
-    var parts = [binaryStringToArrayBuffer(atob(base64))];
-    return type ? createBlob(parts, {type: type}) : createBlob(parts);
-  });
-}
-
-function binaryStringToBlob(binary, type) {
-  return Promise.resolve().then(function () {
-    return base64StringToBlob(btoa(binary), type);
-  });
-}
-
-function blobToBase64String(blob) {
-  return blobToBinaryString(blob).then(function (binary) {
-    return btoa(binary);
-  });
-}
-
+// doesn't download the image more than once, because
+// browsers aren't dumb. uses the cache
 function loadImage(src) {
   return new Promise(function (resolve, reject) {
     var img = new Image();
@@ -89,25 +48,6 @@ function loadImage(src) {
     img.onerror = reject;
     img.src = src;
   });
-}
-
-function dataURLToBlob(dataURL) {
-  return Promise.resolve().then(function () {
-    var type = dataURL.match(/data:([^;]+)/)[1];
-    var base64 = dataURL.replace(/^[^,]+,/, '');
-
-    return createBlob([binaryStringToArrayBuffer(atob(base64))], {type: type});
-  });
-}
-
-function createObjectURL(blob) {
-  var compatURL = window.URL || window.webkitURL;
-  return compatURL.createObjectURL(blob);
-}
-
-function revokeObjectURL(url) {
-  var compatURL = window.URL || window.webkitURL;
-  return compatURL.revokeObjectURL(url);
 }
 
 function imgToCanvas(img) {
@@ -128,6 +68,141 @@ function imgToCanvas(img) {
   return canvas;
 }
 
+//
+// PUBLIC
+//
+
+/**
+ * Shim for
+ * [new Blob()]{@link https://developer.mozilla.org/en-US/docs/Web/API/Blob.Blob}
+ * to support
+ * [older browsers that use the deprecated <code>BlobBuilder</code> API]{@link http://caniuse.com/blob}.
+ *
+ * @param {Array} parts - content of the <code>Blob</code>
+ * @param {Object} options - usually just <code>{type: myContentType}</code>
+ * @returns {Blob}
+ */
+function createBlob(parts, options) {
+  options = options || {};
+  if (typeof options === 'string') {
+    options = {type: options}; // do you a solid here
+  }
+  return new Blob(parts, options);
+}
+
+/**
+ * Shim for
+ * [URL.createObjectURL()]{@link https://developer.mozilla.org/en-US/docs/Web/API/URL.createObjectURL}
+ * to support browsers that only have the prefixed
+ * <code>webkitURL</code> (e.g. Android <4.4).
+ * @param {Blob} blob
+ * @returns {string} url
+ */
+function createObjectURL(blob) {
+  return (window.URL || window.webkitURL).createObjectURL(blob);
+}
+
+/**
+ * Shim for
+ * [URL.revokeObjectURL()]{@link https://developer.mozilla.org/en-US/docs/Web/API/URL.revokeObjectURL}
+ * to support browsers that only have the prefixed
+ * <code>webkitURL</code> (e.g. Android <4.4).
+ * @param {string} url
+ */
+function revokeObjectURL(url) {
+  return (window.URL || window.webkitURL).revokeObjectURL(url);
+}
+
+/**
+ * Convert a <code>Blob</code> to a binary string. Returns a Promise.
+ *
+ * @param {Blob} blob
+ * @returns {Promise} Promise that resolves with the binary string
+ */
+function blobToBinaryString(blob) {
+  return new Promise(function (resolve, reject) {
+    var reader = new FileReader();
+    var hasBinaryString = typeof reader.readAsBinaryString === 'function';
+    reader.onloadend = function (e) {
+      var result = e.target.result || '';
+      if (hasBinaryString) {
+        return resolve(result);
+      }
+      resolve(arrayBufferToBinaryString(result));
+    };
+    reader.onerror = reject;
+    if (hasBinaryString) {
+      reader.readAsBinaryString(blob);
+    } else {
+      reader.readAsArrayBuffer(blob);
+    }
+  });
+}
+
+/**
+ * Convert a base64-encoded string to a <code>Blob</code>. Returns a Promise.
+ * @param {string} base64
+ * @param {string|undefined} type - the content type (optional)
+ * @returns {Promise} Promise that resolves with the <code>Blob</code>
+ */
+function base64StringToBlob(base64, type) {
+  return Promise.resolve().then(function () {
+    var parts = [binaryStringToArrayBuffer(atob(base64))];
+    return type ? createBlob(parts, {type: type}) : createBlob(parts);
+  });
+}
+
+/**
+ * Convert a binary string to a <code>Blob</code>. Returns a Promise.
+ * @param {string} binary
+ * @param {string|undefined} type - the content type (optional)
+ * @returns {Promise} Promise that resolves with the <code>Blob</code>
+ */
+function binaryStringToBlob(binary, type) {
+  return Promise.resolve().then(function () {
+    return base64StringToBlob(btoa(binary), type);
+  });
+}
+
+/**
+ * Convert a <code>Blob</code> to a binary string. Returns a Promise.
+ * @param {Blob} blob
+ * @returns {Promise} Promise that resolves with the binary string
+ */
+function blobToBase64String(blob) {
+  return blobToBinaryString(blob).then(function (binary) {
+    return btoa(binary);
+  });
+}
+
+/**
+ * Convert a data URL string
+ * (e.g. <code>'data:image/png;base64,iVBORw0KG...'</code>)
+ * to a <code>Blob</code>. Returns a Promise.
+ * @param {string} dataURL
+ * @returns {Promise} Promise that resolves with the <code>Blob</code>
+ */
+function dataURLToBlob(dataURL) {
+  return Promise.resolve().then(function () {
+    var type = dataURL.match(/data:([^;]+)/)[1];
+    var base64 = dataURL.replace(/^[^,]+,/, '');
+
+    var buff = binaryStringToArrayBuffer(atob(base64));
+    return createBlob([buff], {type: type});
+  });
+}
+
+/**
+ * Convert an image's <code>src</code> URL to a data URL by loading the image and painting
+ * it to a <code>canvas</code>. Returns a Promise.
+ *
+ * <p/>Note: this will coerce the image to the desired content type, and it
+ * will only paint the first frame of an animated GIF.
+ *
+ * @param {string} src
+ * @param {string|undefined} type - the content type (optional, defaults to 'image/png')
+ * @returns {Promise} Promise that resolves with the data URL string
+ */
 function imgSrcToDataURL(src, type) {
   type = type || 'image/png';
 
@@ -138,12 +213,14 @@ function imgSrcToDataURL(src, type) {
   });
 }
 
-function imgSrcToBlob(src, type) {
-  type = type || 'image/png';
-
-  return loadImage(src).then(function (img) {
-    return imgToCanvas(img);
-  }).then(function (canvas) {
+/**
+ * Convert a <code>canvas</code> to a <code>Blob</code>. Returns a Promise.
+ * @param {string} canvas
+ * @param {string|undefined} type - the content type (optional, defaults to 'image/png')
+ * @returns {Promise} Promise that resolves with the <code>Blob</code>
+ */
+function canvasToBlob(canvas, type) {
+  return Promise.resolve().then(function () {
     if (typeof canvas.toBlob === 'function') {
       return new Promise(function (resolve) {
         canvas.toBlob(resolve, type);
@@ -153,12 +230,45 @@ function imgSrcToBlob(src, type) {
   });
 }
 
+/**
+ * Convert an image's <code>src</code> URL to a <code>Blob</code> by loading the image and painting
+ * it to a <code>canvas</code>. Returns a Promise.
+ *
+ * <p/>Note: this will coerce the image to the desired content type, and it
+ * will only paint the first frame of an animated GIF.
+ *
+ * @param {string} src
+ * @param {string|undefined} type - the content type (optional, defaults to 'image/png')
+ * @returns {Promise} Promise that resolves with the <code>Blob</code>
+ */
+function imgSrcToBlob(src, type) {
+  type = type || 'image/png';
+
+  return loadImage(src).then(function (img) {
+    return imgToCanvas(img);
+  }).then(function (canvas) {
+    return canvasToBlob(canvas, type);
+  });
+}
+
+/**
+ * Convert an <code>ArrayBuffer</code> to a <code>Blob</code>. Returns a Promise.
+ *
+ * @param {ArrayBuffer} buffer
+ * @param {string|undefined} type - the content type (optional)
+ * @returns {Promise} Promise that resolves with the <code>Blob</code>
+ */
 function arrayBufferToBlob(buffer, type) {
   return Promise.resolve().then(function () {
     return createBlob([buffer], type);
   });
 }
 
+/**
+ * Convert a <code>Blob</code> to an <code>ArrayBuffer</code>. Returns a Promise.
+ * @param {Blob} blob
+ * @returns {Promise} Promise that resolves with the <code>ArrayBuffer</code>
+ */
 function blobToArrayBuffer(blob) {
   return blobToBinaryString(blob).then(function (binary) {
     return binaryStringToArrayBuffer(binary);
@@ -171,6 +281,7 @@ module.exports = {
   revokeObjectURL    : revokeObjectURL,
   imgSrcToBlob       : imgSrcToBlob,
   imgSrcToDataURL    : imgSrcToDataURL,
+  canvasToBlob       : canvasToBlob,
   dataURLToBlob      : dataURLToBlob,
   blobToBase64String : blobToBase64String,
   base64StringToBlob : base64StringToBlob,

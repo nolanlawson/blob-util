@@ -22,7 +22,7 @@
   "scripts": {
     "test-node": "echo 'node tests disabled'",
     "test-browser": "./bin/test-browser.js",
-    "jshint": "jshint -c .jshintrc *.js test/test.js",
+    "jshint": "jshint -c .jshintrc lib/*.js test/test.js",
     "test": "npm run jshint && ./bin/run-test.sh",
     "build": "mkdir -p dist && browserify lib/index.js -s blobUtil -o dist/blob-util.js && npm run min",
     "min": "uglifyjs dist/blob-util.js -mc > dist/blob-util.min.js",

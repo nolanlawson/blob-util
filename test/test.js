@@ -62,5 +62,29 @@ function tests() {
         });
       });
     });
+
+    var transparent1x1Png =
+      'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGP6zwAAAgcBApocMXEA' +
+        'AAAASUVORK5CYII=';
+    var black1x1Png =
+      'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAAAAAA6fptVAAAACklEQVR4nGNiAAAABgADNjd8qAAA' +
+        'AABJRU5ErkJggg==';
+
+    it('convert base64 to png', function () {
+      return blobUtil.base64StringToBlob(transparent1x1Png, 'image/png').then(function (blob) {
+        return blobUtil.blobToBase64String(blob);
+      }).then(function (string) {
+        string.should.equal(transparent1x1Png);
+      });
+    });
+
+    it('convert base64 to png 2', function () {
+      return blobUtil.base64StringToBlob(black1x1Png, 'image/png').then(function (blob) {
+        return blobUtil.blobToBase64String(blob);
+      }).then(function (string) {
+          string.should.equal(black1x1Png);
+        });
+    });
+
   });
 }

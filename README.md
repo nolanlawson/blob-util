@@ -72,6 +72,8 @@ document.body.appendChild(newImg);
 
 So now we have two Kirbys - one with a normal URL, and the other with a blob URL. Neato!
 
+You can try this out yourself in the [blob-util playground](http://blob-util.github.io). Super fun!
+
 API
 -------
 
@@ -237,15 +239,11 @@ Convert a <code>Blob</code> to an <code>ArrayBuffer</code>. Returns a Promise.
 **Returns**: `Promise` - Promise that resolves with the <code>ArrayBuffer</code>  
 
 
-
-
-
 Building the library
 ----
+
     npm install
     npm run build
-
-Your plugin is now located at `dist/pouchdb.mypluginname.js` and `dist/pouchdb.mypluginname.min.js` and is ready for distribution.
 
 To generate documentation in `doc/`:
 
@@ -255,6 +253,7 @@ or in markdown format as `api.md`
 
     npm run jsdoc2md
 
+The playground is just `jsdoc` with some extra text containing Kirby and the code samples and such.
 
 Testing the library
 ----

@@ -45,7 +45,8 @@
       <p>Below you'll find API documentation, as well as a little Kirby GIF you can play around with.</p>
       <p><img id="kirby" alt="Kirby" src="test/kirby.gif"/></p>
       <p>Here's some code to get you started. Copy-paste this into your console:</p>
-      <pre style="border-left: 4px solid #A35A00; padding-left:20px; margin-left:20px;">
+      <pre class="prettyprint source linenums" style="margin-left: 10px; max-width: 700px;">
+<code>
 var img = document.getElementById('kirby');
 
 blobUtil.imgSrcToBlob(img.src).then(function (blob) {
@@ -56,8 +57,9 @@ blobUtil.imgSrcToBlob(img.src).then(function (blob) {
 
   img.parentNode.appendChild(newImg);
 });
-      </pre>
-      <p></p>
+</code>
+</pre>
+      <p>If you see two Kirbys, you're on your way!</p>
 
 
 <dl class="details">

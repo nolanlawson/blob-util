@@ -29,12 +29,16 @@ It's also a good pairing with the attachment API in [PouchDB](http://pouchdb.com
 Usage
 ------
 
-Download it from the `dist/` folder above, or use NPM or Bower:
+Download it from the `dist/` folder above, or use NPM:
 
 ```bash
-npm install blob-util
-# or:
-bower install blob-util
+$ npm install blob-util
+```
+
+or Bower:
+
+```bash
+$ bower install blob-util
 ```
 
 Then stick it in your HTML:

@@ -7,7 +7,7 @@ blob-util
 
 If you want an easy way to work with binary data in the browser, or you don't even know what a Blob is, then this is the library for you.
 
-`blob-util` offers cross-browser utilities for translating Blobs to and from different formats:
+`blob-util` offers a tiny (~4KB min+gz) set of cross-browser utilities for translating Blobs to and from different formats:
 
 * `<img/>` tags
 * base 64 strings
@@ -47,6 +47,12 @@ Now you have a `window.blobUtil` object. Or if you don't like globals, you can u
 
 Tutorial
 --------
+
+Blobs (**b**inary **l**arge **ob**jects) are the modern way of working with binary data in the browser. The browser support is [very good](http://caniuse.com/#search=blob).
+
+Once you have a Blob, you can make it available offline by storing it in [IndexedDB](http://www.w3.org/TR/IndexedDB/), [PouchDB](http://pouchdb.com/), [LocalForage](https://mozilla.github.io/localForage/), or other in-browser databases. So it's the perfect format for working with offline images, sound, and video.
+
+OK, example time.
 
 Here's Kirby. He's a famous little Blob.
 

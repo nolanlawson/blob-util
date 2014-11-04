@@ -39,10 +39,12 @@ function arrayBufferToBinaryString(buffer) {
 
 // doesn't download the image more than once, because
 // browsers aren't dumb. uses the cache
-function loadImage(src) {
+function loadImage(src, crossOrigin) {
   return new Promise(function (resolve, reject) {
     var img = new Image();
-
+    if (crossOrigin) {
+      img.crossOrigin = crossOrigin;
+    }
     img.onload = function () {
       resolve(img);
     };
@@ -202,12 +204,14 @@ function dataURLToBlob(dataURL) {
  *
  * @param {string} src
  * @param {string|undefined} type - the content type (optional, defaults to 'image/png')
+ * @param {string|undefined} crossOrigin - for CORS-enabled images, set this to
+ *                                         'Anonymous' to avoid "tainted canvas" errors
  * @returns {Promise} Promise that resolves with the data URL string
  */
-function imgSrcToDataURL(src, type) {
+function imgSrcToDataURL(src, type, crossOrigin) {
   type = type || 'image/png';
 
-  return loadImage(src).then(function (img) {
+  return loadImage(src, crossOrigin).then(function (img) {
     return imgToCanvas(img);
   }).then(function (canvas) {
     return canvas.toDataURL(type);
@@ -240,12 +244,14 @@ function canvasToBlob(canvas, type) {
  *
  * @param {string} src
  * @param {string|undefined} type - the content type (optional, defaults to 'image/png')
+ * @param {string|undefined} crossOrigin - for CORS-enabled images, set this to
+ *                                         'Anonymous' to avoid "tainted canvas" errors
  * @returns {Promise} Promise that resolves with the <code>Blob</code>
  */
-function imgSrcToBlob(src, type) {
+function imgSrcToBlob(src, type, crossOrigin) {
   type = type || 'image/png';
 
-  return loadImage(src).then(function (img) {
+  return loadImage(src, crossOrigin).then(function (img) {
     return imgToCanvas(img);
   }).then(function (canvas) {
     return canvasToBlob(canvas, type);
@@ -291,6 +297,7 @@ module.exports = {
   arrayBufferToBlob  : arrayBufferToBlob,
   blobToArrayBuffer  : blobToArrayBuffer
 };
+
 },{"./utils":2,"blob":3}],2:[function(require,module,exports){
 var global=typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {};'use strict';
 

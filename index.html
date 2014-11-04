@@ -1769,7 +1769,7 @@ to a <code>Blob</code>. Returns a Promise.
             
 <dt>
     
-        <h4 class="name" id="imgSrcToBlob"><span class="type-signature"></span>imgSrcToBlob<span class="signature">(src, type)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
+        <h4 class="name" id="imgSrcToBlob"><span class="type-signature"></span>imgSrcToBlob<span class="signature">(src, type, crossOrigin)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
 
         
     
@@ -1864,6 +1864,33 @@ will only paint the first frame of an animated GIF.
         </tr>
 
     
+
+        <tr>
+
+                <td class="name"><code>crossOrigin</code></td>
+
+
+            <td class="type">
+
+
+<span class="param-type">string</span>
+|
+
+<span class="param-type">undefined</span>
+
+
+
+            </td>
+
+
+
+
+
+            <td class="description last">for CORS-enabled images, set this to
+                                        'Anonymous' to avoid "tainted canvas" errors</td>
+        </tr>
+
+
     </tbody>
 </table>
     
@@ -1951,7 +1978,7 @@ will only paint the first frame of an animated GIF.
             
 <dt>
     
-        <h4 class="name" id="imgSrcToDataURL"><span class="type-signature"></span>imgSrcToDataURL<span class="signature">(src, type)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
+        <h4 class="name" id="imgSrcToDataURL"><span class="type-signature"></span>imgSrcToDataURL<span class="signature">(src, type, crossOrigin)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
 
         
     
@@ -2046,6 +2073,33 @@ will only paint the first frame of an animated GIF.
         </tr>
 
     
+
+        <tr>
+
+                <td class="name"><code>crossOrigin</code></td>
+
+
+            <td class="type">
+
+
+<span class="param-type">string</span>
+|
+
+<span class="param-type">undefined</span>
+
+
+
+            </td>
+
+
+
+
+
+            <td class="description last">for CORS-enabled images, set this to
+                                        'Anonymous' to avoid "tainted canvas" errors</td>
+        </tr>
+
+
     </tbody>
 </table>
     

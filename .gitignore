@@ -6,3 +6,5 @@ test/test-bundle.js
 npm-debug.log
 dist
 api.md
+doc/global.html
+doc/index.html

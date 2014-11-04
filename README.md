@@ -199,7 +199,7 @@ to a <code>Blob</code>. Returns a Promise.
 
 **Returns**: `Promise` - Promise that resolves with the <code>Blob</code>  
 <a name="imgSrcToDataURL"></a>
-###imgSrcToDataURL(src, type)
+###imgSrcToDataURL(src, type, crossOrigin)
 Convert an image's <code>src</code> URL to a data URL by loading the image and painting
 it to a <code>canvas</code>. Returns a Promise.
 
@@ -210,6 +210,8 @@ will only paint the first frame of an animated GIF.
 
 - src `string`  
 - type `string` | `undefined` - the content type (optional, defaults to 'image/png')  
+- crossOrigin `string` | `undefined` - for CORS-enabled images, set this to
+                                        'Anonymous' to avoid "tainted canvas" errors  
 
 **Returns**: `Promise` - Promise that resolves with the data URL string  
 <a name="canvasToBlob"></a>
@@ -223,7 +225,7 @@ Convert a <code>canvas</code> to a <code>Blob</code>. Returns a Promise.
 
 **Returns**: `Promise` - Promise that resolves with the <code>Blob</code>  
 <a name="imgSrcToBlob"></a>
-###imgSrcToBlob(src, type)
+###imgSrcToBlob(src, type, crossOrigin)
 Convert an image's <code>src</code> URL to a <code>Blob</code> by loading the image and painting
 it to a <code>canvas</code>. Returns a Promise.
 
@@ -234,6 +236,8 @@ will only paint the first frame of an animated GIF.
 
 - src `string`  
 - type `string` | `undefined` - the content type (optional, defaults to 'image/png')  
+- crossOrigin `string` | `undefined` - for CORS-enabled images, set this to
+                                        'Anonymous' to avoid "tainted canvas" errors  
 
 **Returns**: `Promise` - Promise that resolves with the <code>Blob</code>  
 <a name="arrayBufferToBlob"></a>
@@ -276,6 +280,11 @@ or in markdown format as `api.md`
     npm run jsdoc2md
 
 The playground is just `jsdoc` with some extra text containing Kirby and the code samples and such.
+
+So unfortunately you will need to do a manual diff to get the docs up to date. You'll need to diff:
+
+* `api.md` to `README.md`
+* `index.html` to `doc/global.html`
 
 Testing the library
 ----

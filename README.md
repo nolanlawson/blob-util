@@ -107,9 +107,9 @@ Warning: this API uses [Promises](https://promisesaplus.com/), because it's not 
 * [binaryStringToBlob(binary, type)](#binaryStringToBlob)
 * [blobToBase64String(blob)](#blobToBase64String)
 * [dataURLToBlob(dataURL)](#dataURLToBlob)
-* [imgSrcToDataURL(src, type)](#imgSrcToDataURL)
+* [imgSrcToDataURL(src, type, crossOrigin)](#imgSrcToDataURL)
 * [canvasToBlob(canvas, type)](#canvasToBlob)
-* [imgSrcToBlob(src, type)](#imgSrcToBlob)
+* [imgSrcToBlob(src, type, crossOrigin)](#imgSrcToBlob)
 * [arrayBufferToBlob(buffer, type)](#arrayBufferToBlob)
 * [blobToArrayBuffer(blob)](#blobToArrayBuffer)
  

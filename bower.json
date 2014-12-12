@@ -1,11 +1,11 @@
 {
   "name": "blob-util",
-  "version": "1.1.0",
+  "version": "1.1.1",
+  "description": "Utilities for working with Blob objects in the browser",
   "homepage": "https://github.com/nolanlawson/blob-util",
   "authors": [
     "Nolan Lawson <nolan.lawson@gmail.com>"
   ],
-  "description": "Utilities for working with Blob objects in the browser",
   "main": "dist/blob-util.js",
   "moduleType": [
     "node"

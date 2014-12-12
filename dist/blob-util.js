@@ -1,4 +1,4 @@
-!function(e){"object"==typeof exports?module.exports=e():"function"==typeof define&&define.amd?define(e):"undefined"!=typeof window?window.blobUtil=e():"undefined"!=typeof global?global.blobUtil=e():"undefined"!=typeof self&&(self.blobUtil=e())}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+!function(e){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{var f;"undefined"!=typeof window?f=window:"undefined"!=typeof global?f=global:"undefined"!=typeof self&&(f=self),f.blobUtil=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
 
 var utils = require('./utils');
@@ -299,14 +299,17 @@ module.exports = {
 };
 
 },{"./utils":2,"blob":3}],2:[function(require,module,exports){
-var global=typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {};'use strict';
+(function (global){
+'use strict';
 
 var Promise = typeof global.Promise === 'function' ? global.Promise : require('lie');
 
 exports.Promise = Promise;
 
-},{"lie":8}],3:[function(require,module,exports){
-var global=typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {};/**
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"lie":7}],3:[function(require,module,exports){
+(function (global){
+/**
  * Create a blob builder even when vendor prefixes exist
  */
 
@@ -403,15 +406,14 @@ module.exports = (function() {
   }
 })();
 
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],4:[function(require,module,exports){
-
-},{}],5:[function(require,module,exports){
 'use strict';
 
 module.exports = INTERNAL;
 
 function INTERNAL() {}
-},{}],6:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 'use strict';
 var Promise = require('./promise');
 var reject = require('./reject');
@@ -455,7 +457,7 @@ function all(iterable) {
     }
   }
 }
-},{"./INTERNAL":5,"./handlers":7,"./promise":9,"./reject":12,"./resolve":13}],7:[function(require,module,exports){
+},{"./INTERNAL":4,"./handlers":6,"./promise":8,"./reject":11,"./resolve":12}],6:[function(require,module,exports){
 'use strict';
 var tryCatch = require('./tryCatch');
 var resolveThenable = require('./resolveThenable');
@@ -501,14 +503,14 @@ function getThen(obj) {
     };
   }
 }
-},{"./resolveThenable":14,"./states":15,"./tryCatch":16}],8:[function(require,module,exports){
+},{"./resolveThenable":13,"./states":14,"./tryCatch":15}],7:[function(require,module,exports){
 module.exports = exports = require('./promise');
 
 exports.resolve = require('./resolve');
 exports.reject = require('./reject');
 exports.all = require('./all');
 exports.race = require('./race');
-},{"./all":6,"./promise":9,"./race":11,"./reject":12,"./resolve":13}],9:[function(require,module,exports){
+},{"./all":5,"./promise":8,"./race":10,"./reject":11,"./resolve":12}],8:[function(require,module,exports){
 'use strict';
 
 var unwrap = require('./unwrap');
@@ -554,7 +556,7 @@ Promise.prototype.then = function (onFulfilled, onRejected) {
   return promise;
 };
 
-},{"./INTERNAL":5,"./queueItem":10,"./resolveThenable":14,"./states":15,"./unwrap":17}],10:[function(require,module,exports){
+},{"./INTERNAL":4,"./queueItem":9,"./resolveThenable":13,"./states":14,"./unwrap":16}],9:[function(require,module,exports){
 'use strict';
 var handlers = require('./handlers');
 var unwrap = require('./unwrap');
@@ -583,7 +585,7 @@ QueueItem.prototype.callRejected = function (value) {
 QueueItem.prototype.otherCallRejected = function (value) {
   unwrap(this.promise, this.onRejected, value);
 };
-},{"./handlers":7,"./unwrap":17}],11:[function(require,module,exports){
+},{"./handlers":6,"./unwrap":16}],10:[function(require,module,exports){
 'use strict';
 var Promise = require('./promise');
 var reject = require('./reject');
@@ -624,7 +626,7 @@ function race(iterable) {
     });
   }
 }
-},{"./INTERNAL":5,"./handlers":7,"./promise":9,"./reject":12,"./resolve":13}],12:[function(require,module,exports){
+},{"./INTERNAL":4,"./handlers":6,"./promise":8,"./reject":11,"./resolve":12}],11:[function(require,module,exports){
 'use strict';
 
 var Promise = require('./promise');
@@ -636,7 +638,7 @@ function reject(reason) {
 	var promise = new Promise(INTERNAL);
 	return handlers.reject(promise, reason);
 }
-},{"./INTERNAL":5,"./handlers":7,"./promise":9}],13:[function(require,module,exports){
+},{"./INTERNAL":4,"./handlers":6,"./promise":8}],12:[function(require,module,exports){
 'use strict';
 
 var Promise = require('./promise');
@@ -671,7 +673,7 @@ function resolve(value) {
       return EMPTYSTRING;
   }
 }
-},{"./INTERNAL":5,"./handlers":7,"./promise":9}],14:[function(require,module,exports){
+},{"./INTERNAL":4,"./handlers":6,"./promise":8}],13:[function(require,module,exports){
 'use strict';
 var handlers = require('./handlers');
 var tryCatch = require('./tryCatch');
@@ -704,13 +706,13 @@ function safelyResolveThenable(self, thenable) {
   }
 }
 exports.safely = safelyResolveThenable;
-},{"./handlers":7,"./tryCatch":16}],15:[function(require,module,exports){
+},{"./handlers":6,"./tryCatch":15}],14:[function(require,module,exports){
 // Lazy man's symbols for states
 
 exports.REJECTED = ['REJECTED'];
 exports.FULFILLED = ['FULFILLED'];
 exports.PENDING = ['PENDING'];
-},{}],16:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 'use strict';
 
 module.exports = tryCatch;
@@ -726,7 +728,7 @@ function tryCatch(func, value) {
   }
   return out;
 }
-},{}],17:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 'use strict';
 
 var immediate = require('immediate');
@@ -748,7 +750,7 @@ function unwrap(promise, func, value) {
     }
   });
 }
-},{"./handlers":7,"immediate":18}],18:[function(require,module,exports){
+},{"./handlers":6,"immediate":17}],17:[function(require,module,exports){
 'use strict';
 var types = [
   require('./nextTick'),
@@ -790,8 +792,9 @@ function immediate(task) {
     scheduleDrain();
   }
 }
-},{"./messageChannel":19,"./mutation.js":20,"./nextTick":4,"./stateChange":21,"./timeout":22}],19:[function(require,module,exports){
-var global=typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {};'use strict';
+},{"./messageChannel":18,"./mutation.js":19,"./nextTick":22,"./stateChange":20,"./timeout":21}],18:[function(require,module,exports){
+(function (global){
+'use strict';
 
 exports.test = function () {
   if (global.setImmediate) {
@@ -809,8 +812,10 @@ exports.install = function (func) {
     channel.port2.postMessage(0);
   };
 };
-},{}],20:[function(require,module,exports){
-var global=typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {};'use strict';
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{}],19:[function(require,module,exports){
+(function (global){
+'use strict';
 //based off rsvp https://github.com/tildeio/rsvp.js
 //license https://github.com/tildeio/rsvp.js/blob/master/LICENSE
 //https://github.com/tildeio/rsvp.js/blob/master/lib/rsvp/asap.js
@@ -832,8 +837,10 @@ exports.install = function (handle) {
     element.data = (called = ++called % 2);
   };
 };
-},{}],21:[function(require,module,exports){
-var global=typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {};'use strict';
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{}],20:[function(require,module,exports){
+(function (global){
+'use strict';
 
 exports.test = function () {
   return 'document' in global && 'onreadystatechange' in global.document.createElement('script');
@@ -857,7 +864,8 @@ exports.install = function (handle) {
     return handle;
   };
 };
-},{}],22:[function(require,module,exports){
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{}],21:[function(require,module,exports){
 'use strict';
 exports.test = function () {
   return true;
@@ -868,7 +876,7 @@ exports.install = function (t) {
     setTimeout(t, 0);
   };
 };
-},{}]},{},[1])
-(1)
+},{}],22:[function(require,module,exports){
+
+},{}]},{},[1])(1)
 });
-;

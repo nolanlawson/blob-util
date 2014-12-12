@@ -1,6 +1,6 @@
 {
   "name": "blob-util",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Utilities for working with Blob objects in the browser",
   "main": "lib/index.js",
   "repository": {
@@ -31,7 +31,6 @@
     "coverage": "npm test --coverage && istanbul check-coverage --lines 100 --function 100 --statements 100 --branches 100",
     "jsdoc2md": "jsdoc2md --heading-depth 3 ./lib/index.js > api.md",
     "jsdoc": "jsdoc -d doc ./lib/index.js"
-
   },
   "dependencies": {
     "blob": "0.0.4",

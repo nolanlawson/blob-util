@@ -12,6 +12,7 @@ It offers a tiny (~4KB min+gz) set of cross-browser utilities for translating Bl
 * binary strings
 * ArrayBuffers
 * data URLs
+* canvas
 
 It's also a good pairing with the attachment API in [PouchDB](http://pouchdb.com).
 

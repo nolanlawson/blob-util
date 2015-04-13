@@ -48,6 +48,17 @@ Then stick it in your HTML:
 
 Now you have a `window.blobUtil` object. Or if you don't like globals, you can use Browserify.
 
+Browser support
+-----
+
+* Firefox
+* Chrome
+* IE 10+
+* Safari 6+
+* iOS 6+
+* Android 4+
+* Any browser with either `Blob` or the older `BlobBuilder`; see [caniuse](http://caniuse.com/#search=blob) for details.
+
 Tutorial
 --------
 

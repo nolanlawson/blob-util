@@ -457,6 +457,8 @@ So unfortunately you will need to do a manual diff to get the docs up to date. Y
 * `api.md` to `README.md`
 * `index.html` to `doc/global.html`
 
+Update: I also manually added a bunch of code samples to `README.md` because jsdoc didn't seem to support that. So... yeah, jsdoc might not be so helpful anymore.
+
 Testing the library
 ----
 

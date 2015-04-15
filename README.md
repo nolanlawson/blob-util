@@ -137,6 +137,13 @@ to support
 - options `Object` - usually just <code>{type: myContentType}</code>  
 
 **Returns**: `Blob`  
+
+**Example**:
+
+```js
+var myBlob = blobUtil.createBlob(['hello world'], {type: 'text/plain'});
+```
+
 <a name="createObjectURL"></a>
 ###createObjectURL(blob)
 Shim for
@@ -149,6 +156,13 @@ to support browsers that only have the prefixed
 - blob `Blob`  
 
 **Returns**: `string` - url  
+
+**Example**:
+
+```js
+var myUrl = blobUtil.createObjectURL(blob);
+```
+
 <a name="revokeObjectURL"></a>
 ###revokeObjectURL(url)
 Shim for
@@ -160,6 +174,12 @@ to support browsers that only have the prefixed
 
 - url `string`  
 
+**Example**:
+
+```js
+blobUtil.revokeObjectURL(myUrl);
+```
+
 <a name="blobToBinaryString"></a>
 ###blobToBinaryString(blob)
 Convert a <code>Blob</code> to a binary string. Returns a Promise.
@@ -168,7 +188,18 @@ Convert a <code>Blob</code> to a binary string. Returns a Promise.
 
 - blob `Blob`  
 
-**Returns**: `Promise` - Promise that resolves with the binary string  
+**Returns**: `Promise` - Promise that resolves with the binary string 
+
+**Example**:
+
+```js
+blobUtil.blobToBinaryString(blob).then(function (binaryString) {
+  // success
+}).catch(function (err) {
+  // error
+});
+```
+ 
 <a name="base64StringToBlob"></a>
 ###base64StringToBlob(base64, type)
 Convert a base64-encoded string to a <code>Blob</code>. Returns a Promise.
@@ -179,6 +210,17 @@ Convert a base64-encoded string to a <code>Blob</code>. Returns a Promise.
 - type `string` | `undefined` - the content type (optional)  
 
 **Returns**: `Promise` - Promise that resolves with the <code>Blob</code>  
+
+**Example**:
+
+```js
+blobUtil.base64StringToBlob(base64String).then(function (blob) {
+  // success
+}).catch(function (err) {
+  // error
+});
+```
+
 <a name="binaryStringToBlob"></a>
 ###binaryStringToBlob(binary, type)
 Convert a binary string to a <code>Blob</code>. Returns a Promise.
@@ -189,6 +231,17 @@ Convert a binary string to a <code>Blob</code>. Returns a Promise.
 - type `string` | `undefined` - the content type (optional)  
 
 **Returns**: `Promise` - Promise that resolves with the <code>Blob</code>  
+
+**Example**:
+
+```js
+blobUtil.binaryStringToBlob(binaryString).then(function (binaryString) {
+  // success
+}).catch(function (err) {
+  // error
+});
+```
+
 <a name="blobToBase64String"></a>
 ###blobToBase64String(blob)
 Convert a <code>Blob</code> to a binary string. Returns a Promise.
@@ -198,6 +251,18 @@ Convert a <code>Blob</code> to a binary string. Returns a Promise.
 - blob `Blob`  
 
 **Returns**: `Promise` - Promise that resolves with the binary string  
+
+
+**Example**:
+
+```js
+blobUtil.blobToBase64String(blob).then(function (base64String) {
+  // success
+}).catch(function (err) {
+  // error
+});
+```
+
 <a name="dataURLToBlob"></a>
 ###dataURLToBlob(dataURL)
 Convert a data URL string
@@ -209,6 +274,17 @@ to a <code>Blob</code>. Returns a Promise.
 - dataURL `string`  
 
 **Returns**: `Promise` - Promise that resolves with the <code>Blob</code>  
+
+**Example**:
+
+```js
+blobUtil.dataURLToBlob(dataURL).then(function (blob) {
+  // success
+}).catch(function (err) {
+  // error
+});
+```
+
 <a name="imgSrcToDataURL"></a>
 ###imgSrcToDataURL(src, type, crossOrigin)
 Convert an image's <code>src</code> URL to a data URL by loading the image and painting
@@ -225,6 +301,26 @@ will only paint the first frame of an animated GIF.
                                         'Anonymous' to avoid "tainted canvas" errors  
 
 **Returns**: `Promise` - Promise that resolves with the data URL string  
+
+**Examples**:
+
+```js
+blobUtil.imgSrcToDataURL('http://mysite.com/img.png').then(function (dataURL) {
+  // success
+}).catch(function (err) {
+  // error
+});
+```
+
+```js
+blobUtil.imgSrcToDataURL('http://some-other-site.com/img.jpg', 'image/jpeg', 
+                         {crossOrigin: 'Anonymous'}).then(function (dataURL) {
+  // success
+}).catch(function (err) {
+  // error
+});
+```
+
 <a name="canvasToBlob"></a>
 ###canvasToBlob(canvas, type)
 Convert a <code>canvas</code> to a <code>Blob</code>. Returns a Promise.
@@ -235,6 +331,18 @@ Convert a <code>canvas</code> to a <code>Blob</code>. Returns a Promise.
 - type `string` | `undefined` - the content type (optional, defaults to 'image/png')  
 
 **Returns**: `Promise` - Promise that resolves with the <code>Blob</code>  
+
+
+**Example**:
+
+```js
+blobUtil.canvasToBlob(canvas, 'image/png').then(function (blob) {
+  // success
+}).catch(function (err) {
+  // error
+});
+```
+
 <a name="imgSrcToBlob"></a>
 ###imgSrcToBlob(src, type, crossOrigin)
 Convert an image's <code>src</code> URL to a <code>Blob</code> by loading the image and painting
@@ -251,6 +359,26 @@ will only paint the first frame of an animated GIF.
                                         'Anonymous' to avoid "tainted canvas" errors  
 
 **Returns**: `Promise` - Promise that resolves with the <code>Blob</code>  
+
+**Examples**:
+
+```js
+blobUtil.imgSrcToBlob('http://mysite.com/img.png').then(function (blob) {
+  // success
+}).catch(function (err) {
+  // error
+});
+```
+
+```js
+blobUtil.imgSrcToBlob('http://some-other-site.com/img.jpg', 'image/jpeg', 
+                         {crossOrigin: 'Anonymous'}).then(function (blob) {
+  // success
+}).catch(function (err) {
+  // error
+});
+```
+
 <a name="arrayBufferToBlob"></a>
 ###arrayBufferToBlob(buffer, type)
 Convert an <code>ArrayBuffer</code> to a <code>Blob</code>. Returns a Promise.
@@ -261,6 +389,17 @@ Convert an <code>ArrayBuffer</code> to a <code>Blob</code>. Returns a Promise.
 - type `string` | `undefined` - the content type (optional)  
 
 **Returns**: `Promise` - Promise that resolves with the <code>Blob</code>  
+
+**Example**:
+
+```js
+blobUtil.arrayBufferToBlob(arrayBuff, 'audio/mpeg').then(function (blob) {
+  // success
+}).catch(function (err) {
+  // error
+});
+```
+
 <a name="blobToArrayBuffer"></a>
 ###blobToArrayBuffer(blob)
 Convert a <code>Blob</code> to an <code>ArrayBuffer</code>. Returns a Promise.
@@ -270,6 +409,16 @@ Convert a <code>Blob</code> to an <code>ArrayBuffer</code>. Returns a Promise.
 - blob `Blob`  
 
 **Returns**: `Promise` - Promise that resolves with the <code>ArrayBuffer</code>  
+
+**Example**:
+
+```js
+blobUtil.blobToArrayBuffer(blob).then(function (arrayBuff) {
+  // success
+}).catch(function (err) {
+  // error
+});
+```
 
 Credits
 ----

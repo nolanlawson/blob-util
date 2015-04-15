@@ -20,12 +20,13 @@ It's also a good pairing with the attachment API in [PouchDB](http://pouchdb.com
 
 **Topics**:
 
-* [Usage](#usage)
+* [Install](#usage)
+* [Browser support](#browser-support)
 * [Tutorial](#tutorial)
 * [Playground](http://nolanlawson.github.io/blob-util)
 * [API](#api)
 
-Usage
+Install
 ------
 
 Download it from the `dist/` folder above, or use NPM:

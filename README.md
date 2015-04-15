@@ -235,7 +235,7 @@ Convert a binary string to a <code>Blob</code>. Returns a Promise.
 **Example**:
 
 ```js
-blobUtil.binaryStringToBlob(binaryString).then(function (binaryString) {
+blobUtil.binaryStringToBlob(binaryString).then(function (blob) {
   // success
 }).catch(function (err) {
   // error
@@ -333,10 +333,21 @@ Convert a <code>canvas</code> to a <code>Blob</code>. Returns a Promise.
 **Returns**: `Promise` - Promise that resolves with the <code>Blob</code>  
 
 
-**Example**:
+**Examples**:
 
 ```js
-blobUtil.canvasToBlob(canvas, 'image/png').then(function (blob) {
+blobUtil.canvasToBlob(canvas).then(function (blob) {
+  // success
+}).catch(function (err) {
+  // error
+});
+```
+
+Most browsers support converting a canvas to both `'image/png'` and `'image/jpeg'`. You may
+also want to try `'image/webp'`, which will work in some browsers like Chrome (and in other browsers, will just fall back to `'image/png'`):
+
+```js
+blobUtil.canvasToBlob(canvas, 'image/webp').then(function (blob) {
   // success
 }).catch(function (err) {
   // error

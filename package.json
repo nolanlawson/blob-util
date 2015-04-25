@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "blob": "0.0.4",
-    "lie": "^2.6.0"
+    "pouchdb-promise": "0.0.0"
   },
   "devDependencies": {
     "bluebird": "^1.0.7",

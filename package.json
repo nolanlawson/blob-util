@@ -25,7 +25,7 @@
     "jshint": "jshint -c .jshintrc lib/*.js test/test.js",
     "test": "npm run jshint && ./bin/run-test.sh",
     "build": "mkdirp dist && npm run browserify && npm run min",
-    "browserify": "browserify lib/index.js -s blobUtil | ./bin/es3ify.js | derequire > dist/blob-util.js",
+    "browserify": "browserify . -p bundle-collapser/plugin -s blobUtil | ./bin/es3ify.js | derequire > dist/blob-util.js",
     "min": "uglifyjs dist/blob-util.js -mc > dist/blob-util.min.js",
     "dev": "browserify test/test.js > test/test-bundle.js && npm run dev-server",
     "dev-server": "./bin/dev-server.js",
@@ -40,6 +40,7 @@
   "devDependencies": {
     "bluebird": "^1.0.7",
     "browserify": "^9.0.3",
+    "bundle-collapser": "^1.1.4",
     "chai": "~1.8.1",
     "chai-as-promised": "~4.1.0",
     "derequire": "^2.0.0",
@@ -54,8 +55,8 @@
     "phantomjs": "^1.9.7-5",
     "request": "^2.36.0",
     "sauce-connect-launcher": "^0.4.2",
-    "uglify-js": "^2.4.13",
     "selenium-standalone": "3.0.2",
+    "uglify-js": "^2.4.13",
     "watchify": "^2.4.0",
     "wd": "^0.2.21"
   }

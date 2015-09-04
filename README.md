@@ -67,6 +67,8 @@ Blobs (<strong>b</strong>inary <strong>l</strong>arge <strong>ob</strong>jects) 
 
 Once you have a Blob, you can make it available offline by storing it in [IndexedDB](http://www.w3.org/TR/IndexedDB/), [PouchDB](http://pouchdb.com/), [LocalForage](https://mozilla.github.io/localForage/), or other in-browser databases. So it's the perfect format for working with offline images, sound, and video.
 
+A [File](https://developer.mozilla.org/en-US/docs/Web/API/File) is also a Blob. So if you have an `<input type="file">` in your page, you can let your users upload any file and then work with it as a Blob.
+
 ### Example
 
 Here's Kirby. He's a famous little Blob.

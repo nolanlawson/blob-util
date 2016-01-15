@@ -154,5 +154,14 @@ function tests() {
         });
       });
     });
+
+    it('convert with specific quality', function () {
+      var img = document.getElementById('kirby');
+      return blobUtil.imgSrcToBlob(img.src, 'image/jpeg', undefined, 1).then(function (blob) {
+        return blobUtil.imgSrcToBlob(img.src, 'image/jpeg', undefined, 0.5).then(function (lowQualityBlob) {
+          lowQualityBlob.size.should.be.lessThan(blob.size);
+        });
+      });
+    });
   });
 }

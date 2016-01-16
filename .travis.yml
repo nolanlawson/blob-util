@@ -1,22 +1,12 @@
 language: node_js
-
 node_js:
-  - "0.10"
-script: npm run $COMMAND
-before_script:
-  - "export DISPLAY=:99.0"
-  - "sh -e /etc/init.d/xvfb start"
-  - "sleep 5"
-
-    # Workaround for Selenium #3280 issue
-  - "sudo sed -i 's/^127\\.0\\.0\\.1.*$/127.0.0.1 localhost/' /etc/hosts"
-
+- 'stable'
+sudo: false
+script: npm test
 env:
-  matrix:
-  - CLIENT=selenium:firefox COMMAND=test
-  - CLIENT=selenium:phantomjs COMMAND=test
-
+  global:
+  - secure: Tj8fcY4Pig7i38wVncEF4RAgn7i786qwiFYeog94oSllsmJsCvQ61Qco9Yg8Xr4fDcOIRI8xz6AsB8Z4kuGfgywbOlvCiVEC1qqJpOG490e0OOrvrPR1YToSW1DsLFsnb381CiP9FadOOUx3COMjmJvKR+4kYoJGiRJrpDF5PVA=
+  - secure: MssON602wZqWuCeEcZHROyKI7YkkBUOHTF54Qsh41wR7EhBqG+EuU67SUp8RCX3e+aiID0mKCD6+C43c0uEMrdAk0fdPlG6MiQX8dfbq1V7MgIMf8DT2xw0bXt3xrw3bBBsR4Fa6XB6At1VlLmswj1lqGyWvLwTkykSJSTnPrYI=
 branches:
   only:
   - master
-  - /^pull*$/

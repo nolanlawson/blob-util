@@ -99,28 +99,194 @@ module.exports = (function() {
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],2:[function(_dereq_,module,exports){
-
-},{}],3:[function(_dereq_,module,exports){
-(function (global){
-if (typeof global.Promise === 'function') {
-  module.exports = global.Promise;
-} else {
-  module.exports = _dereq_(7);
+'use strict';
+var types = [
+  _dereq_(5),
+  _dereq_(4),
+  _dereq_(3),
+  _dereq_(6),
+  _dereq_(7)
+];
+var draining;
+var currentQueue;
+var queueIndex = -1;
+var queue = [];
+var scheduled = false;
+function cleanUpNextTick() {
+  draining = false;
+  if (currentQueue && currentQueue.length) {
+    queue = currentQueue.concat(queue);
+  } else {
+    queueIndex = -1;
+  }
+  if (queue.length) {
+    nextTick();
+  }
 }
+
+//named nextTick for less confusing stack traces
+function nextTick() {
+  scheduled = false;
+  draining = true;
+  var len = queue.length;
+  var timeout = setTimeout(cleanUpNextTick);
+  while (len) {
+    currentQueue = queue;
+    queue = [];
+    while (++queueIndex < len) {
+      currentQueue[queueIndex].run();
+    }
+    queueIndex = -1;
+    len = queue.length;
+  }
+  queueIndex = -1;
+  draining = false;
+  clearTimeout(timeout);
+}
+var scheduleDrain;
+var i = -1;
+var len = types.length;
+while (++i < len) {
+  if (types[i] && types[i].test && types[i].test()) {
+    scheduleDrain = types[i].install(nextTick);
+    break;
+  }
+}
+// v8 likes predictible objects
+function Item(fun, array) {
+  this.fun = fun;
+  this.array = array;
+}
+Item.prototype.run = function () {
+  this.fun.apply(null, this.array);
+};
+module.exports = immediate;
+function immediate(task) {
+  var args = new Array(arguments.length - 1);
+  if (arguments.length > 1) {
+    for (var i = 1; i < arguments.length; i++) {
+      args[i - 1] = arguments[i];
+    }
+  }
+  queue.push(new Item(task, args));
+  if (!scheduled && !draining) {
+    scheduled = true;
+    scheduleDrain();
+  }
+}
+
+},{"3":3,"4":4,"5":5,"6":6,"7":7}],3:[function(_dereq_,module,exports){
+(function (global){
+'use strict';
+
+exports.test = function () {
+  if (global.setImmediate) {
+    // we can only get here in IE10
+    // which doesn't handel postMessage well
+    return false;
+  }
+  return typeof global.MessageChannel !== 'undefined';
+};
+
+exports.install = function (func) {
+  var channel = new global.MessageChannel();
+  channel.port1.onmessage = func;
+  return function () {
+    channel.port2.postMessage(0);
+  };
+};
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"7":7}],4:[function(_dereq_,module,exports){
+},{}],4:[function(_dereq_,module,exports){
+(function (global){
+'use strict';
+//based off rsvp https://github.com/tildeio/rsvp.js
+//license https://github.com/tildeio/rsvp.js/blob/master/LICENSE
+//https://github.com/tildeio/rsvp.js/blob/master/lib/rsvp/asap.js
+
+var Mutation = global.MutationObserver || global.WebKitMutationObserver;
+
+exports.test = function () {
+  return Mutation;
+};
+
+exports.install = function (handle) {
+  var called = 0;
+  var observer = new Mutation(handle);
+  var element = global.document.createTextNode('');
+  observer.observe(element, {
+    characterData: true
+  });
+  return function () {
+    element.data = (called = ++called % 2);
+  };
+};
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{}],5:[function(_dereq_,module,exports){
+(function (process){
+'use strict';
+exports.test = function () {
+  // Don't get fooled by e.g. browserify environments.
+  return (typeof process !== 'undefined') && !process.browser;
+};
+
+exports.install = function (func) {
+  return function () {
+    process.nextTick(func);
+  };
+};
+
+}).call(this,_dereq_(21))
+},{"21":21}],6:[function(_dereq_,module,exports){
+(function (global){
+'use strict';
+
+exports.test = function () {
+  return 'document' in global && 'onreadystatechange' in global.document.createElement('script');
+};
+
+exports.install = function (handle) {
+  return function () {
+
+    // Create a <script> element; its readystatechange event will be fired asynchronously once it is inserted
+    // into the document. Do so, thus queuing up the task. Remember to clean up once it's been called.
+    var scriptEl = global.document.createElement('script');
+    scriptEl.onreadystatechange = function () {
+      handle();
+
+      scriptEl.onreadystatechange = null;
+      scriptEl.parentNode.removeChild(scriptEl);
+      scriptEl = null;
+    };
+    global.document.documentElement.appendChild(scriptEl);
+
+    return handle;
+  };
+};
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{}],7:[function(_dereq_,module,exports){
+'use strict';
+exports.test = function () {
+  return true;
+};
+
+exports.install = function (t) {
+  return function () {
+    setTimeout(t, 0);
+  };
+};
+},{}],8:[function(_dereq_,module,exports){
 'use strict';
 
 module.exports = INTERNAL;
 
 function INTERNAL() {}
-},{}],5:[function(_dereq_,module,exports){
+},{}],9:[function(_dereq_,module,exports){
 'use strict';
-var Promise = _dereq_(8);
-var reject = _dereq_(10);
-var resolve = _dereq_(11);
-var INTERNAL = _dereq_(4);
-var handlers = _dereq_(6);
+var Promise = _dereq_(12);
+var reject = _dereq_(14);
+var resolve = _dereq_(15);
+var INTERNAL = _dereq_(8);
+var handlers = _dereq_(10);
 var noArray = reject(new TypeError('must be an array'));
 module.exports = function all(iterable) {
   if (Object.prototype.toString.call(iterable) !== '[object Array]') {
@@ -158,11 +324,11 @@ module.exports = function all(iterable) {
     }
   }
 };
-},{"10":10,"11":11,"4":4,"6":6,"8":8}],6:[function(_dereq_,module,exports){
+},{"10":10,"12":12,"14":14,"15":15,"8":8}],10:[function(_dereq_,module,exports){
 'use strict';
-var tryCatch = _dereq_(14);
-var resolveThenable = _dereq_(12);
-var states = _dereq_(13);
+var tryCatch = _dereq_(18);
+var resolveThenable = _dereq_(16);
+var states = _dereq_(17);
 
 exports.resolve = function (self, value) {
   var result = tryCatch(getThen, value);
@@ -204,20 +370,20 @@ function getThen(obj) {
     };
   }
 }
-},{"12":12,"13":13,"14":14}],7:[function(_dereq_,module,exports){
-module.exports = exports = _dereq_(8);
+},{"16":16,"17":17,"18":18}],11:[function(_dereq_,module,exports){
+module.exports = exports = _dereq_(12);
 
-exports.resolve = _dereq_(11);
-exports.reject = _dereq_(10);
-exports.all = _dereq_(5);
-},{"10":10,"11":11,"5":5,"8":8}],8:[function(_dereq_,module,exports){
+exports.resolve = _dereq_(15);
+exports.reject = _dereq_(14);
+exports.all = _dereq_(9);
+},{"12":12,"14":14,"15":15,"9":9}],12:[function(_dereq_,module,exports){
 'use strict';
 
-var unwrap = _dereq_(15);
-var INTERNAL = _dereq_(4);
-var resolveThenable = _dereq_(12);
-var states = _dereq_(13);
-var QueueItem = _dereq_(9);
+var unwrap = _dereq_(19);
+var INTERNAL = _dereq_(8);
+var resolveThenable = _dereq_(16);
+var states = _dereq_(17);
+var QueueItem = _dereq_(13);
 
 module.exports = Promise;
 function Promise(resolver) {
@@ -256,10 +422,10 @@ Promise.prototype.then = function (onFulfilled, onRejected) {
   return promise;
 };
 
-},{"12":12,"13":13,"15":15,"4":4,"9":9}],9:[function(_dereq_,module,exports){
+},{"13":13,"16":16,"17":17,"19":19,"8":8}],13:[function(_dereq_,module,exports){
 'use strict';
-var handlers = _dereq_(6);
-var unwrap = _dereq_(15);
+var handlers = _dereq_(10);
+var unwrap = _dereq_(19);
 
 module.exports = QueueItem;
 function QueueItem(promise, onFulfilled, onRejected) {
@@ -285,24 +451,24 @@ QueueItem.prototype.callRejected = function (value) {
 QueueItem.prototype.otherCallRejected = function (value) {
   unwrap(this.promise, this.onRejected, value);
 };
-},{"15":15,"6":6}],10:[function(_dereq_,module,exports){
+},{"10":10,"19":19}],14:[function(_dereq_,module,exports){
 'use strict';
 
-var Promise = _dereq_(8);
-var INTERNAL = _dereq_(4);
-var handlers = _dereq_(6);
+var Promise = _dereq_(12);
+var INTERNAL = _dereq_(8);
+var handlers = _dereq_(10);
 module.exports = reject;
 
 function reject(reason) {
 	var promise = new Promise(INTERNAL);
 	return handlers.reject(promise, reason);
 }
-},{"4":4,"6":6,"8":8}],11:[function(_dereq_,module,exports){
+},{"10":10,"12":12,"8":8}],15:[function(_dereq_,module,exports){
 'use strict';
 
-var Promise = _dereq_(8);
-var INTERNAL = _dereq_(4);
-var handlers = _dereq_(6);
+var Promise = _dereq_(12);
+var INTERNAL = _dereq_(8);
+var handlers = _dereq_(10);
 module.exports = resolve;
 
 var FALSE = handlers.resolve(new Promise(INTERNAL), false);
@@ -332,10 +498,10 @@ function resolve(value) {
       return EMPTYSTRING;
   }
 }
-},{"4":4,"6":6,"8":8}],12:[function(_dereq_,module,exports){
+},{"10":10,"12":12,"8":8}],16:[function(_dereq_,module,exports){
 'use strict';
-var handlers = _dereq_(6);
-var tryCatch = _dereq_(14);
+var handlers = _dereq_(10);
+var tryCatch = _dereq_(18);
 function safelyResolveThenable(self, thenable) {
   // Either fulfill, reject or reject with error
   var called = false;
@@ -365,13 +531,13 @@ function safelyResolveThenable(self, thenable) {
   }
 }
 exports.safely = safelyResolveThenable;
-},{"14":14,"6":6}],13:[function(_dereq_,module,exports){
+},{"10":10,"18":18}],17:[function(_dereq_,module,exports){
 // Lazy man's symbols for states
 
 exports.REJECTED = ['REJECTED'];
 exports.FULFILLED = ['FULFILLED'];
 exports.PENDING = ['PENDING'];
-},{}],14:[function(_dereq_,module,exports){
+},{}],18:[function(_dereq_,module,exports){
 'use strict';
 
 module.exports = tryCatch;
@@ -387,11 +553,11 @@ function tryCatch(func, value) {
   }
   return out;
 }
-},{}],15:[function(_dereq_,module,exports){
+},{}],19:[function(_dereq_,module,exports){
 'use strict';
 
-var immediate = _dereq_(16);
-var handlers = _dereq_(6);
+var immediate = _dereq_(2);
+var handlers = _dereq_(10);
 module.exports = unwrap;
 
 function unwrap(promise, func, value) {
@@ -409,154 +575,80 @@ function unwrap(promise, func, value) {
     }
   });
 }
-},{"16":16,"6":6}],16:[function(_dereq_,module,exports){
-'use strict';
-var types = [
-  _dereq_(2),
-  _dereq_(18),
-  _dereq_(17),
-  _dereq_(19),
-  _dereq_(20)
-];
-var draining;
-var currentQueue;
-var queueIndex = -1;
+},{"10":10,"2":2}],20:[function(_dereq_,module,exports){
+(function (global){
+if (typeof global.Promise === 'function') {
+  module.exports = global.Promise;
+} else {
+  module.exports = _dereq_(11);
+}
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"11":11}],21:[function(_dereq_,module,exports){
+// shim for using process in browser
+
+var process = module.exports = {};
 var queue = [];
-function cleanUpNextTick() {
+var draining = false;
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    draining = true;
+    var currentQueue;
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        var i = -1;
+        while (++i < len) {
+            currentQueue[i]();
+        }
+        len = queue.length;
+    }
     draining = false;
-    if (currentQueue && currentQueue.length) {
-      queue = currentQueue.concat(queue);
-    } else {
-      queueIndex = -1;
+}
+process.nextTick = function (fun) {
+    queue.push(fun);
+    if (!draining) {
+        setTimeout(drainQueue, 0);
     }
-    if (queue.length) {
-      nextTick();
-    }
-}
-
-//named nextTick for less confusing stack traces
-function nextTick() {
-  draining = true;
-  var len = queue.length;
-  var timeout = setTimeout(cleanUpNextTick);
-  while (len) {
-    currentQueue = queue;
-    queue = [];
-    while (++queueIndex < len) {
-      currentQueue[queueIndex]();
-    }
-    queueIndex = -1;
-    len = queue.length;
-  }
-  queueIndex = -1;
-  draining = false;
-  clearTimeout(timeout);
-}
-var scheduleDrain;
-var i = -1;
-var len = types.length;
-while (++ i < len) {
-  if (types[i] && types[i].test && types[i].test()) {
-    scheduleDrain = types[i].install(nextTick);
-    break;
-  }
-}
-module.exports = immediate;
-function immediate(task) {
-  if (queue.push(task) === 1 && !draining) {
-    scheduleDrain();
-  }
-}
-},{"17":17,"18":18,"19":19,"2":2,"20":20}],17:[function(_dereq_,module,exports){
-(function (global){
-'use strict';
-
-exports.test = function () {
-  if (global.setImmediate) {
-    // we can only get here in IE10
-    // which doesn't handel postMessage well
-    return false;
-  }
-  return typeof global.MessageChannel !== 'undefined';
 };
 
-exports.install = function (func) {
-  var channel = new global.MessageChannel();
-  channel.port1.onmessage = func;
-  return function () {
-    channel.port2.postMessage(0);
-  };
-};
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],18:[function(_dereq_,module,exports){
-(function (global){
-'use strict';
-//based off rsvp https://github.com/tildeio/rsvp.js
-//license https://github.com/tildeio/rsvp.js/blob/master/LICENSE
-//https://github.com/tildeio/rsvp.js/blob/master/lib/rsvp/asap.js
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
 
-var Mutation = global.MutationObserver || global.WebKitMutationObserver;
+function noop() {}
 
-exports.test = function () {
-  return Mutation;
-};
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
 
-exports.install = function (handle) {
-  var called = 0;
-  var observer = new Mutation(handle);
-  var element = global.document.createTextNode('');
-  observer.observe(element, {
-    characterData: true
-  });
-  return function () {
-    element.data = (called = ++called % 2);
-  };
-};
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],19:[function(_dereq_,module,exports){
-(function (global){
-'use strict';
-
-exports.test = function () {
-  return 'document' in global && 'onreadystatechange' in global.document.createElement('script');
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
 };
 
-exports.install = function (handle) {
-  return function () {
-
-    // Create a <script> element; its readystatechange event will be fired asynchronously once it is inserted
-    // into the document. Do so, thus queuing up the task. Remember to clean up once it's been called.
-    var scriptEl = global.document.createElement('script');
-    scriptEl.onreadystatechange = function () {
-      handle();
-
-      scriptEl.onreadystatechange = null;
-      scriptEl.parentNode.removeChild(scriptEl);
-      scriptEl = null;
-    };
-    global.document.documentElement.appendChild(scriptEl);
-
-    return handle;
-  };
+// TODO(shtylman)
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
 };
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],20:[function(_dereq_,module,exports){
-'use strict';
-exports.test = function () {
-  return true;
-};
+process.umask = function() { return 0; };
 
-exports.install = function (t) {
-  return function () {
-    setTimeout(t, 0);
-  };
-};
-},{}],21:[function(_dereq_,module,exports){
+},{}],22:[function(_dereq_,module,exports){
 'use strict';
 
 /* jshint -W079 */
 var Blob = _dereq_(1);
-var Promise = _dereq_(3);
+var Promise = _dereq_(20);
 
 //
 // PRIVATE
@@ -758,15 +850,17 @@ function dataURLToBlob(dataURL) {
  * @param {string|undefined} type - the content type (optional, defaults to 'image/png')
  * @param {string|undefined} crossOrigin - for CORS-enabled images, set this to
  *                                         'Anonymous' to avoid "tainted canvas" errors
+ * @param {number|undefined} quality - a number between 0 and 1 indicating image quality
+ *                                     if the requested type is 'image/jpeg' or 'image/webp'
  * @returns {Promise} Promise that resolves with the data URL string
  */
-function imgSrcToDataURL(src, type, crossOrigin) {
+function imgSrcToDataURL(src, type, crossOrigin, quality) {
   type = type || 'image/png';
 
   return loadImage(src, crossOrigin).then(function (img) {
     return imgToCanvas(img);
   }).then(function (canvas) {
-    return canvas.toDataURL(type);
+    return canvas.toDataURL(type, quality);
   });
 }
 
@@ -774,16 +868,18 @@ function imgSrcToDataURL(src, type, crossOrigin) {
  * Convert a <code>canvas</code> to a <code>Blob</code>. Returns a Promise.
  * @param {string} canvas
  * @param {string|undefined} type - the content type (optional, defaults to 'image/png')
+ * @param {number|undefined} quality - a number between 0 and 1 indicating image quality
+ *                                     if the requested type is 'image/jpeg' or 'image/webp'
  * @returns {Promise} Promise that resolves with the <code>Blob</code>
  */
-function canvasToBlob(canvas, type) {
+function canvasToBlob(canvas, type, quality) {
   return Promise.resolve().then(function () {
     if (typeof canvas.toBlob === 'function') {
       return new Promise(function (resolve) {
-        canvas.toBlob(resolve, type);
+        canvas.toBlob(resolve, type, quality);
       });
     }
-    return dataURLToBlob(canvas.toDataURL(type));
+    return dataURLToBlob(canvas.toDataURL(type, quality));
   });
 }
 
@@ -798,15 +894,17 @@ function canvasToBlob(canvas, type) {
  * @param {string|undefined} type - the content type (optional, defaults to 'image/png')
  * @param {string|undefined} crossOrigin - for CORS-enabled images, set this to
  *                                         'Anonymous' to avoid "tainted canvas" errors
+ * @param {number|undefined} quality - a number between 0 and 1 indicating image quality
+ *                                     if the requested type is 'image/jpeg' or 'image/webp'
  * @returns {Promise} Promise that resolves with the <code>Blob</code>
  */
-function imgSrcToBlob(src, type, crossOrigin) {
+function imgSrcToBlob(src, type, crossOrigin, quality) {
   type = type || 'image/png';
 
   return loadImage(src, crossOrigin).then(function (img) {
     return imgToCanvas(img);
   }).then(function (canvas) {
-    return canvasToBlob(canvas, type);
+    return canvasToBlob(canvas, type, quality);
   });
 }
 
@@ -856,5 +954,5 @@ module.exports = {
   blobToArrayBuffer  : blobToArrayBuffer
 };
 
-},{"1":1,"3":3}]},{},[21])(21)
+},{"1":1,"20":20}]},{},[22])(22)
 });

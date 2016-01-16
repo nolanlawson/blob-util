@@ -28,10 +28,9 @@
         <article>
             <pre class="prettyprint source linenums"><code>'use strict';
 
-var utils = require('./utils');
 /* jshint -W079 */
 var Blob = require('blob');
-var Promise = utils.Promise;
+var Promise = require('pouchdb-promise');
 
 //
 // PRIVATE
@@ -233,15 +232,17 @@ function dataURLToBlob(dataURL) {
  * @param {string|undefined} type - the content type (optional, defaults to 'image/png')
  * @param {string|undefined} crossOrigin - for CORS-enabled images, set this to
  *                                         'Anonymous' to avoid "tainted canvas" errors
+ * @param {number|undefined} quality - a number between 0 and 1 indicating image quality
+ *                                     if the requested type is 'image/jpeg' or 'image/webp'
  * @returns {Promise} Promise that resolves with the data URL string
  */
-function imgSrcToDataURL(src, type, crossOrigin) {
+function imgSrcToDataURL(src, type, crossOrigin, quality) {
   type = type || 'image/png';
 
   return loadImage(src, crossOrigin).then(function (img) {
     return imgToCanvas(img);
   }).then(function (canvas) {
-    return canvas.toDataURL(type);
+    return canvas.toDataURL(type, quality);
   });
 }
 
@@ -249,16 +250,18 @@ function imgSrcToDataURL(src, type, crossOrigin) {
  * Convert a &lt;code>canvas&lt;/code> to a &lt;code>Blob&lt;/code>. Returns a Promise.
  * @param {string} canvas
  * @param {string|undefined} type - the content type (optional, defaults to 'image/png')
+ * @param {number|undefined} quality - a number between 0 and 1 indicating image quality
+ *                                     if the requested type is 'image/jpeg' or 'image/webp'
  * @returns {Promise} Promise that resolves with the &lt;code>Blob&lt;/code>
  */
-function canvasToBlob(canvas, type) {
+function canvasToBlob(canvas, type, quality) {
   return Promise.resolve().then(function () {
     if (typeof canvas.toBlob === 'function') {
       return new Promise(function (resolve) {
-        canvas.toBlob(resolve, type);
+        canvas.toBlob(resolve, type, quality);
       });
     }
-    return dataURLToBlob(canvas.toDataURL(type));
+    return dataURLToBlob(canvas.toDataURL(type, quality));
   });
 }
 
@@ -273,15 +276,17 @@ function canvasToBlob(canvas, type) {
  * @param {string|undefined} type - the content type (optional, defaults to 'image/png')
  * @param {string|undefined} crossOrigin - for CORS-enabled images, set this to
  *                                         'Anonymous' to avoid "tainted canvas" errors
+ * @param {number|undefined} quality - a number between 0 and 1 indicating image quality
+ *                                     if the requested type is 'image/jpeg' or 'image/webp'
  * @returns {Promise} Promise that resolves with the &lt;code>Blob&lt;/code>
  */
-function imgSrcToBlob(src, type, crossOrigin) {
+function imgSrcToBlob(src, type, crossOrigin, quality) {
   type = type || 'image/png';
 
   return loadImage(src, crossOrigin).then(function (img) {
     return imgToCanvas(img);
   }).then(function (canvas) {
-    return canvasToBlob(canvas, type);
+    return canvasToBlob(canvas, type, quality);
   });
 }
 
@@ -304,8 +309,14 @@ function arrayBufferToBlob(buffer, type) {
  * @returns {Promise} Promise that resolves with the &lt;code>ArrayBuffer&lt;/code>
  */
 function blobToArrayBuffer(blob) {
-  return blobToBinaryString(blob).then(function (binary) {
-    return binaryStringToArrayBuffer(binary);
+  return new Promise(function (resolve, reject) {
+    var reader = new FileReader();
+    reader.onloadend = function (e) {
+      var result = e.target.result || new ArrayBuffer(0);
+      resolve(result);
+    };
+    reader.onerror = reject;
+    reader.readAsArrayBuffer(blob);
   });
 }
 
@@ -334,13 +345,13 @@ module.exports = {
 </div>
 
 <nav>
-    <h2><a href="index.html">Index</a></h2><h3>Global</h3><ul><li><a href="global.html#arrayBufferToBlob">arrayBufferToBlob</a></li><li><a href="global.html#base64StringToBlob">base64StringToBlob</a></li><li><a href="global.html#binaryStringToBlob">binaryStringToBlob</a></li><li><a href="global.html#blobToArrayBuffer">blobToArrayBuffer</a></li><li><a href="global.html#blobToBase64String">blobToBase64String</a></li><li><a href="global.html#blobToBinaryString">blobToBinaryString</a></li><li><a href="global.html#canvasToBlob">canvasToBlob</a></li><li><a href="global.html#createBlob">createBlob</a></li><li><a href="global.html#createObjectURL">createObjectURL</a></li><li><a href="global.html#dataURLToBlob">dataURLToBlob</a></li><li><a href="global.html#imgSrcToBlob">imgSrcToBlob</a></li><li><a href="global.html#imgSrcToDataURL">imgSrcToDataURL</a></li><li><a href="global.html#revokeObjectURL">revokeObjectURL</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#arrayBufferToBlob">arrayBufferToBlob</a></li><li><a href="global.html#base64StringToBlob">base64StringToBlob</a></li><li><a href="global.html#binaryStringToBlob">binaryStringToBlob</a></li><li><a href="global.html#blobToArrayBuffer">blobToArrayBuffer</a></li><li><a href="global.html#blobToBase64String">blobToBase64String</a></li><li><a href="global.html#blobToBinaryString">blobToBinaryString</a></li><li><a href="global.html#canvasToBlob">canvasToBlob</a></li><li><a href="global.html#createBlob">createBlob</a></li><li><a href="global.html#createObjectURL">createObjectURL</a></li><li><a href="global.html#dataURLToBlob">dataURLToBlob</a></li><li><a href="global.html#imgSrcToBlob">imgSrcToBlob</a></li><li><a href="global.html#imgSrcToDataURL">imgSrcToDataURL</a></li><li><a href="global.html#revokeObjectURL">revokeObjectURL</a></li></ul>
 </nav>
 
-<br clear="both">
+<br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha10</a> on Tue Nov 04 2014 15:42:40 GMT-0500 (EST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-beta3</a> on Sat Jan 16 2016 14:43:19 GMT-0500 (EST)
 </footer>
 
 <script> prettyPrint(); </script>

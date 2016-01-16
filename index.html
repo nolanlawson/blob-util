@@ -6,7 +6,6 @@
 
     <script src="doc/scripts/prettify/prettify.js"> </script>
     <script src="doc/scripts/prettify/lang-css.js"> </script>
-    <script src="dist/blob-util.js"></script>
     <!--[if lt IE 9]>
       <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
@@ -18,7 +17,9 @@
 
 <div id="main">
 
+    <h1 class="page-title">Global</h1>
 
+    
 
 
 
@@ -36,11 +37,11 @@
 
 <article>
     <div class="container-overview">
-
-
+    
+        
       <h1 class="page-title">Playground for blob-util</h1>
 
-
+        
       <p>Welcome to the docs and playground for <a href="https://github.com/nolanlawson/blob-util"><code>blob-util</code></a>!</p>
       <p>Below you'll find API documentation, as well as a little Kirby GIF you can play around with.</p>
       <p><img id="kirby" alt="Kirby" src="test/kirby.gif"/></p>
@@ -62,6 +63,8 @@ blobUtil.imgSrcToBlob(img.src).then(function (blob) {
 
 
 <dl class="details">
+
+    
 
     
 
@@ -114,32 +117,31 @@ blobUtil.imgSrcToBlob(img.src).then(function (blob) {
     
         <h3 class="subsection-title">Methods</h3>
 
-        <dl>
+        
             
-<dt>
-    
-        <h4 class="name" id="arrayBufferToBlob"><span class="type-signature"></span>arrayBufferToBlob<span class="signature">(buffer, type)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
-
-        
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Convert an <code>ArrayBuffer</code> to a <code>Blob</code>. Returns a Promise.
-    </div>
-    
 
     
 
-    
+    <h4 class="name" id="arrayBufferToBlob"><span class="type-signature"></span>arrayBufferToBlob<span class="signature">(buffer, type)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
 
     
 
+
+
+<div class="description">
+    Convert an <code>ArrayBuffer</code> to a <code>Blob</code>. Returns a Promise.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
     
-        <h5>Parameters:</h5>
-        
 
 <table class="params">
     <thead>
@@ -211,9 +213,10 @@ blobUtil.imgSrcToBlob(img.src).then(function (blob) {
     
     </tbody>
 </table>
-    
 
-    
+
+
+
 
 
 <dl class="details">
@@ -241,9 +244,11 @@ blobUtil.imgSrcToBlob(img.src).then(function (blob) {
     
 
     
+
+    
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="doc/index.js.html">index.js</a>, <a href="doc/index.js.html#line261">line 261</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line272">line 272</a>
     </li></ul></dd>
     
 
@@ -255,20 +260,20 @@ blobUtil.imgSrcToBlob(img.src).then(function (blob) {
 </dl>
 
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
-    <h5>Returns:</h5>
-    
-            
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
 <div class="param-desc">
     Promise that resolves with the <code>Blob</code>
 </div>
@@ -287,37 +292,35 @@ blobUtil.imgSrcToBlob(img.src).then(function (blob) {
     </dd>
 </dl>
 
-        
-
     
-</dd>
+
+
 
         
             
-<dt>
-    
-        <h4 class="name" id="base64StringToBlob"><span class="type-signature"></span>base64StringToBlob<span class="signature">(base64, type)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
-
-        
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Convert a base64-encoded string to a <code>Blob</code>. Returns a Promise.
-    </div>
-    
 
     
 
-    
+    <h4 class="name" id="base64StringToBlob"><span class="type-signature"></span>base64StringToBlob<span class="signature">(base64, type)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
 
     
 
+
+
+<div class="description">
+    Convert a base64-encoded string to a <code>Blob</code>. Returns a Promise.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
     
-        <h5>Parameters:</h5>
-        
 
 <table class="params">
     <thead>
@@ -389,9 +392,10 @@ blobUtil.imgSrcToBlob(img.src).then(function (blob) {
     
     </tbody>
 </table>
-    
 
-    
+
+
+
 
 
 <dl class="details">
@@ -419,9 +423,11 @@ blobUtil.imgSrcToBlob(img.src).then(function (blob) {
     
 
     
+
+    
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="doc/index.js.html">index.js</a>, <a href="doc/index.js.html#line148">line 148</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line149">line 149</a>
     </li></ul></dd>
     
 
@@ -433,20 +439,20 @@ blobUtil.imgSrcToBlob(img.src).then(function (blob) {
 </dl>
 
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
-    <h5>Returns:</h5>
-    
-            
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
 <div class="param-desc">
     Promise that resolves with the <code>Blob</code>
 </div>
@@ -465,37 +471,35 @@ blobUtil.imgSrcToBlob(img.src).then(function (blob) {
     </dd>
 </dl>
 
-        
-
     
-</dd>
+
+
 
         
             
-<dt>
-    
-        <h4 class="name" id="binaryStringToBlob"><span class="type-signature"></span>binaryStringToBlob<span class="signature">(binary, type)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
-
-        
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Convert a binary string to a <code>Blob</code>. Returns a Promise.
-    </div>
-    
 
     
 
-    
+    <h4 class="name" id="binaryStringToBlob"><span class="type-signature"></span>binaryStringToBlob<span class="signature">(binary, type)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
 
     
 
+
+
+<div class="description">
+    Convert a binary string to a <code>Blob</code>. Returns a Promise.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
     
-        <h5>Parameters:</h5>
-        
 
 <table class="params">
     <thead>
@@ -567,9 +571,10 @@ blobUtil.imgSrcToBlob(img.src).then(function (blob) {
     
     </tbody>
 </table>
-    
 
-    
+
+
+
 
 
 <dl class="details">
@@ -597,9 +602,11 @@ blobUtil.imgSrcToBlob(img.src).then(function (blob) {
     
 
     
+
+    
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="doc/index.js.html">index.js</a>, <a href="doc/index.js.html#line161">line 161</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line162">line 162</a>
     </li></ul></dd>
     
 
@@ -611,20 +618,20 @@ blobUtil.imgSrcToBlob(img.src).then(function (blob) {
 </dl>
 
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
-    <h5>Returns:</h5>
-    
-            
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
 <div class="param-desc">
     Promise that resolves with the <code>Blob</code>
 </div>
@@ -643,37 +650,35 @@ blobUtil.imgSrcToBlob(img.src).then(function (blob) {
     </dd>
 </dl>
 
-        
-
     
-</dd>
+
+
 
         
             
-<dt>
-    
-        <h4 class="name" id="blobToArrayBuffer"><span class="type-signature"></span>blobToArrayBuffer<span class="signature">(blob)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
-
-        
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Convert a <code>Blob</code> to an <code>ArrayBuffer</code>. Returns a Promise.
-    </div>
-    
 
     
 
-    
+    <h4 class="name" id="blobToArrayBuffer"><span class="type-signature"></span>blobToArrayBuffer<span class="signature">(blob)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
 
     
 
+
+
+<div class="description">
+    Convert a <code>Blob</code> to an <code>ArrayBuffer</code>. Returns a Promise.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
     
-        <h5>Parameters:</h5>
-        
 
 <table class="params">
     <thead>
@@ -719,9 +724,10 @@ blobUtil.imgSrcToBlob(img.src).then(function (blob) {
     
     </tbody>
 </table>
-    
 
-    
+
+
+
 
 
 <dl class="details">
@@ -749,9 +755,11 @@ blobUtil.imgSrcToBlob(img.src).then(function (blob) {
     
 
     
+
+    
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="doc/index.js.html">index.js</a>, <a href="doc/index.js.html#line272">line 272</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line283">line 283</a>
     </li></ul></dd>
     
 
@@ -763,20 +771,20 @@ blobUtil.imgSrcToBlob(img.src).then(function (blob) {
 </dl>
 
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
-    <h5>Returns:</h5>
-    
-            
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
 <div class="param-desc">
     Promise that resolves with the <code>ArrayBuffer</code>
 </div>
@@ -795,37 +803,35 @@ blobUtil.imgSrcToBlob(img.src).then(function (blob) {
     </dd>
 </dl>
 
-        
-
     
-</dd>
+
+
 
         
             
-<dt>
-    
-        <h4 class="name" id="blobToBase64String"><span class="type-signature"></span>blobToBase64String<span class="signature">(blob)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
-
-        
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Convert a <code>Blob</code> to a binary string. Returns a Promise.
-    </div>
-    
 
     
 
-    
+    <h4 class="name" id="blobToBase64String"><span class="type-signature"></span>blobToBase64String<span class="signature">(blob)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
 
     
 
+
+
+<div class="description">
+    Convert a <code>Blob</code> to a binary string. Returns a Promise.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
     
-        <h5>Parameters:</h5>
-        
 
 <table class="params">
     <thead>
@@ -871,9 +877,10 @@ blobUtil.imgSrcToBlob(img.src).then(function (blob) {
     
     </tbody>
 </table>
-    
 
-    
+
+
+
 
 
 <dl class="details">
@@ -901,9 +908,11 @@ blobUtil.imgSrcToBlob(img.src).then(function (blob) {
     
 
     
+
+    
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="doc/index.js.html">index.js</a>, <a href="doc/index.js.html#line172">line 172</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line173">line 173</a>
     </li></ul></dd>
     
 
@@ -915,20 +924,20 @@ blobUtil.imgSrcToBlob(img.src).then(function (blob) {
 </dl>
 
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
-    <h5>Returns:</h5>
-    
-            
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
 <div class="param-desc">
     Promise that resolves with the binary string
 </div>
@@ -947,37 +956,35 @@ blobUtil.imgSrcToBlob(img.src).then(function (blob) {
     </dd>
 </dl>
 
-        
-
     
-</dd>
+
+
 
         
             
-<dt>
-    
-        <h4 class="name" id="blobToBinaryString"><span class="type-signature"></span>blobToBinaryString<span class="signature">(blob)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
-
-        
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Convert a <code>Blob</code> to a binary string. Returns a Promise.
-    </div>
-    
 
     
 
-    
+    <h4 class="name" id="blobToBinaryString"><span class="type-signature"></span>blobToBinaryString<span class="signature">(blob)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
 
     
 
+
+
+<div class="description">
+    Convert a <code>Blob</code> to a binary string. Returns a Promise.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
     
-        <h5>Parameters:</h5>
-        
 
 <table class="params">
     <thead>
@@ -1023,9 +1030,10 @@ blobUtil.imgSrcToBlob(img.src).then(function (blob) {
     
     </tbody>
 </table>
-    
 
-    
+
+
+
 
 
 <dl class="details">
@@ -1053,9 +1061,11 @@ blobUtil.imgSrcToBlob(img.src).then(function (blob) {
     
 
     
+
+    
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="doc/index.js.html">index.js</a>, <a href="doc/index.js.html#line122">line 122</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line123">line 123</a>
     </li></ul></dd>
     
 
@@ -1067,20 +1077,20 @@ blobUtil.imgSrcToBlob(img.src).then(function (blob) {
 </dl>
 
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
-    <h5>Returns:</h5>
-    
-            
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
 <div class="param-desc">
     Promise that resolves with the binary string
 </div>
@@ -1099,37 +1109,35 @@ blobUtil.imgSrcToBlob(img.src).then(function (blob) {
     </dd>
 </dl>
 
-        
-
     
-</dd>
+
+
 
         
             
-<dt>
-    
-        <h4 class="name" id="canvasToBlob"><span class="type-signature"></span>canvasToBlob<span class="signature">(canvas, type)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
-
-        
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Convert a <code>canvas</code> to a <code>Blob</code>. Returns a Promise.
-    </div>
-    
 
     
 
-    
+    <h4 class="name" id="canvasToBlob"><span class="type-signature"></span>canvasToBlob<span class="signature">(canvas, type, quality)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
 
     
 
+
+
+<div class="description">
+    Convert a <code>canvas</code> to a <code>Blob</code>. Returns a Promise.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
     
-        <h5>Parameters:</h5>
-        
 
 <table class="params">
     <thead>
@@ -1199,11 +1207,39 @@ blobUtil.imgSrcToBlob(img.src).then(function (blob) {
         </tr>
 
     
-    </tbody>
-</table>
-    
+
+        <tr>
+            
+                <td class="name"><code>quality</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+|
+
+<span class="param-type">undefined</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">a number between 0 and 1 indicating image quality
+                                    if the requested type is 'image/jpeg' or 'image/webp'</td>
+        </tr>
 
     
+    </tbody>
+</table>
+
+
+
+
 
 
 <dl class="details">
@@ -1231,9 +1267,11 @@ blobUtil.imgSrcToBlob(img.src).then(function (blob) {
     
 
     
+
+    
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="doc/index.js.html">index.js</a>, <a href="doc/index.js.html#line222">line 222</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line229">line 229</a>
     </li></ul></dd>
     
 
@@ -1245,20 +1283,20 @@ blobUtil.imgSrcToBlob(img.src).then(function (blob) {
 </dl>
 
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
-    <h5>Returns:</h5>
-    
-            
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
 <div class="param-desc">
     Promise that resolves with the <code>Blob</code>
 </div>
@@ -1277,40 +1315,38 @@ blobUtil.imgSrcToBlob(img.src).then(function (blob) {
     </dd>
 </dl>
 
-        
-
     
-</dd>
+
+
 
         
             
-<dt>
-    
-        <h4 class="name" id="createBlob"><span class="type-signature"></span>createBlob<span class="signature">(parts, options)</span><span class="type-signature"> &rarr; {Blob}</span></h4>
-
-        
-    
-</dt>
-<dd>
 
     
-    <div class="description">
-        Shim for
+
+    <h4 class="name" id="createBlob"><span class="type-signature"></span>createBlob<span class="signature">(parts, options)</span><span class="type-signature"> &rarr; {Blob}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Shim for
 <a href="https://developer.mozilla.org/en-US/docs/Web/API/Blob.Blob">new Blob()</a>
 to support
 <a href="http://caniuse.com/blob">older browsers that use the deprecated <code>BlobBuilder</code> API</a>.
-    </div>
-    
+</div>
 
-    
 
-    
 
-    
 
+
+
+
+
+
+    <h5>Parameters:</h5>
     
-        <h5>Parameters:</h5>
-        
 
 <table class="params">
     <thead>
@@ -1379,9 +1415,10 @@ to support
     
     </tbody>
 </table>
-    
 
-    
+
+
+
 
 
 <dl class="details">
@@ -1409,9 +1446,11 @@ to support
     
 
     
+
+    
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="doc/index.js.html">index.js</a>, <a href="doc/index.js.html#line85">line 85</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line86">line 86</a>
     </li></ul></dd>
     
 
@@ -1423,20 +1462,20 @@ to support
 </dl>
 
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
-    <h5>Returns:</h5>
-    
-            
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
 
 
 <dl>
@@ -1451,40 +1490,38 @@ to support
     </dd>
 </dl>
 
-        
-
     
-</dd>
+
+
 
         
             
-<dt>
-    
-        <h4 class="name" id="createObjectURL"><span class="type-signature"></span>createObjectURL<span class="signature">(blob)</span><span class="type-signature"> &rarr; {string}</span></h4>
-
-        
-    
-</dt>
-<dd>
 
     
-    <div class="description">
-        Shim for
+
+    <h4 class="name" id="createObjectURL"><span class="type-signature"></span>createObjectURL<span class="signature">(blob)</span><span class="type-signature"> &rarr; {string}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Shim for
 <a href="https://developer.mozilla.org/en-US/docs/Web/API/URL.createObjectURL">URL.createObjectURL()</a>
 to support browsers that only have the prefixed
 <code>webkitURL</code> (e.g. Android <4.4).
-    </div>
-    
+</div>
 
-    
 
-    
 
-    
 
+
+
+
+
+
+    <h5>Parameters:</h5>
     
-        <h5>Parameters:</h5>
-        
 
 <table class="params">
     <thead>
@@ -1530,9 +1567,10 @@ to support browsers that only have the prefixed
     
     </tbody>
 </table>
-    
 
-    
+
+
+
 
 
 <dl class="details">
@@ -1560,9 +1598,11 @@ to support browsers that only have the prefixed
     
 
     
+
+    
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="doc/index.js.html">index.js</a>, <a href="doc/index.js.html#line101">line 101</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line102">line 102</a>
     </li></ul></dd>
     
 
@@ -1574,20 +1614,20 @@ to support browsers that only have the prefixed
 </dl>
 
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
-    <h5>Returns:</h5>
-    
-            
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
 <div class="param-desc">
     url
 </div>
@@ -1606,39 +1646,37 @@ to support browsers that only have the prefixed
     </dd>
 </dl>
 
-        
-
     
-</dd>
+
+
 
         
             
-<dt>
-    
-        <h4 class="name" id="dataURLToBlob"><span class="type-signature"></span>dataURLToBlob<span class="signature">(dataURL)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
-
-        
-    
-</dt>
-<dd>
 
     
-    <div class="description">
-        Convert a data URL string
+
+    <h4 class="name" id="dataURLToBlob"><span class="type-signature"></span>dataURLToBlob<span class="signature">(dataURL)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Convert a data URL string
 (e.g. <code>'data:image/png;base64,iVBORw0KG...'</code>)
 to a <code>Blob</code>. Returns a Promise.
-    </div>
-    
+</div>
 
-    
 
-    
 
-    
 
+
+
+
+
+
+    <h5>Parameters:</h5>
     
-        <h5>Parameters:</h5>
-        
 
 <table class="params">
     <thead>
@@ -1684,9 +1722,10 @@ to a <code>Blob</code>. Returns a Promise.
     
     </tbody>
 </table>
-    
 
-    
+
+
+
 
 
 <dl class="details">
@@ -1714,9 +1753,11 @@ to a <code>Blob</code>. Returns a Promise.
     
 
     
+
+    
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="doc/index.js.html">index.js</a>, <a href="doc/index.js.html#line185">line 185</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line186">line 186</a>
     </li></ul></dd>
     
 
@@ -1728,20 +1769,20 @@ to a <code>Blob</code>. Returns a Promise.
 </dl>
 
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
-    <h5>Returns:</h5>
-    
-            
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
 <div class="param-desc">
     Promise that resolves with the <code>Blob</code>
 </div>
@@ -1760,41 +1801,39 @@ to a <code>Blob</code>. Returns a Promise.
     </dd>
 </dl>
 
-        
-
     
-</dd>
+
+
 
         
             
-<dt>
-    
-        <h4 class="name" id="imgSrcToBlob"><span class="type-signature"></span>imgSrcToBlob<span class="signature">(src, type, crossOrigin)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
-
-        
-    
-</dt>
-<dd>
 
     
-    <div class="description">
-        Convert an image's <code>src</code> URL to a <code>Blob</code> by loading the image and painting
+
+    <h4 class="name" id="imgSrcToBlob"><span class="type-signature"></span>imgSrcToBlob<span class="signature">(src, type, crossOrigin, quality)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Convert an image's <code>src</code> URL to a <code>Blob</code> by loading the image and painting
 it to a <code>canvas</code>. Returns a Promise.
 
 <p/>Note: this will coerce the image to the desired content type, and it
 will only paint the first frame of an animated GIF.
-    </div>
-    
+</div>
 
-    
 
-    
 
-    
 
+
+
+
+
+
+    <h5>Parameters:</h5>
     
-        <h5>Parameters:</h5>
-        
 
 <table class="params">
     <thead>
@@ -1866,36 +1905,64 @@ will only paint the first frame of an animated GIF.
     
 
         <tr>
-
+            
                 <td class="name"><code>crossOrigin</code></td>
-
+            
 
             <td class="type">
-
-
+            
+                
 <span class="param-type">string</span>
 |
 
 <span class="param-type">undefined</span>
 
 
-
+            
             </td>
 
+            
 
-
-
+            
 
             <td class="description last">for CORS-enabled images, set this to
                                         'Anonymous' to avoid "tainted canvas" errors</td>
         </tr>
 
+    
 
+        <tr>
+            
+                <td class="name"><code>quality</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+|
+
+<span class="param-type">undefined</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">a number between 0 and 1 indicating image quality
+                                    if the requested type is 'image/jpeg' or 'image/webp'</td>
+        </tr>
+
+    
     </tbody>
 </table>
-    
 
-    
+
+
+
 
 
 <dl class="details">
@@ -1923,9 +1990,11 @@ will only paint the first frame of an animated GIF.
     
 
     
+
+    
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="doc/index.js.html">index.js</a>, <a href="doc/index.js.html#line244">line 244</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line255">line 255</a>
     </li></ul></dd>
     
 
@@ -1937,20 +2006,20 @@ will only paint the first frame of an animated GIF.
 </dl>
 
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
-    <h5>Returns:</h5>
-    
-            
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
 <div class="param-desc">
     Promise that resolves with the <code>Blob</code>
 </div>
@@ -1969,41 +2038,39 @@ will only paint the first frame of an animated GIF.
     </dd>
 </dl>
 
-        
-
     
-</dd>
+
+
 
         
             
-<dt>
-    
-        <h4 class="name" id="imgSrcToDataURL"><span class="type-signature"></span>imgSrcToDataURL<span class="signature">(src, type, crossOrigin)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
-
-        
-    
-</dt>
-<dd>
 
     
-    <div class="description">
-        Convert an image's <code>src</code> URL to a data URL by loading the image and painting
+
+    <h4 class="name" id="imgSrcToDataURL"><span class="type-signature"></span>imgSrcToDataURL<span class="signature">(src, type, crossOrigin, quality)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Convert an image's <code>src</code> URL to a data URL by loading the image and painting
 it to a <code>canvas</code>. Returns a Promise.
 
 <p/>Note: this will coerce the image to the desired content type, and it
 will only paint the first frame of an animated GIF.
-    </div>
-    
+</div>
 
-    
 
-    
 
-    
 
+
+
+
+
+
+    <h5>Parameters:</h5>
     
-        <h5>Parameters:</h5>
-        
 
 <table class="params">
     <thead>
@@ -2075,36 +2142,64 @@ will only paint the first frame of an animated GIF.
     
 
         <tr>
-
+            
                 <td class="name"><code>crossOrigin</code></td>
-
+            
 
             <td class="type">
-
-
+            
+                
 <span class="param-type">string</span>
 |
 
 <span class="param-type">undefined</span>
 
 
-
+            
             </td>
 
+            
 
-
-
+            
 
             <td class="description last">for CORS-enabled images, set this to
                                         'Anonymous' to avoid "tainted canvas" errors</td>
         </tr>
 
+    
 
+        <tr>
+            
+                <td class="name"><code>quality</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+|
+
+<span class="param-type">undefined</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">a number between 0 and 1 indicating image quality
+                                    if the requested type is 'image/jpeg' or 'image/webp'</td>
+        </tr>
+
+    
     </tbody>
 </table>
-    
 
-    
+
+
+
 
 
 <dl class="details">
@@ -2132,9 +2227,11 @@ will only paint the first frame of an animated GIF.
     
 
     
+
+    
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="doc/index.js.html">index.js</a>, <a href="doc/index.js.html#line206">line 206</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line211">line 211</a>
     </li></ul></dd>
     
 
@@ -2146,20 +2243,20 @@ will only paint the first frame of an animated GIF.
 </dl>
 
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
-    <h5>Returns:</h5>
-    
-            
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
 <div class="param-desc">
     Promise that resolves with the data URL string
 </div>
@@ -2178,40 +2275,38 @@ will only paint the first frame of an animated GIF.
     </dd>
 </dl>
 
-        
-
     
-</dd>
+
+
 
         
             
-<dt>
-    
-        <h4 class="name" id="revokeObjectURL"><span class="type-signature"></span>revokeObjectURL<span class="signature">(url)</span><span class="type-signature"></span></h4>
-
-        
-    
-</dt>
-<dd>
 
     
-    <div class="description">
-        Shim for
+
+    <h4 class="name" id="revokeObjectURL"><span class="type-signature"></span>revokeObjectURL<span class="signature">(url)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Shim for
 <a href="https://developer.mozilla.org/en-US/docs/Web/API/URL.revokeObjectURL">URL.revokeObjectURL()</a>
 to support browsers that only have the prefixed
 <code>webkitURL</code> (e.g. Android <4.4).
-    </div>
-    
+</div>
 
-    
 
-    
 
-    
 
+
+
+
+
+
+    <h5>Parameters:</h5>
     
-        <h5>Parameters:</h5>
-        
 
 <table class="params">
     <thead>
@@ -2257,9 +2352,10 @@ to support browsers that only have the prefixed
     
     </tbody>
 </table>
-    
 
-    
+
+
+
 
 
 <dl class="details">
@@ -2287,9 +2383,11 @@ to support browsers that only have the prefixed
     
 
     
+
+    
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="doc/index.js.html">index.js</a>, <a href="doc/index.js.html#line112">line 112</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line113">line 113</a>
     </li></ul></dd>
     
 
@@ -2301,22 +2399,21 @@ to support browsers that only have the prefixed
 </dl>
 
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
-</dd>
 
-        </dl>
+
+
+
+
+
+
+
+        
     
 
     
@@ -2332,13 +2429,13 @@ to support browsers that only have the prefixed
 </div>
 
 <nav>
-    <h2><a href="index.html">Index</a></h2><h3>Global</h3><ul><li><a href="index.html#arrayBufferToBlob">arrayBufferToBlob</a></li><li><a href="index.html#base64StringToBlob">base64StringToBlob</a></li><li><a href="index.html#binaryStringToBlob">binaryStringToBlob</a></li><li><a href="index.html#blobToArrayBuffer">blobToArrayBuffer</a></li><li><a href="index.html#blobToBase64String">blobToBase64String</a></li><li><a href="index.html#blobToBinaryString">blobToBinaryString</a></li><li><a href="index.html#canvasToBlob">canvasToBlob</a></li><li><a href="index.html#createBlob">createBlob</a></li><li><a href="index.html#createObjectURL">createObjectURL</a></li><li><a href="index.html#dataURLToBlob">dataURLToBlob</a></li><li><a href="index.html#imgSrcToBlob">imgSrcToBlob</a></li><li><a href="index.html#imgSrcToDataURL">imgSrcToDataURL</a></li><li><a href="index.html#revokeObjectURL">revokeObjectURL</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="#arrayBufferToBlob">arrayBufferToBlob</a></li><li><a href="#base64StringToBlob">base64StringToBlob</a></li><li><a href="#binaryStringToBlob">binaryStringToBlob</a></li><li><a href="#blobToArrayBuffer">blobToArrayBuffer</a></li><li><a href="#blobToBase64String">blobToBase64String</a></li><li><a href="#blobToBinaryString">blobToBinaryString</a></li><li><a href="#canvasToBlob">canvasToBlob</a></li><li><a href="#createBlob">createBlob</a></li><li><a href="#createObjectURL">createObjectURL</a></li><li><a href="#dataURLToBlob">dataURLToBlob</a></li><li><a href="#imgSrcToBlob">imgSrcToBlob</a></li><li><a href="#imgSrcToDataURL">imgSrcToDataURL</a></li><li><a href="#revokeObjectURL">revokeObjectURL</a></li></ul>
 </nav>
 
-<br clear="both">
+<br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha10</a> on Sat Oct 25 2014 12:54:33 GMT-0400 (EDT)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-beta3</a> on Sat Jan 16 2016 14:43:19 GMT-0500 (EST)
 </footer>
 
 <script> prettyPrint(); </script>

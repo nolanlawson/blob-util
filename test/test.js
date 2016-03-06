@@ -8,7 +8,7 @@ var chai = require('chai');
 chai.use(require("chai-as-promised"));
 
 var should = chai.should();
-var Promise = require('pouchdb-promise');
+var Promise = require('native-or-lie');
 
 var transparent1x1Png =
   'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGP6zwAAAg' +

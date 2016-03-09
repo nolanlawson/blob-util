@@ -51,6 +51,6 @@
     "phantomjs-polyfill": "0.0.1",
     "request": "^2.36.0",
     "uglify-js": "^2.4.13",
-    "zuul": "^3.9.0"
+    "zuul": "^3.10.1"
   }
 }

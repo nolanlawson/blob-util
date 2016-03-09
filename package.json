@@ -1,6 +1,6 @@
 {
   "name": "blob-util",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Utilities for working with Blob objects in the browser",
   "main": "lib/index.js",
   "repository": {

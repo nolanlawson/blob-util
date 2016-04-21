@@ -55,7 +55,7 @@ Browser support
 * IE 10+
 * Safari 6+
 * iOS 6+
-* Android 4.4+
+* Android 4+
 * Any browser with either `Blob` or the older `BlobBuilder`; see [caniuse](http://caniuse.com/#search=blob) for details.
 
 Tutorial

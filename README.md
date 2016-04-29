@@ -316,7 +316,7 @@ blobUtil.imgSrcToDataURL('http://mysite.com/img.png').then(function (dataURL) {
 
 ```js
 blobUtil.imgSrcToDataURL('http://some-other-site.com/img.jpg', 'image/jpeg', 
-                         {crossOrigin: 'Anonymous'}).then(function (dataURL) {
+                         'Anonymous', 100).then(function (dataURL) {
   // success
 }).catch(function (err) {
   // error
@@ -389,7 +389,7 @@ blobUtil.imgSrcToBlob('http://mysite.com/img.png').then(function (blob) {
 
 ```js
 blobUtil.imgSrcToBlob('http://some-other-site.com/img.jpg', 'image/jpeg', 
-                         {crossOrigin: 'Anonymous'}).then(function (blob) {
+                         'Anonymous', 100).then(function (blob) {
   // success
 }).catch(function (err) {
   // error

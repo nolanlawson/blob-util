@@ -108,7 +108,7 @@ API
 
 Warning: this API uses [Promises](https://promisesaplus.com/), because it's not 2009 anymore.
 
-###Overview
+### Overview
 
 * [createBlob(parts, options)](#createBlob)
 * [createObjectURL(blob)](#createObjectURL)
@@ -125,7 +125,7 @@ Warning: this API uses [Promises](https://promisesaplus.com/), because it's not 
 * [blobToArrayBuffer(blob)](#blobToArrayBuffer)
  
 <a name="createBlob"></a>
-###createBlob(parts, options)
+### createBlob(parts, options)
 Shim for
 [new Blob()](https://developer.mozilla.org/en-US/docs/Web/API/Blob.Blob)
 to support
@@ -164,7 +164,7 @@ var myUrl = blobUtil.createObjectURL(blob);
 ```
 
 <a name="revokeObjectURL"></a>
-###revokeObjectURL(url)
+### revokeObjectURL(url)
 Shim for
 [URL.revokeObjectURL()](https://developer.mozilla.org/en-US/docs/Web/API/URL.revokeObjectURL)
 to support browsers that only have the prefixed
@@ -181,7 +181,7 @@ blobUtil.revokeObjectURL(myUrl);
 ```
 
 <a name="blobToBinaryString"></a>
-###blobToBinaryString(blob)
+### blobToBinaryString(blob)
 Convert a <code>Blob</code> to a binary string. Returns a Promise.
 
 **Params**
@@ -201,7 +201,7 @@ blobUtil.blobToBinaryString(blob).then(function (binaryString) {
 ```
  
 <a name="base64StringToBlob"></a>
-###base64StringToBlob(base64, type)
+### base64StringToBlob(base64, type)
 Convert a base64-encoded string to a <code>Blob</code>. Returns a Promise.
 
 **Params**
@@ -222,7 +222,7 @@ blobUtil.base64StringToBlob(base64String).then(function (blob) {
 ```
 
 <a name="binaryStringToBlob"></a>
-###binaryStringToBlob(binary, type)
+### binaryStringToBlob(binary, type)
 Convert a binary string to a <code>Blob</code>. Returns a Promise.
 
 **Params**
@@ -243,7 +243,7 @@ blobUtil.binaryStringToBlob(binaryString).then(function (blob) {
 ```
 
 <a name="blobToBase64String"></a>
-###blobToBase64String(blob)
+### blobToBase64String(blob)
 Convert a <code>Blob</code> to a binary string. Returns a Promise.
 
 **Params**
@@ -264,7 +264,7 @@ blobUtil.blobToBase64String(blob).then(function (base64String) {
 ```
 
 <a name="dataURLToBlob"></a>
-###dataURLToBlob(dataURL)
+### dataURLToBlob(dataURL)
 Convert a data URL string
 (e.g. <code>'data:image/png;base64,iVBORw0KG...'</code>)
 to a <code>Blob</code>. Returns a Promise.
@@ -286,7 +286,7 @@ blobUtil.dataURLToBlob(dataURL).then(function (blob) {
 ```
 
 <a name="imgSrcToDataURL"></a>
-###imgSrcToDataURL(src, type, crossOrigin, quality)
+### imgSrcToDataURL(src, type, crossOrigin, quality)
 Convert an image's <code>src</code> URL to a data URL by loading the image and painting
 it to a <code>canvas</code>. Returns a Promise.
 
@@ -324,7 +324,7 @@ blobUtil.imgSrcToDataURL('http://some-other-site.com/img.jpg', 'image/jpeg',
 ```
 
 <a name="canvasToBlob"></a>
-###canvasToBlob(canvas, type, quality)
+### canvasToBlob(canvas, type, quality)
 Convert a <code>canvas</code> to a <code>Blob</code>. Returns a Promise.
 
 **Params**
@@ -359,7 +359,7 @@ blobUtil.canvasToBlob(canvas, 'image/webp').then(function (blob) {
 ```
 
 <a name="imgSrcToBlob"></a>
-###imgSrcToBlob(src, type, crossOrigin, quality)
+### imgSrcToBlob(src, type, crossOrigin, quality)
 Convert an image's <code>src</code> URL to a <code>Blob</code> by loading the image and painting
 it to a <code>canvas</code>. Returns a Promise.
 
@@ -397,7 +397,7 @@ blobUtil.imgSrcToBlob('http://some-other-site.com/img.jpg', 'image/jpeg',
 ```
 
 <a name="arrayBufferToBlob"></a>
-###arrayBufferToBlob(buffer, type)
+### arrayBufferToBlob(buffer, type)
 Convert an <code>ArrayBuffer</code> to a <code>Blob</code>. Returns a Promise.
 
 **Params**
@@ -418,7 +418,7 @@ blobUtil.arrayBufferToBlob(arrayBuff, 'audio/mpeg').then(function (blob) {
 ```
 
 <a name="blobToArrayBuffer"></a>
-###blobToArrayBuffer(blob)
+### blobToArrayBuffer(blob)
 Convert a <code>Blob</code> to an <code>ArrayBuffer</code>. Returns a Promise.
 
 **Params**

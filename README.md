@@ -145,7 +145,7 @@ var myBlob = blobUtil.createBlob(['hello world'], {type: 'text/plain'});
 ```
 
 <a name="createObjectURL"></a>
-###createObjectURL(blob)
+### createObjectURL(blob)
 Shim for
 [URL.createObjectURL()](https://developer.mozilla.org/en-US/docs/Web/API/URL.createObjectURL)
 to support browsers that only have the prefixed

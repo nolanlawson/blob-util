@@ -477,3 +477,5 @@ Then to test in the browser using Saucelabs:
 Or to test locally in your browser of choice:
 
     npm run test-local
+
+

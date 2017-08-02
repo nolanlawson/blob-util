@@ -48,7 +48,8 @@
     "mocha": "~1.18",
     "request": "^2.36.0",
     "uglify-js": "^2.4.13",
-    "zuul": "^3.10.1"
+    "zuul": "^3.10.1",
+    "zuul-ngrok": "nolanlawson/zuul-ngrok#patch-1"
   },
   "files": [
     "lib",

@@ -1,4 +1,7 @@
 ui: mocha-bdd
+concurrency: 2
+tunnel:
+  type: ngrok
 browsers:
   - name: chrome
     version: latest

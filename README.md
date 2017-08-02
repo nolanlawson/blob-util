@@ -477,7 +477,3 @@ Then to test in the browser using Saucelabs:
 Or to test locally in your browser of choice:
 
     npm run test-local
-
-Or to test in PhantomJS:
-
-    npm run test-phantom

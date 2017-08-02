@@ -2,7 +2,7 @@ language: node_js
 node_js:
 - 'stable'
 sudo: false
-script: npm test
+script: travis_retry npm test
 env:
   global:
   - secure: Tj8fcY4Pig7i38wVncEF4RAgn7i786qwiFYeog94oSllsmJsCvQ61Qco9Yg8Xr4fDcOIRI8xz6AsB8Z4kuGfgywbOlvCiVEC1qqJpOG490e0OOrvrPR1YToSW1DsLFsnb381CiP9FadOOUx3COMjmJvKR+4kYoJGiRJrpDF5PVA=

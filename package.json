@@ -23,7 +23,6 @@
     "jshint": "jshint -c .jshintrc lib/*.js test/test.js",
     "test": "npm run jshint && zuul ./test/test.js",
     "test-local": "zuul ./test/test.js --local 9000",
-    "test-phantom": "zuul ./test/test.js --phantom",
     "build": "mkdirp dist && npm run browserify && npm run min",
     "browserify": "browserify . -p bundle-collapser/plugin -s blobUtil | ./bin/es3ify.js | derequire > dist/blob-util.js",
     "min": "uglifyjs dist/blob-util.js -mc > dist/blob-util.min.js",
@@ -47,8 +46,6 @@
     "jshint": "~2.3.0",
     "mkdirp": "^0.5.0",
     "mocha": "~1.18",
-    "phantomjs": "^1.9.7-5",
-    "phantomjs-polyfill": "0.0.1",
     "request": "^2.36.0",
     "uglify-js": "^2.4.13",
     "zuul": "^3.10.1"

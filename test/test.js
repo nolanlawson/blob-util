@@ -1,7 +1,5 @@
 'use strict';
 
-require('phantomjs-polyfill');
-
 var blobUtil = require('../lib');
 
 var chai = require('chai');
@@ -18,6 +16,7 @@ var black1x1Png =
   'ADNjd8qAAAAABJRU5ErkJggg==';
 
 describe('basic tests', function () {
+  this.timeout(30000);
 
   before(function () {
     var img = document.createElement('img');

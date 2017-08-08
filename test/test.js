@@ -103,21 +103,28 @@ describe('basic tests', function () {
     });
   });
 
-  it('convert to dataURL', function () {
+  it('convert blob to data url', function () {
+    var blob = blobUtil.createBlob(['foo'], 'text/plain');
+    return blobUtil.blobToDataURL(blob).then(function (dataURL) {
+      dataURL.should.equal('data:text/plain;base64,Zm9v');
+    });
+  });
+
+  it('convert img to dataURL', function () {
     var img = document.getElementById('transparent');
     return blobUtil.imgSrcToDataURL(img.src).then(function (url) {
       url.should.match(/^data:image\/png;base64/);
     });
   });
 
-  it('convert to dataURL 2', function () {
+  it('convert img to dataURL 2', function () {
     var img = document.getElementById('kirby');
     return blobUtil.imgSrcToDataURL(img.src).then(function (url) {
       url.should.match(/^data:image\/png;base64/);
     });
   });
 
-  it('convert to dataURL 3', function () {
+  it('convert img to dataURL 3', function () {
     var img = document.getElementById('kirby');
     return blobUtil.imgSrcToDataURL(img.src, 'image/jpeg').then(function (url) {
       url.should.match(/^data:image\/jpeg;base64/);

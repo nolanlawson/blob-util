@@ -31,7 +31,7 @@
   },
   "dependencies": {
     "blob": "0.0.4",
-    "native-or-lie": "1.0.0"
+    "native-or-lie": "1.0.2"
   },
   "devDependencies": {
     "browserify": "^9.0.3",

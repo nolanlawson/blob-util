@@ -3,7 +3,7 @@ blob-util [![Build Status](https://travis-ci.org/nolanlawson/blob-util.svg)](htt
 
 `blob-util` is a [Blob](https://developer.mozilla.org/en-US/docs/Web/API/Blob?redirectlocale=en-US&redirectslug=DOM%2FBlob) library for busy people.
 
-It offers a tiny (~3.5KB min+gz) set of cross-browser utilities for translating Blobs to and from different formats:
+It offers a small set of cross-browser utilities for translating Blobs to and from different formats:
 
 * `<img/>` tags
 * base 64 strings

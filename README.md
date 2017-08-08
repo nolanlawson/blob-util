@@ -118,6 +118,7 @@ Warning: this API uses [Promises](https://promisesaplus.com/), because it's not 
 * [binaryStringToBlob(binary, type)](#binaryStringToBlob)
 * [blobToBase64String(blob)](#blobToBase64String)
 * [dataURLToBlob(dataURL)](#dataURLToBlob)
+* [blobToDataURL(blob)](#blobToDataURL)
 * [imgSrcToDataURL(src, type, crossOrigin, quality)](#imgSrcToDataURL)
 * [canvasToBlob(canvas, type, quality)](#canvasToBlob)
 * [imgSrcToBlob(src, type, crossOrigin, quality)](#imgSrcToBlob)
@@ -284,7 +285,27 @@ blobUtil.dataURLToBlob(dataURL).then(function (blob) {
   // error
 });
 ```
+<a name="blobToDataURL"></a>
+###blobToDataURL(blob)
+Convert a <code>Blob</code> to a data URL string
+(e.g. <code>'data:image/png;base64,iVBORw0KG...'</code>).
+Returns a Promise.
 
+**Params**
+
+- blob `Blob`  
+
+**Returns**: `Promise` - Promise that resolves with the data URL string
+
+**Example**:
+
+```js
+blobUtil.blobToDataURL(blob).then(function (dataURL) {
+  // success
+}).catch(function (err) {
+  // error
+});
+```
 <a name="imgSrcToDataURL"></a>
 ### imgSrcToDataURL(src, type, crossOrigin, quality)
 Convert an image's <code>src</code> URL to a data URL by loading the image and painting
@@ -460,10 +481,8 @@ The playground is just `jsdoc` with some extra text containing Kirby and the cod
 
 So unfortunately you will need to do a manual diff to get the docs up to date. You'll need to diff:
 
-* `api.md` to `README.md`
-* `index.html` to `doc/global.html`
-
-Update: I also manually added a bunch of code samples to `README.md` because jsdoc didn't seem to support that. So... yeah, jsdoc might not be so helpful anymore.
+* `README.md` to its previous version (make sure to keep the code samples, which were manually added)
+* `docs` to its previous version
 
 Testing the library
 ----

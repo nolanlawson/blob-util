@@ -26,8 +26,8 @@
     "build": "mkdirp dist && npm run browserify && npm run min",
     "browserify": "browserify . -p bundle-collapser/plugin -s blobUtil | ./bin/es3ify.js | derequire > dist/blob-util.js",
     "min": "uglifyjs dist/blob-util.js -mc > dist/blob-util.min.js",
-    "jsdoc2md": "jsdoc2md --heading-depth 3 ./lib/index.js > api.md",
-    "jsdoc": "jsdoc -d doc ./lib/index.js"
+    "jsdoc2md": "jsdoc2md --heading-depth 3 ./lib/index.js > README.md",
+    "jsdoc": "jsdoc -d docs ./lib/index.js && mv -f docs/global.html docs/index.html"
   },
   "dependencies": {
     "blob": "0.0.4",

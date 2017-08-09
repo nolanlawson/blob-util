@@ -286,7 +286,7 @@ blobUtil.dataURLToBlob(dataURL).then(function (blob) {
 });
 ```
 <a name="blobToDataURL"></a>
-###blobToDataURL(blob)
+### blobToDataURL(blob)
 Convert a <code>Blob</code> to a data URL string
 (e.g. <code>'data:image/png;base64,iVBORw0KG...'</code>).
 Returns a Promise.

@@ -2,7 +2,8 @@
   "name": "blob-util",
   "version": "1.3.0",
   "description": "Utilities for working with Blob objects in the browser",
-  "main": "lib/index.js",
+  "main": "dist/blob-util.cjs.js",
+  "module": "dist/blob-util.es.js",
   "repository": {
     "type": "git",
     "url": "git://github.com/nolanlawson/blob-util.git"
@@ -20,36 +21,35 @@
     "url": "https://github.com/nolanlawson/blob-util/issues"
   },
   "scripts": {
-    "jshint": "jshint -c .jshintrc lib/*.js test/test.js",
-    "test": "npm run jshint && zuul ./test/test.js",
-    "test-local": "zuul ./test/test.js --local 9000",
-    "build": "mkdirp dist && npm run browserify && npm run min",
-    "browserify": "browserify . -p bundle-collapser/plugin -s blobUtil | browserify-transform-cli es3ify | derequire > dist/blob-util.js",
+    "jshint": "jshint -c .jshintrc src/*.js test/test.js",
+    "test": "npm run build && npm run jshint && zuul --no-coverage ./test/test.js",
+    "test-local": "npm run build && zuul ./test/test.js --local 9000 --no-coverage",
+    "clean": "rimraf dist && mkdirp dist",
+    "build": "run-s clean build-for-node build-for-browser min",
+    "build-for-node": "rollup -i src/index.js -f es > dist/blob-util.es.js && rollup -i src/index.js -f cjs > dist/blob-util.cjs.js",
+    "build-for-browser": "rollup -i src/index.js -f umd -n blobUtil > dist/blob-util.js",
     "min": "uglifyjs dist/blob-util.js -mc > dist/blob-util.min.js"
   },
-  "dependencies": {
-    "blob": "0.0.4",
-    "native-or-lie": "1.0.2"
-  },
   "devDependencies": {
-    "browserify": "^9.0.3",
     "browserify-transform-cli": "^1.1.1",
     "bundle-collapser": "^1.1.4",
     "chai": "~1.8.1",
     "chai-as-promised": "~4.1.0",
-    "derequire": "^2.0.0",
     "es3ify": "^0.1.3",
     "istanbul": "^0.2.7",
     "jshint": "~2.3.0",
     "mkdirp": "^0.5.0",
     "mocha": "~1.18",
+    "native-or-lie": "1.0.2",
+    "npm-run-all": "^4.1.3",
     "request": "^2.36.0",
+    "rimraf": "^2.6.2",
+    "rollup": "^0.59.1",
     "uglify-js": "^2.4.13",
     "zuul": "^3.10.1",
     "zuul-ngrok": "nolanlawson/zuul-ngrok#patch-1"
   },
   "files": [
-    "lib",
     "dist"
   ]
 }

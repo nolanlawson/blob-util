@@ -1,39 +1,6 @@
-'use strict';
-
-/* jshint -W079 */
-var Blob = require('blob');
-var Promise = require('native-or-lie');
-
-//
-// PRIVATE
-//
-
-// From http://stackoverflow.com/questions/14967647/ (continues on next line)
-// encode-decode-image-with-base64-breaks-image (2013-04-21)
-function binaryStringToArrayBuffer(binary) {
-  var length = binary.length;
-  var buf = new ArrayBuffer(length);
-  var arr = new Uint8Array(buf);
-  var i = -1;
-  while (++i < length) {
-    arr[i] = binary.charCodeAt(i);
-  }
-  return buf;
-}
-
-// Can't find original post, but this is close
-// http://stackoverflow.com/questions/6965107/ (continues on next line)
-// converting-between-strings-and-arraybuffers
-function arrayBufferToBinaryString(buffer) {
-  var binary = '';
-  var bytes = new Uint8Array(buffer);
-  var length = bytes.byteLength;
-  var i = -1;
-  while (++i < length) {
-    binary += String.fromCharCode(bytes[i]);
-  }
-  return binary;
-}
+/* global Promise */
+/* exported createObjectURL, revokeObjectURL, binaryStringToBlob, blobToDataURL,
+   imgSrcToDataURL, imgSrcToBlob, arrayBufferToBlob, blobToArrayBuffer */
 
 // doesn't download the image more than once, because
 // browsers aren't dumb. uses the cache
@@ -69,9 +36,37 @@ function imgToCanvas(img) {
   return canvas;
 }
 
-//
-// PUBLIC
-//
+/**
+ * Convert a binary string to an array buffer.
+ * @param {string} binary - binary string
+ * @returns {ArrayBuffer}
+ */
+export function binaryStringToArrayBuffer(binary) {
+  var length = binary.length;
+  var buf = new ArrayBuffer(length);
+  var arr = new Uint8Array(buf);
+  var i = -1;
+  while (++i < length) {
+    arr[i] = binary.charCodeAt(i);
+  }
+  return buf;
+}
+
+/**
+ * Convert an array buffer to a binary string
+ * @param {ArrayBuffer} buffer - array buffer
+ * @returns {string}
+ */
+export function arrayBufferToBinaryString(buffer) {
+  var binary = '';
+  var bytes = new Uint8Array(buffer);
+  var length = bytes.byteLength;
+  var i = -1;
+  while (++i < length) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+  return binary;
+}
 
 /**
  * Shim for
@@ -80,15 +75,32 @@ function imgToCanvas(img) {
  * [older browsers that use the deprecated <code>BlobBuilder</code> API]{@link http://caniuse.com/blob}.
  *
  * @param {Array} parts - content of the <code>Blob</code>
- * @param {Object} options - usually just <code>{type: myContentType}</code>
+ * @param {Object} options - usually <code>{type: myContentType}</code>, you can also pass a string
  * @returns {Blob}
  */
-function createBlob(parts, options) {
-  options = options || {};
-  if (typeof options === 'string') {
-    options = {type: options}; // do you a solid here
+export function createBlob(parts, properties) {
+  /* global BlobBuilder,MSBlobBuilder,MozBlobBuilder,WebKitBlobBuilder */
+  parts = parts || [];
+  properties = properties || {};
+  if (typeof properties === 'string') {
+    properties = {type: properties}; // infer content type
   }
-  return new Blob(parts, options);
+  try {
+    return new Blob(parts, properties);
+  } catch (e) {
+    if (e.name !== 'TypeError') {
+      throw e;
+    }
+    var Builder = typeof BlobBuilder !== 'undefined' ?
+      BlobBuilder : typeof MSBlobBuilder !== 'undefined' ?
+      MSBlobBuilder : typeof MozBlobBuilder !== 'undefined' ?
+      MozBlobBuilder : WebKitBlobBuilder;
+    var builder = new Builder();
+    for (var i = 0; i < parts.length; i += 1) {
+      builder.append(parts[i]);
+    }
+    return builder.getBlob(properties.type);
+  }
 }
 
 /**
@@ -99,7 +111,7 @@ function createBlob(parts, options) {
  * @param {Blob} blob
  * @returns {string} url
  */
-function createObjectURL(blob) {
+export function createObjectURL(blob) {
   return (window.URL || window.webkitURL).createObjectURL(blob);
 }
 
@@ -110,7 +122,7 @@ function createObjectURL(blob) {
  * <code>webkitURL</code> (e.g. Android <4.4).
  * @param {string} url
  */
-function revokeObjectURL(url) {
+export function revokeObjectURL(url) {
   return (window.URL || window.webkitURL).revokeObjectURL(url);
 }
 
@@ -120,7 +132,7 @@ function revokeObjectURL(url) {
  * @param {Blob} blob
  * @returns {Promise} Promise that resolves with the binary string
  */
-function blobToBinaryString(blob) {
+export function blobToBinaryString(blob) {
   return new Promise(function (resolve, reject) {
     var reader = new FileReader();
     var hasBinaryString = typeof reader.readAsBinaryString === 'function';
@@ -146,7 +158,7 @@ function blobToBinaryString(blob) {
  * @param {string|undefined} type - the content type (optional)
  * @returns {Promise} Promise that resolves with the <code>Blob</code>
  */
-function base64StringToBlob(base64, type) {
+export function base64StringToBlob(base64, type) {
   return Promise.resolve().then(function () {
     var parts = [binaryStringToArrayBuffer(atob(base64))];
     return type ? createBlob(parts, {type: type}) : createBlob(parts);
@@ -159,7 +171,7 @@ function base64StringToBlob(base64, type) {
  * @param {string|undefined} type - the content type (optional)
  * @returns {Promise} Promise that resolves with the <code>Blob</code>
  */
-function binaryStringToBlob(binary, type) {
+export function binaryStringToBlob(binary, type) {
   return Promise.resolve().then(function () {
     return base64StringToBlob(btoa(binary), type);
   });
@@ -170,7 +182,7 @@ function binaryStringToBlob(binary, type) {
  * @param {Blob} blob
  * @returns {Promise} Promise that resolves with the binary string
  */
-function blobToBase64String(blob) {
+export function blobToBase64String(blob) {
   return blobToBinaryString(blob).then(function (binary) {
     return btoa(binary);
   });
@@ -183,7 +195,7 @@ function blobToBase64String(blob) {
  * @param {string} dataURL
  * @returns {Promise} Promise that resolves with the <code>Blob</code>
  */
-function dataURLToBlob(dataURL) {
+export function dataURLToBlob(dataURL) {
   return Promise.resolve().then(function () {
     var type = dataURL.match(/data:([^;]+)/)[1];
     var base64 = dataURL.replace(/^[^,]+,/, '');
@@ -200,7 +212,7 @@ function dataURLToBlob(dataURL) {
  * @param {Blob} blob
  * @returns {Promise} Promise that resolves with the data URL string
  */
-function blobToDataURL(blob) {
+export function blobToDataURL(blob) {
   return blobToBase64String(blob).then(function (base64String) {
     return 'data:' + blob.type + ';base64,' + base64String;
   });
@@ -221,7 +233,7 @@ function blobToDataURL(blob) {
  *                                     if the requested type is 'image/jpeg' or 'image/webp'
  * @returns {Promise} Promise that resolves with the data URL string
  */
-function imgSrcToDataURL(src, type, crossOrigin, quality) {
+export function imgSrcToDataURL(src, type, crossOrigin, quality) {
   type = type || 'image/png';
 
   return loadImage(src, crossOrigin).then(function (img) {
@@ -239,7 +251,7 @@ function imgSrcToDataURL(src, type, crossOrigin, quality) {
  *                                     if the requested type is 'image/jpeg' or 'image/webp'
  * @returns {Promise} Promise that resolves with the <code>Blob</code>
  */
-function canvasToBlob(canvas, type, quality) {
+export function canvasToBlob(canvas, type, quality) {
   return Promise.resolve().then(function () {
     if (typeof canvas.toBlob === 'function') {
       return new Promise(function (resolve) {
@@ -265,7 +277,7 @@ function canvasToBlob(canvas, type, quality) {
  *                                     if the requested type is 'image/jpeg' or 'image/webp'
  * @returns {Promise} Promise that resolves with the <code>Blob</code>
  */
-function imgSrcToBlob(src, type, crossOrigin, quality) {
+export function imgSrcToBlob(src, type, crossOrigin, quality) {
   type = type || 'image/png';
 
   return loadImage(src, crossOrigin).then(function (img) {
@@ -282,7 +294,7 @@ function imgSrcToBlob(src, type, crossOrigin, quality) {
  * @param {string|undefined} type - the content type (optional)
  * @returns {Promise} Promise that resolves with the <code>Blob</code>
  */
-function arrayBufferToBlob(buffer, type) {
+export function arrayBufferToBlob(buffer, type) {
   return Promise.resolve().then(function () {
     return createBlob([buffer], type);
   });
@@ -293,7 +305,7 @@ function arrayBufferToBlob(buffer, type) {
  * @param {Blob} blob
  * @returns {Promise} Promise that resolves with the <code>ArrayBuffer</code>
  */
-function blobToArrayBuffer(blob) {
+export function blobToArrayBuffer(blob) {
   return new Promise(function (resolve, reject) {
     var reader = new FileReader();
     reader.onloadend = function (e) {
@@ -304,20 +316,3 @@ function blobToArrayBuffer(blob) {
     reader.readAsArrayBuffer(blob);
   });
 }
-
-module.exports = {
-  createBlob         : createBlob,
-  createObjectURL    : createObjectURL,
-  revokeObjectURL    : revokeObjectURL,
-  imgSrcToBlob       : imgSrcToBlob,
-  imgSrcToDataURL    : imgSrcToDataURL,
-  canvasToBlob       : canvasToBlob,
-  dataURLToBlob      : dataURLToBlob,
-  blobToDataURL      : blobToDataURL,
-  blobToBase64String : blobToBase64String,
-  base64StringToBlob : base64StringToBlob,
-  binaryStringToBlob : binaryStringToBlob,
-  blobToBinaryString : blobToBinaryString,
-  arrayBufferToBlob  : arrayBufferToBlob,
-  blobToArrayBuffer  : blobToArrayBuffer
-};

@@ -44,8 +44,12 @@ Now you have a `window.blobUtil` object. Or if you don't like globals, you can u
 Browser support
 -----
 
+As of v2.0.0, a built-in `Promise` polyfill is no longer provided. Assuming you provide a Promise
+polyfill, the supported browsers are:
+
 * Firefox
 * Chrome
+* Edge
 * IE 10+
 * Safari 6+
 * iOS 6+
@@ -100,8 +104,6 @@ So now we have two Kirbys - one with a normal URL, and the other with a blob URL
 API
 -------
 
-Warning: this API uses [Promises](https://promisesaplus.com/), because it's not 2009 anymore.
-
 ### Overview
 
 * [createBlob(parts, options)](#createBlob)
@@ -118,6 +120,8 @@ Warning: this API uses [Promises](https://promisesaplus.com/), because it's not 
 * [imgSrcToBlob(src, type, crossOrigin, quality)](#imgSrcToBlob)
 * [arrayBufferToBlob(buffer, type)](#arrayBufferToBlob)
 * [blobToArrayBuffer(blob)](#blobToArrayBuffer)
+* [arrayBufferToBinaryString(buffer)](#arrayBufferToBinaryString)
+* [binaryStringToArrayBuffer(binary)](#binaryStringToArrayBuffer)
  
 <a name="createBlob"></a>
 ### createBlob(parts, options)
@@ -452,10 +456,42 @@ blobUtil.blobToArrayBuffer(blob).then(function (arrayBuff) {
 });
 ```
 
+<a name="arrayBufferToBinaryString"></a>
+### arrayBufferToBinaryString(buffer)
+Convert an <code>ArrayBuffer</code> to a binary string. Returns the binary string.
+
+**Params**
+
+- buffer `ArrayBuffer`  
+
+**Returns**: binary string  
+
+**Example**:
+
+```js
+var myString = blobUtil.arrayBufferToBinaryString(arrayBuff)
+```
+
+<a name="binaryStringToArrayBuffer"></a>
+### binaryStringToArrayBuffer(binary)
+Convert a binary string to an <code>ArrayBuffer</code> to a binary string. Returns the <code>ArrayBuffer</code>
+
+**Params**
+
+- binary string  
+
+**Returns**: `ArrayBuffer`
+
+**Example**:
+
+```js
+var myBuffer = blobUtil.binaryStringToArrayBuffer(binaryString)
+```
+
 Credits
 ----
 
-Thanks to [webmodules/blob](https://github.com/webmodules/blob) for the Blob constructor shim, and to the rest of [the PouchDB team](https://github.com/pouchdb/pouchdb/graphs/contributors) for figuring most of this crazy stuff out.
+Thanks to the rest of [the PouchDB team](https://github.com/pouchdb/pouchdb/graphs/contributors) for figuring most of this crazy stuff out.
 
 Building the library
 ----

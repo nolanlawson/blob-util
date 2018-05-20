@@ -1,6 +1,10 @@
 'use strict';
 
-var blobUtil = require('../lib');
+if (typeof Promise === 'undefined') {
+  window.Promise = require('native-or-lie');
+}
+
+var blobUtil = require('../dist/blob-util.cjs.js');
 
 var chai = require('chai');
 chai.use(require("chai-as-promised"));

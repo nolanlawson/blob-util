@@ -1,5 +1,5 @@
 ui: mocha-bdd
-concurrency: 2
+concurrency: 1
 tunnel:
   type: ngrok
 browsers:
@@ -16,4 +16,4 @@ browsers:
   - name: iphone
     version: latest
   - name: android
-    version: latest
+    version: 4.4

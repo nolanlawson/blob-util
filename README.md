@@ -469,21 +469,6 @@ Building the library
     npm install
     npm run build
 
-To generate documentation in `doc/`:
-
-    npm run jsdoc
-
-or in markdown format as `api.md`
-
-    npm run jsdoc2md
-
-The playground is just `jsdoc` with some extra text containing Kirby and the code samples and such.
-
-So unfortunately you will need to do a manual diff to get the docs up to date. You'll need to diff:
-
-* `README.md` to its previous version (make sure to keep the code samples, which were manually added)
-* `docs` to its previous version
-
 Testing the library
 ----
 

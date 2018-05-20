@@ -24,7 +24,7 @@
     "test": "npm run jshint && zuul ./test/test.js",
     "test-local": "zuul ./test/test.js --local 9000",
     "build": "mkdirp dist && npm run browserify && npm run min",
-    "browserify": "browserify . -p bundle-collapser/plugin -s blobUtil | ./bin/es3ify.js | derequire > dist/blob-util.js",
+    "browserify": "browserify . -p bundle-collapser/plugin -s blobUtil | browserify-transform-cli es3ify | derequire > dist/blob-util.js",
     "min": "uglifyjs dist/blob-util.js -mc > dist/blob-util.min.js",
     "jsdoc2md": "jsdoc2md --heading-depth 3 ./lib/index.js > README.md",
     "jsdoc": "jsdoc -d docs ./lib/index.js && mv -f docs/global.html docs/index.html"
@@ -35,6 +35,7 @@
   },
   "devDependencies": {
     "browserify": "^9.0.3",
+    "browserify-transform-cli": "^1.1.1",
     "bundle-collapser": "^1.1.4",
     "chai": "~1.8.1",
     "chai-as-promised": "~4.1.0",

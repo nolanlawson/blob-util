@@ -33,12 +33,6 @@ Download it from the `dist/` folder above, or use NPM:
 $ npm install blob-util
 ```
 
-or Bower:
-
-```bash
-$ bower install blob-util
-```
-
 Then stick it in your HTML:
 
 ```html

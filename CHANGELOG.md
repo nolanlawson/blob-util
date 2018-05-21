@@ -1,7 +1,7 @@
 Changelog
 ====
 
-## V2.0.0
+## v2.0.0
 
 - Removed built-in `Promise` polyfill
 - Some APIs that returned `Promise`s now return bare values.

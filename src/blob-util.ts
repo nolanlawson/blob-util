@@ -18,9 +18,9 @@ import { loadImage, imgToCanvas } from './private'
 
 /**
  * Shim for
- * {@link https://developer.mozilla.org/en-US/docs/Web/API/Blob.Blob | <code>new Blob()</code>}
+ * [`new Blob()`](https://developer.mozilla.org/en-US/docs/Web/API/Blob.Blob)
  * to support
- * {@link http://caniuse.com/blob | older browsers that use the deprecated <code>BlobBuilder</code> API}.
+ * [older browsers that use the deprecated `BlobBuilder` API](http://caniuse.com/blob).
  *
  * Example:
  *
@@ -28,8 +28,8 @@ import { loadImage, imgToCanvas } from './private'
  * var myBlob = blobUtil.createBlob(['hello world'], {type: 'text/plain'});
  * ```
  *
- * @param parts - content of the <code>Blob</code>
- * @param properties - usually <code>{type: myContentType}</code>,
+ * @param parts - content of the `Blob`
+ * @param properties - usually `{type: myContentType}`,
  *                           you can also pass a string for the content type
  * @returns Blob
  */
@@ -59,9 +59,9 @@ export function createBlob (parts: Array<any>, properties?: BlobPropertyBag | st
 
 /**
  * Shim for
- * {@link https://developer.mozilla.org/en-US/docs/Web/API/URL.createObjectURL | <code>URL.createObjectURL()</code>}
+ * [`URL.createObjectURL()`](https://developer.mozilla.org/en-US/docs/Web/API/URL.createObjectURL)
  * to support browsers that only have the prefixed
- * <code>webkitURL</code> (e.g. Android <4.4).
+ * `webkitURL` (e.g. Android <4.4).
  *
  * Example:
  *
@@ -78,9 +78,9 @@ export function createObjectURL (blob: Blob): string {
 
 /**
  * Shim for
- * {@link https://developer.mozilla.org/en-US/docs/Web/API/URL.revokeObjectURL | <code>URL.revokeObjectURL()</code>}
+ * [`URL.revokeObjectURL()`](https://developer.mozilla.org/en-US/docs/Web/API/URL.revokeObjectURL)
  * to support browsers that only have the prefixed
- * <code>webkitURL</code> (e.g. Android <4.4).
+ * `webkitURL` (e.g. Android <4.4).
  *
  * Example:
  *
@@ -95,7 +95,7 @@ export function revokeObjectURL (url: string): void {
 }
 
 /**
- * Convert a <code>Blob</code> to a binary string.
+ * Convert a `Blob` to a binary string.
  *
  * Example:
  *
@@ -131,7 +131,7 @@ export function blobToBinaryString (blob: Blob): Promise<string> {
 }
 
 /**
- * Convert a base64-encoded string to a <code>Blob</code>.
+ * Convert a base64-encoded string to a `Blob`.
  *
  * Example:
  *
@@ -148,7 +148,7 @@ export function base64StringToBlob (base64: string, type?: string): Blob {
 }
 
 /**
- * Convert a binary string to a <code>Blob</code>.
+ * Convert a binary string to a `Blob`.
  *
  * Example:
  *
@@ -165,7 +165,7 @@ export function binaryStringToBlob (binary: string, type?: string): Blob {
 }
 
 /**
- * Convert a <code>Blob</code> to a binary string.
+ * Convert a `Blob` to a binary string.
  *
  * Example:
  *
@@ -186,8 +186,8 @@ export function blobToBase64String (blob: Blob): Promise<string> {
 
 /**
  * Convert a data URL string
- * (e.g. <code>'data:image/png;base64,iVBORw0KG...'</code>)
- * to a <code>Blob</code>.
+ * (e.g. `'data:image/png;base64,iVBORw0KG...'`)
+ * to a `Blob`.
  *
  * Example:
  *
@@ -207,8 +207,8 @@ export function dataURLToBlob (dataURL: string): Blob {
 }
 
 /**
- * Convert a <code>Blob</code> to a data URL string
- * (e.g. <code>'data:image/png;base64,iVBORw0KG...'</code>).
+ * Convert a `Blob` to a data URL string
+ * (e.g. `'data:image/png;base64,iVBORw0KG...'`).
  *
  * Example:
  *
@@ -226,8 +226,8 @@ export function blobToDataURL (blob: Blob): Promise<string> {
 }
 
 /**
- * Convert an image's <code>src</code> URL to a data URL by loading the image and painting
- * it to a <code>canvas</code>.
+ * Convert an image's `src` URL to a data URL by loading the image and painting
+ * it to a `canvas`.
  *
  * Note: this will coerce the image to the desired content type, and it
  * will only paint the first frame of an animated GIF.
@@ -268,7 +268,7 @@ export function imgSrcToDataURL (src: string, type?: string, crossOrigin?: strin
 }
 
 /**
- * Convert a <code>canvas</code> to a <code>Blob</code>.
+ * Convert a `canvas` to a `Blob`.
  *
  * Examples:
  *
@@ -295,7 +295,7 @@ export function imgSrcToDataURL (src: string, type?: string, crossOrigin?: strin
  * @param type - the content type (optional, defaults to 'image/png')
  * @param quality - a number between 0 and 1 indicating image quality
  *                                     if the requested type is 'image/jpeg' or 'image/webp'
- * @returns Promise that resolves with the <code>Blob</code>
+ * @returns Promise that resolves with the `Blob`
  */
 export function canvasToBlob (canvas: HTMLCanvasElement, type?: string, quality?: number): Promise<Blob> {
   if (typeof canvas.toBlob === 'function') {
@@ -307,8 +307,8 @@ export function canvasToBlob (canvas: HTMLCanvasElement, type?: string, quality?
 }
 
 /**
- * Convert an image's <code>src</code> URL to a <code>Blob</code> by loading the image and painting
- * it to a <code>canvas</code>.
+ * Convert an image's `src` URL to a `Blob` by loading the image and painting
+ * it to a `canvas`.
  *
  * Note: this will coerce the image to the desired content type, and it
  * will only paint the first frame of an animated GIF.
@@ -338,7 +338,7 @@ export function canvasToBlob (canvas: HTMLCanvasElement, type?: string, quality?
  *                                         'Anonymous' to avoid "tainted canvas" errors
  * @param quality - a number between 0 and 1 indicating image quality
  *                                     if the requested type is 'image/jpeg' or 'image/webp'
- * @returns Promise that resolves with the <code>Blob</code>
+ * @returns Promise that resolves with the `Blob`
  */
 export function imgSrcToBlob (src: string, type?: string, crossOrigin?: string, quality?: number): Promise<Blob> {
   type = type || 'image/png'
@@ -349,7 +349,7 @@ export function imgSrcToBlob (src: string, type?: string, crossOrigin?: string, 
 }
 
 /**
- * Convert an <code>ArrayBuffer</code> to a <code>Blob</code>.
+ * Convert an `ArrayBuffer` to a `Blob`.
  *
  * Example:
  *
@@ -366,7 +366,7 @@ export function arrayBufferToBlob (buffer: ArrayBuffer, type?: string): Blob {
 }
 
 /**
- * Convert a <code>Blob</code> to an <code>ArrayBuffer</code>.
+ * Convert a `Blob` to an `ArrayBuffer`.
  *
  * Example:
  *
@@ -379,7 +379,7 @@ export function arrayBufferToBlob (buffer: ArrayBuffer, type?: string): Blob {
  * ```
  *
  * @param blob
- * @returns Promise that resolves with the <code>ArrayBuffer</code>
+ * @returns Promise that resolves with the `ArrayBuffer`
  */
 export function blobToArrayBuffer (blob: Blob): Promise<ArrayBuffer> {
   return new Promise(function (resolve, reject) {
@@ -394,7 +394,7 @@ export function blobToArrayBuffer (blob: Blob): Promise<ArrayBuffer> {
 }
 
 /**
- * Convert an <code>ArrayBuffer</code> to a binary string.
+ * Convert an `ArrayBuffer` to a binary string.
  *
  * Example:
  *
@@ -417,7 +417,7 @@ export function arrayBufferToBinaryString (buffer: ArrayBuffer): string {
 }
 
 /**
- * Convert a binary string to an <code>ArrayBuffer</code>.
+ * Convert a binary string to an `ArrayBuffer`.
  *
  * ```js
  * var myBuffer = blobUtil.binaryStringToArrayBuffer(binaryString)

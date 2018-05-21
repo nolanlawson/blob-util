@@ -288,7 +288,7 @@ blobUtil.blobToArrayBuffer(blob).then(function (arrayBuff) {
 | blob | `Blob` |  - |
 
 **Returns:** `Promise`<`ArrayBuffer`>
-Promise that resolves with the <code>ArrayBuffer</code>
+Promise that resolves with the `ArrayBuffer`
 
 ___
 <a id="blobtobase64string"></a>
@@ -408,7 +408,7 @@ blobUtil.canvasToBlob(canvas, 'image/webp').then(function (blob) {
 | `Optional` quality | `number` |  a number between 0 and 1 indicating image quality if the requested type is 'image/jpeg' or 'image/webp' |
 
 **Returns:** `Promise`<`Blob`>
-Promise that resolves with the <code>Blob</code>
+Promise that resolves with the `Blob`
 
 ___
 <a id="createblob"></a>
@@ -417,7 +417,7 @@ ___
 
 ▸ **createBlob**(parts: *`Array`<`any`>*, properties?: * `BlobPropertyBag` &#124; `string`*): `Blob`
 
-Shim for [`new Blob()`](https://developer.mozilla.org/en-US/docs/Web/API/Blob.Blob ) to support [older browsers that use the deprecated `BlobBuilder` API](http://caniuse.com/blob ).
+Shim for [`new Blob()`](https://developer.mozilla.org/en-US/docs/Web/API/Blob.Blob) to support [older browsers that use the deprecated `BlobBuilder` API](http://caniuse.com/blob).
 
 Example:
 
@@ -429,8 +429,8 @@ var myBlob = blobUtil.createBlob(['hello world'], {type: 'text/plain'});
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| parts | `Array`<`any`> |  content of the <code>Blob</code> |
-| `Optional` properties |  `BlobPropertyBag` &#124; `string`|  usually <code>{type: myContentType}</code>, you can also pass a string for the content type |
+| parts | `Array`<`any`> |  content of the \`Blob\` |
+| `Optional` properties |  `BlobPropertyBag` &#124; `string`|  usually `{type: myContentType}`, you can also pass a string for the content type |
 
 **Returns:** `Blob`
 Blob
@@ -442,7 +442,7 @@ ___
 
 ▸ **createObjectURL**(blob: *`Blob`*): `string`
 
-Shim for [`URL.createObjectURL()`](https://developer.mozilla.org/en-US/docs/Web/API/URL.createObjectURL ) to support browsers that only have the prefixed `webkitURL` (e.g. Android <4.4).
+Shim for [`URL.createObjectURL()`](https://developer.mozilla.org/en-US/docs/Web/API/URL.createObjectURL) to support browsers that only have the prefixed `webkitURL` (e.g. Android <4.4).
 
 Example:
 
@@ -522,7 +522,7 @@ blobUtil.imgSrcToBlob('http://some-other-site.com/img.jpg', 'image/jpeg',
 | `Optional` quality | `number` |  a number between 0 and 1 indicating image quality if the requested type is 'image/jpeg' or 'image/webp' |
 
 **Returns:** `Promise`<`Blob`>
-Promise that resolves with the <code>Blob</code>
+Promise that resolves with the `Blob`
 
 ___
 <a id="imgsrctodataurl"></a>
@@ -572,7 +572,7 @@ ___
 
 ▸ **revokeObjectURL**(url: *`string`*): `void`
 
-Shim for [`URL.revokeObjectURL()`](https://developer.mozilla.org/en-US/docs/Web/API/URL.revokeObjectURL ) to support browsers that only have the prefixed `webkitURL` (e.g. Android <4.4).
+Shim for [`URL.revokeObjectURL()`](https://developer.mozilla.org/en-US/docs/Web/API/URL.revokeObjectURL) to support browsers that only have the prefixed `webkitURL` (e.g. Android <4.4).
 
 Example:
 

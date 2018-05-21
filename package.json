@@ -26,6 +26,7 @@
     "test": "npm run build && npm run lint && zuul --no-coverage ./test/test.js",
     "test-local": "npm run build && zuul ./test/test.js --local 9000 --no-coverage",
     "clean": "rimraf dist lib && mkdirp dist lib",
+    "prepublish": "npm run build",
     "build": "run-s clean build-ts build-js min",
     "build-ts": "tsc src/blob-util.ts --target ES6 --module es2015 --outDir lib -d && cpy lib/blob-util.d.ts dist/",
     "build-js": "run-p build-es build-cjs build-umd && rimraf lib",

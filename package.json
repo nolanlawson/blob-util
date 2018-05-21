@@ -4,7 +4,7 @@
   "description": "Utilities for working with Blob objects in the browser",
   "main": "dist/blob-util.cjs.js",
   "module": "dist/blob-util.es.js",
-  "types": "./dist/blob-util.d.ts",
+  "types": "dist/blob-util.d.ts",
   "repository": {
     "type": "git",
     "url": "git://github.com/nolanlawson/blob-util.git"

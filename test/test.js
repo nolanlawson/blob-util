@@ -83,7 +83,7 @@ describe('basic tests', function () {
   });
 
   it('convert base64 to png', function () {
-    return blobUtil.base64StringToBlob(transparent1x1Png, 'image/png').then(function (blob) {
+    return Promise.resolve(blobUtil.base64StringToBlob(transparent1x1Png, 'image/png')).then(function (blob) {
       return blobUtil.blobToBase64String(blob);
     }).then(function (string) {
       string.should.equal(transparent1x1Png);
@@ -91,7 +91,7 @@ describe('basic tests', function () {
   });
 
   it('convert base64 to png 2', function () {
-    return blobUtil.base64StringToBlob(black1x1Png, 'image/png').then(function (blob) {
+    return Promise.resolve(blobUtil.base64StringToBlob(black1x1Png, 'image/png')).then(function (blob) {
       return blobUtil.blobToBase64String(blob);
     }).then(function (string) {
         string.should.equal(black1x1Png);
@@ -100,7 +100,7 @@ describe('basic tests', function () {
 
   it('convert data url', function () {
     var dataURL = 'data:image/png;base64,' + transparent1x1Png;
-    return blobUtil.dataURLToBlob(dataURL).then(function (blob) {
+    return Promise.resolve(blobUtil.dataURLToBlob(dataURL)).then(function (blob) {
       return blobUtil.blobToBase64String(blob);
     }).then(function (string) {
       string.should.equal(transparent1x1Png);
@@ -137,7 +137,7 @@ describe('basic tests', function () {
 
   it('convert to binary and back', function () {
     var binary = atob(transparent1x1Png);
-    return blobUtil.binaryStringToBlob(binary, 'image/png').then(function (blob) {
+    return Promise.resolve(blobUtil.binaryStringToBlob(binary, 'image/png')).then(function (blob) {
       blob.size.should.equal(68);
       return blobUtil.blobToBase64String(blob).then(function (base64) {
         base64.should.equal(transparent1x1Png);
@@ -155,7 +155,7 @@ describe('basic tests', function () {
     for (var i = 0; i < bin.length; i++) {
       arr[i] = bin.charCodeAt(i);
     }
-    return blobUtil.arrayBufferToBlob(buffer, 'image/png').then(function (blob) {
+    return Promise.resolve(blobUtil.arrayBufferToBlob(buffer, 'image/png')).then(function (blob) {
       blob.size.should.equal(68);
       return blobUtil.blobToBase64String(blob).then(function (base64) {
         base64.should.equal(transparent1x1Png);
@@ -181,5 +181,20 @@ describe('basic tests', function () {
         lowQualityBlob.size.should.be.lessThan(blob.size);
       });
     });
+  });
+
+  it('convert array buffer to binary string and back', function () {
+    var bin = atob(transparent1x1Png);
+    var buffer = new ArrayBuffer(bin.length);
+    var arr = new Uint8Array(buffer);
+    for (var i = 0; i < bin.length; i++) {
+      arr[i] = bin.charCodeAt(i);
+    }
+
+    var outputBin = blobUtil.arrayBufferToBinaryString(buffer);
+    var outputBuff = blobUtil.binaryStringToArrayBuffer(bin);
+
+    outputBin.should.equal(bin);
+    blobUtil.arrayBufferToBinaryString(outputBuff).should.equal(bin);
   });
 });

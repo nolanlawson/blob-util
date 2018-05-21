@@ -25,9 +25,11 @@
     "test": "npm run build && npm run jshint && zuul --no-coverage ./test/test.js",
     "test-local": "npm run build && zuul ./test/test.js --local 9000 --no-coverage",
     "clean": "rimraf dist && mkdirp dist",
-    "build": "run-s clean build-for-node build-for-browser min",
-    "build-for-node": "rollup -i src/index.js -f es > dist/blob-util.es.js && rollup -i src/index.js -f cjs > dist/blob-util.cjs.js",
-    "build-for-browser": "rollup -i src/index.js -f umd -n blobUtil > dist/blob-util.js",
+    "build": "run-s clean build-all min",
+    "build-all": "run-p build-es build-cjs build-umd",
+    "build-es": "rollup -i src/index.js -f es -o dist/blob-util.es.js",
+    "build-cjs": "rollup -i src/index.js -f cjs -o dist/blob-util.cjs.js",
+    "build-umd": "rollup -i src/index.js -f umd -n blobUtil -o dist/blob-util.js",
     "min": "uglifyjs dist/blob-util.js -mc > dist/blob-util.min.js"
   },
   "devDependencies": {

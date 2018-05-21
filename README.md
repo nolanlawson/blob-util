@@ -192,7 +192,7 @@ blobUtil.revokeObjectURL(myUrl);
 
 <a name="blobToBinaryString"></a>
 ### blobToBinaryString(blob)
-Convert a <code>Blob</code> to a binary string. Returns a Promise.
+Convert a <code>Blob</code> to a binary string.
 
 **Params**
 
@@ -212,49 +212,41 @@ blobUtil.blobToBinaryString(blob).then(function (binaryString) {
  
 <a name="base64StringToBlob"></a>
 ### base64StringToBlob(base64, type)
-Convert a base64-encoded string to a <code>Blob</code>. Returns a Promise.
+Convert a base64-encoded string to a <code>Blob</code>.
 
 **Params**
 
 - base64 `string`  
 - type `string` | `undefined` - the content type (optional)  
 
-**Returns**: `Promise` - Promise that resolves with the <code>Blob</code>  
+**Returns**: <code>Blob</code>  
 
 **Example**:
 
 ```js
-blobUtil.base64StringToBlob(base64String).then(function (blob) {
-  // success
-}).catch(function (err) {
-  // error
-});
+var blob = blobUtil.base64StringToBlob(base64String);
 ```
 
 <a name="binaryStringToBlob"></a>
 ### binaryStringToBlob(binary, type)
-Convert a binary string to a <code>Blob</code>. Returns a Promise.
+Convert a binary string to a <code>Blob</code>.
 
 **Params**
 
 - binary `string`  
 - type `string` | `undefined` - the content type (optional)  
 
-**Returns**: `Promise` - Promise that resolves with the <code>Blob</code>  
+**Returns**: `Blob`  
 
 **Example**:
 
 ```js
-blobUtil.binaryStringToBlob(binaryString).then(function (blob) {
-  // success
-}).catch(function (err) {
-  // error
-});
+var blob = blobUtil.binaryStringToBlob(binaryString);
 ```
 
 <a name="blobToBase64String"></a>
 ### blobToBase64String(blob)
-Convert a <code>Blob</code> to a binary string. Returns a Promise.
+Convert a <code>Blob</code> to a binary string.
 
 **Params**
 
@@ -277,48 +269,39 @@ blobUtil.blobToBase64String(blob).then(function (base64String) {
 ### dataURLToBlob(dataURL)
 Convert a data URL string
 (e.g. <code>'data:image/png;base64,iVBORw0KG...'</code>)
-to a <code>Blob</code>. Returns a Promise.
+to a <code>Blob</code>.
 
 **Params**
 
 - dataURL `string`  
 
-**Returns**: `Promise` - Promise that resolves with the <code>Blob</code>  
+**Returns**: `Blob`  
 
 **Example**:
 
 ```js
-blobUtil.dataURLToBlob(dataURL).then(function (blob) {
-  // success
-}).catch(function (err) {
-  // error
-});
+var blob = blobUtil.dataURLToBlob(dataURL);
 ```
 <a name="blobToDataURL"></a>
 ### blobToDataURL(blob)
 Convert a <code>Blob</code> to a data URL string
 (e.g. <code>'data:image/png;base64,iVBORw0KG...'</code>).
-Returns a Promise.
 
 **Params**
 
 - blob `Blob`  
 
-**Returns**: `Promise` - Promise that resolves with the data URL string
+**Returns**: `string` - data URL string
 
 **Example**:
 
 ```js
-blobUtil.blobToDataURL(blob).then(function (dataURL) {
-  // success
-}).catch(function (err) {
-  // error
-});
+var dataURL = blobUtil.blobToDataURL(blob);
 ```
 <a name="imgSrcToDataURL"></a>
 ### imgSrcToDataURL(src, type, crossOrigin, quality)
 Convert an image's <code>src</code> URL to a data URL by loading the image and painting
-it to a <code>canvas</code>. Returns a Promise.
+it to a <code>canvas</code>.
 
 <p/>Note: this will coerce the image to the desired content type, and it
 will only paint the first frame of an animated GIF.
@@ -355,7 +338,7 @@ blobUtil.imgSrcToDataURL('http://some-other-site.com/img.jpg', 'image/jpeg',
 
 <a name="canvasToBlob"></a>
 ### canvasToBlob(canvas, type, quality)
-Convert a <code>canvas</code> to a <code>Blob</code>. Returns a Promise.
+Convert a <code>canvas</code> to a <code>Blob</code>.
 
 **Params**
 
@@ -391,7 +374,7 @@ blobUtil.canvasToBlob(canvas, 'image/webp').then(function (blob) {
 <a name="imgSrcToBlob"></a>
 ### imgSrcToBlob(src, type, crossOrigin, quality)
 Convert an image's <code>src</code> URL to a <code>Blob</code> by loading the image and painting
-it to a <code>canvas</code>. Returns a Promise.
+it to a <code>canvas</code>.
 
 <p/>Note: this will coerce the image to the desired content type, and it
 will only paint the first frame of an animated GIF.
@@ -428,28 +411,24 @@ blobUtil.imgSrcToBlob('http://some-other-site.com/img.jpg', 'image/jpeg',
 
 <a name="arrayBufferToBlob"></a>
 ### arrayBufferToBlob(buffer, type)
-Convert an <code>ArrayBuffer</code> to a <code>Blob</code>. Returns a Promise.
+Convert an <code>ArrayBuffer</code> to a <code>Blob</code>.
 
 **Params**
 
 - buffer `ArrayBuffer`  
 - type `string` | `undefined` - the content type (optional)  
 
-**Returns**: `Promise` - Promise that resolves with the <code>Blob</code>  
+**Returns**: `Blob`  
 
 **Example**:
 
 ```js
-blobUtil.arrayBufferToBlob(arrayBuff, 'audio/mpeg').then(function (blob) {
-  // success
-}).catch(function (err) {
-  // error
-});
+var blob = blobUtil.arrayBufferToBlob(arrayBuff, 'audio/mpeg');
 ```
 
 <a name="blobToArrayBuffer"></a>
 ### blobToArrayBuffer(blob)
-Convert a <code>Blob</code> to an <code>ArrayBuffer</code>. Returns a Promise.
+Convert a <code>Blob</code> to an <code>ArrayBuffer</code>.
 
 **Params**
 
@@ -475,7 +454,7 @@ Convert an <code>ArrayBuffer</code> to a binary string. Returns the binary strin
 
 - buffer `ArrayBuffer`  
 
-**Returns**: binary string  
+**Returns**: `string` - binary string  
 
 **Example**:
 

@@ -34,7 +34,7 @@
     "build-umd": "rollup -i lib/blob-util.js -f umd -n blobUtil -o dist/blob-util.js",
     "min": "uglifyjs dist/blob-util.js -mc > dist/blob-util.min.js",
     "doc": "run-s cleanup-doc gen-doc gen-readme cleanup-doc",
-    "gen-doc": "typedoc --out docs-tmp --target ES6 --theme markdown --mdHideSources --excludePrivate src",
+    "gen-doc": "typedoc --out docs-tmp --target ES6 --theme markdown --mdHideSources --excludePrivate --exclude private.ts src",
     "gen-readme": "node bin/write-docs-to-readme.js",
     "cleanup-doc": "rimraf docs-tmp"
   },

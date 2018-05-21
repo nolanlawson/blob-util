@@ -566,37 +566,6 @@ blobUtil.imgSrcToDataURL('http://some-other-site.com/img.jpg', 'image/jpeg',
 Promise that resolves with the data URL string
 
 ___
-<a id="imgtocanvas"></a>
-
-### `<Private>` imgToCanvas
-
-▸ **imgToCanvas**(img: *`any`*): `HTMLCanvasElement`
-
-**Parameters:**
-
-| Param | Type |
-| ------ | ------ |
-| img | `any` |
-
-**Returns:** `HTMLCanvasElement`
-
-___
-<a id="loadimage"></a>
-
-### `<Private>` loadImage
-
-▸ **loadImage**(src: *`any`*, crossOrigin: *`any`*): `Promise`<`Object`>
-
-**Parameters:**
-
-| Param | Type |
-| ------ | ------ |
-| src | `any` |
-| crossOrigin | `any` |
-
-**Returns:** `Promise`<`Object`>
-
-___
 <a id="revokeobjecturl"></a>
 
 ###  revokeObjectURL

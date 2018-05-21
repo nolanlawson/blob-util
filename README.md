@@ -429,7 +429,7 @@ var myBlob = blobUtil.createBlob(['hello world'], {type: 'text/plain'});
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| parts | `Array`<`any`> |  content of the \`Blob\` |
+| parts | `Array`<`any`> |  content of the Blob |
 | `Optional` properties |  `BlobPropertyBag` &#124; `string`|  usually `{type: myContentType}`, you can also pass a string for the content type |
 
 **Returns:** `Blob`

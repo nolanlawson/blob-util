@@ -28,7 +28,7 @@ import { loadImage, imgToCanvas } from './private'
  * var myBlob = blobUtil.createBlob(['hello world'], {type: 'text/plain'});
  * ```
  *
- * @param parts - content of the `Blob`
+ * @param parts - content of the Blob
  * @param properties - usually `{type: myContentType}`,
  *                           you can also pass a string for the content type
  * @returns Blob

@@ -115,6 +115,8 @@ So now we have two Kirbys - one with a normal URL, and the other with a blob URL
 API
 -------
 
+<!-- begin insert API -->
+
 ### Overview
 
 * [createBlob(parts, options)](#createBlob)
@@ -478,6 +480,8 @@ Convert a binary string to an <code>ArrayBuffer</code> to a binary string. Retur
 var myBuffer = blobUtil.binaryStringToArrayBuffer(binaryString)
 ```
 
+<!-- end insert API -->
+
 Credits
 ----
 
@@ -501,3 +505,7 @@ Then to test in the browser using Saucelabs:
 Or to test locally in your browser of choice:
 
     npm run test-local
+
+To build the API docs and insert them in the README:
+
+    npm run doc

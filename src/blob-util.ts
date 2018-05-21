@@ -3,12 +3,18 @@
 /* exported createObjectURL, revokeObjectURL, binaryStringToBlob, blobToDataURL,
    imgSrcToDataURL, imgSrcToBlob, arrayBufferToBlob, blobToArrayBuffer */
 
+/** @private */
 declare var BlobBuilder: any
+/** @private */
 declare var MozBlobBuilder: any
+/** @private */
 declare var MSBlobBuilder: any
+/** @private */
 declare var WebKitBlobBuilder: any
+/** @private */
 declare var webkitURL: any
 
+/** @private */
 function loadImage (src, crossOrigin) {
   return new Promise(function (resolve, reject) {
     var img = new Image()
@@ -23,6 +29,7 @@ function loadImage (src, crossOrigin) {
   })
 }
 
+/** @private */
 function imgToCanvas (img) {
   var canvas = document.createElement('canvas')
 
@@ -42,42 +49,16 @@ function imgToCanvas (img) {
 }
 
 /**
- * Convert a binary string to an <code>ArrayBuffer</code>.
- * @param binary - binary string
- * @returns array buffer
- */
-export function binaryStringToArrayBuffer (binary: string): ArrayBuffer {
-  var length = binary.length
-  var buf = new ArrayBuffer(length)
-  var arr = new Uint8Array(buf)
-  var i = -1
-  while (++i < length) {
-    arr[i] = binary.charCodeAt(i)
-  }
-  return buf
-}
-
-/**
- * Convert an <code>ArrayBuffer</code> to a binary string.
- * @param buffer - array buffer
- * @returns binary string
- */
-export function arrayBufferToBinaryString (buffer: ArrayBuffer): string {
-  var binary = ''
-  var bytes = new Uint8Array(buffer)
-  var length = bytes.byteLength
-  var i = -1
-  while (++i < length) {
-    binary += String.fromCharCode(bytes[i])
-  }
-  return binary
-}
-
-/**
  * Shim for
  * {@link https://developer.mozilla.org/en-US/docs/Web/API/Blob.Blob | <code>new Blob()</code>}
  * to support
  * {@link http://caniuse.com/blob | older browsers that use the deprecated <code>BlobBuilder</code> API}.
+ *
+ * Example:
+ *
+ * ```js
+ * var myBlob = blobUtil.createBlob(['hello world'], {type: 'text/plain'});
+ * ```
  *
  * @param parts - content of the <code>Blob</code>
  * @param properties - usually <code>{type: myContentType}</code>,
@@ -113,6 +94,13 @@ export function createBlob (parts: Array<any>, properties?: BlobPropertyBag | st
  * {@link https://developer.mozilla.org/en-US/docs/Web/API/URL.createObjectURL | <code>URL.createObjectURL()</code>}
  * to support browsers that only have the prefixed
  * <code>webkitURL</code> (e.g. Android <4.4).
+ *
+ * Example:
+ *
+ * ```js
+ * var myUrl = blobUtil.createObjectURL(blob);
+ * ```
+ *
  * @param blob
  * @returns url
  */
@@ -125,6 +113,13 @@ export function createObjectURL (blob: Blob): string {
  * {@link https://developer.mozilla.org/en-US/docs/Web/API/URL.revokeObjectURL | <code>URL.revokeObjectURL()</code>}
  * to support browsers that only have the prefixed
  * <code>webkitURL</code> (e.g. Android <4.4).
+ *
+ * Example:
+ *
+ * ```js
+ * blobUtil.revokeObjectURL(myUrl);
+ * ```
+ *
  * @param url
  */
 export function revokeObjectURL (url: string): void {
@@ -133,6 +128,16 @@ export function revokeObjectURL (url: string): void {
 
 /**
  * Convert a <code>Blob</code> to a binary string.
+ *
+ * Example:
+ *
+ * ```js
+ * blobUtil.blobToBinaryString(blob).then(function (binaryString) {
+ *   // success
+ * }).catch(function (err) {
+ *   // error
+ * });
+ * ```
  *
  * @param blob
  * @returns Promise that resolves with the binary string
@@ -159,6 +164,12 @@ export function blobToBinaryString (blob: Blob): Promise<string> {
 
 /**
  * Convert a base64-encoded string to a <code>Blob</code>.
+ *
+ * Example:
+ *
+ * ```js
+ * var blob = blobUtil.base64StringToBlob(base64String);
+ * ```
  * @param base64 - base64-encoded string
  * @param type - the content type (optional)
  * @returns Blob
@@ -170,6 +181,13 @@ export function base64StringToBlob (base64: string, type?: string): Blob {
 
 /**
  * Convert a binary string to a <code>Blob</code>.
+ *
+ * Example:
+ *
+ * ```js
+ * var blob = blobUtil.binaryStringToBlob(binaryString);
+ * ```
+ *
  * @param binary - binary string
  * @param type - the content type (optional)
  * @returns Blob
@@ -180,6 +198,17 @@ export function binaryStringToBlob (binary: string, type?: string): Blob {
 
 /**
  * Convert a <code>Blob</code> to a binary string.
+ *
+ * Example:
+ *
+ * ```js
+ * blobUtil.blobToBase64String(blob).then(function (base64String) {
+ *   // success
+ * }).catch(function (err) {
+ *   // error
+ * });
+ * ```
+ *
  * @param blob
  * @returns Promise that resolves with the binary string
  */
@@ -191,6 +220,13 @@ export function blobToBase64String (blob: Blob): Promise<string> {
  * Convert a data URL string
  * (e.g. <code>'data:image/png;base64,iVBORw0KG...'</code>)
  * to a <code>Blob</code>.
+ *
+ * Example:
+ *
+ * ```js
+ * var blob = blobUtil.dataURLToBlob(dataURL);
+ * ```
+ *
  * @param dataURL - dataURL-encoded string
  * @returns Blob
  */
@@ -205,6 +241,13 @@ export function dataURLToBlob (dataURL: string): Blob {
 /**
  * Convert a <code>Blob</code> to a data URL string
  * (e.g. <code>'data:image/png;base64,iVBORw0KG...'</code>).
+ *
+ * Example:
+ *
+ * ```js
+ * var dataURL = blobUtil.blobToDataURL(blob);
+ * ```
+ *
  * @param blob
  * @returns Promise that resolves with the data URL string
  */
@@ -218,8 +261,27 @@ export function blobToDataURL (blob: Blob): Promise<string> {
  * Convert an image's <code>src</code> URL to a data URL by loading the image and painting
  * it to a <code>canvas</code>.
  *
- * <p/>Note: this will coerce the image to the desired content type, and it
+ * Note: this will coerce the image to the desired content type, and it
  * will only paint the first frame of an animated GIF.
+ *
+ * Examples:
+ *
+ * ```js
+ * blobUtil.imgSrcToDataURL('http://mysite.com/img.png').then(function (dataURL) {
+ *   // success
+ * }).catch(function (err) {
+ *   // error
+ * });
+ * ```
+ *
+ * ```js
+ * blobUtil.imgSrcToDataURL('http://some-other-site.com/img.jpg', 'image/jpeg',
+ *                          'Anonymous', 1.0).then(function (dataURL) {
+ *   // success
+ * }).catch(function (err) {
+ *   // error
+ * });
+ * ```
  *
  * @param src - image src
  * @param type - the content type (optional, defaults to 'image/png')
@@ -239,7 +301,29 @@ export function imgSrcToDataURL (src: string, type?: string, crossOrigin?: strin
 
 /**
  * Convert a <code>canvas</code> to a <code>Blob</code>.
- * @param canvas
+ *
+ * Examples:
+ *
+ * ```js
+ * blobUtil.canvasToBlob(canvas).then(function (blob) {
+ *   // success
+ * }).catch(function (err) {
+ *   // error
+ * });
+ * ```
+ *
+ * Most browsers support converting a canvas to both `'image/png'` and `'image/jpeg'`. You may
+ * also want to try `'image/webp'`, which will work in some browsers like Chrome (and in other browsers, will just fall back to `'image/png'`):
+ *
+ * ```js
+ * blobUtil.canvasToBlob(canvas, 'image/webp').then(function (blob) {
+ *   // success
+ * }).catch(function (err) {
+ *   // error
+ * });
+ * ```
+ *
+ * @param canvas - HTMLCanvasElement
  * @param type - the content type (optional, defaults to 'image/png')
  * @param quality - a number between 0 and 1 indicating image quality
  *                                     if the requested type is 'image/jpeg' or 'image/webp'
@@ -258,8 +342,27 @@ export function canvasToBlob (canvas: HTMLCanvasElement, type?: string, quality?
  * Convert an image's <code>src</code> URL to a <code>Blob</code> by loading the image and painting
  * it to a <code>canvas</code>.
  *
- * <p/>Note: this will coerce the image to the desired content type, and it
+ * Note: this will coerce the image to the desired content type, and it
  * will only paint the first frame of an animated GIF.
+ *
+ * Examples:
+ *
+ * ```js
+ * blobUtil.imgSrcToBlob('http://mysite.com/img.png').then(function (blob) {
+ *   // success
+ * }).catch(function (err) {
+ *   // error
+ * });
+ * ```
+ *
+ * ```js
+ * blobUtil.imgSrcToBlob('http://some-other-site.com/img.jpg', 'image/jpeg',
+ *                          'Anonymous', 1.0).then(function (blob) {
+ *   // success
+ * }).catch(function (err) {
+ *   // error
+ * });
+ * ```
  *
  * @param src - image src
  * @param type - the content type (optional, defaults to 'image/png')
@@ -280,6 +383,12 @@ export function imgSrcToBlob (src: string, type?: string, crossOrigin?: string, 
 /**
  * Convert an <code>ArrayBuffer</code> to a <code>Blob</code>.
  *
+ * Example:
+ *
+ * ```js
+ * var blob = blobUtil.arrayBufferToBlob(arrayBuff, 'audio/mpeg');
+ * ```
+ *
  * @param buffer
  * @param type - the content type (optional)
  * @returns Blob
@@ -290,6 +399,17 @@ export function arrayBufferToBlob (buffer: ArrayBuffer, type?: string): Blob {
 
 /**
  * Convert a <code>Blob</code> to an <code>ArrayBuffer</code>.
+ *
+ * Example:
+ *
+ * ```js
+ * blobUtil.blobToArrayBuffer(blob).then(function (arrayBuff) {
+ *   // success
+ * }).catch(function (err) {
+ *   // error
+ * });
+ * ```
+ *
  * @param blob
  * @returns Promise that resolves with the <code>ArrayBuffer</code>
  */
@@ -303,4 +423,48 @@ export function blobToArrayBuffer (blob: Blob): Promise<ArrayBuffer> {
     reader.onerror = reject
     reader.readAsArrayBuffer(blob)
   })
+}
+
+/**
+ * Convert an <code>ArrayBuffer</code> to a binary string.
+ *
+ * Example:
+ *
+ * ```js
+ * var myString = blobUtil.arrayBufferToBinaryString(arrayBuff)
+ * ```
+ *
+ * @param buffer - array buffer
+ * @returns binary string
+ */
+export function arrayBufferToBinaryString (buffer: ArrayBuffer): string {
+  var binary = ''
+  var bytes = new Uint8Array(buffer)
+  var length = bytes.byteLength
+  var i = -1
+  while (++i < length) {
+    binary += String.fromCharCode(bytes[i])
+  }
+  return binary
+}
+
+/**
+ * Convert a binary string to an <code>ArrayBuffer</code>.
+ *
+ * ```js
+ * var myBuffer = blobUtil.binaryStringToArrayBuffer(binaryString)
+ * ```
+ *
+ * @param binary - binary string
+ * @returns array buffer
+ */
+export function binaryStringToArrayBuffer (binary: string): ArrayBuffer {
+  var length = binary.length
+  var buf = new ArrayBuffer(length)
+  var arr = new Uint8Array(buf)
+  var i = -1
+  while (++i < length) {
+    arr[i] = binary.charCodeAt(i)
+  }
+  return buf
 }

@@ -1,6 +1,6 @@
 {
   "name": "blob-util",
-  "version": "1.3.0",
+  "version": "2.0.0",
   "description": "Utilities for working with Blob objects in the browser",
   "main": "dist/blob-util.cjs.js",
   "module": "dist/blob-util.es.js",

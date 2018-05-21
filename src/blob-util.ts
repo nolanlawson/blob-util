@@ -1,6 +1,13 @@
-/* global Promise, Image, Blob, FileReader, atob, btoa */
+/* global Promise, Image, Blob, FileReader, atob, btoa,
+   BlobBuilder, MSBlobBuilder, MozBlobBuilder, WebKitBlobBuilder, webkitURL */
 /* exported createObjectURL, revokeObjectURL, binaryStringToBlob, blobToDataURL,
    imgSrcToDataURL, imgSrcToBlob, arrayBufferToBlob, blobToArrayBuffer */
+
+declare var BlobBuilder: any
+declare var MozBlobBuilder: any
+declare var MSBlobBuilder: any
+declare var WebKitBlobBuilder: any
+declare var webkitURL: any
 
 function loadImage (src, crossOrigin) {
   return new Promise(function (resolve, reject) {
@@ -36,10 +43,10 @@ function imgToCanvas (img) {
 
 /**
  * Convert a binary string to an <code>ArrayBuffer</code>.
- * @param {string} binary - binary string
- * @returns {ArrayBuffer}
+ * @param binary - binary string
+ * @returns array buffer
  */
-export function binaryStringToArrayBuffer (binary) {
+export function binaryStringToArrayBuffer (binary: string): ArrayBuffer {
   var length = binary.length
   var buf = new ArrayBuffer(length)
   var arr = new Uint8Array(buf)
@@ -52,10 +59,10 @@ export function binaryStringToArrayBuffer (binary) {
 
 /**
  * Convert an <code>ArrayBuffer</code> to a binary string.
- * @param {ArrayBuffer} buffer - array buffer
- * @returns {string}
+ * @param buffer - array buffer
+ * @returns binary string
  */
-export function arrayBufferToBinaryString (buffer) {
+export function arrayBufferToBinaryString (buffer: ArrayBuffer): string {
   var binary = ''
   var bytes = new Uint8Array(buffer)
   var length = bytes.byteLength
@@ -68,17 +75,16 @@ export function arrayBufferToBinaryString (buffer) {
 
 /**
  * Shim for
- * [new Blob()]{@link https://developer.mozilla.org/en-US/docs/Web/API/Blob.Blob}
+ * {@link https://developer.mozilla.org/en-US/docs/Web/API/Blob.Blob | <code>new Blob()</code>}
  * to support
- * [older browsers that use the deprecated <code>BlobBuilder</code> API]{@link http://caniuse.com/blob}.
+ * {@link http://caniuse.com/blob | older browsers that use the deprecated <code>BlobBuilder</code> API}.
  *
- * @param {Array} parts - content of the <code>Blob</code>
- * @param {Object} options - usually <code>{type: myContentType}</code>,
+ * @param parts - content of the <code>Blob</code>
+ * @param properties - usually <code>{type: myContentType}</code>,
  *                           you can also pass a string for the content type
- * @returns {Blob}
+ * @returns Blob
  */
-export function createBlob (parts, properties) {
-  /* global BlobBuilder,MSBlobBuilder,MozBlobBuilder,WebKitBlobBuilder */
+export function createBlob (parts: Array<any>, properties?: BlobPropertyBag | string): Blob {
   parts = parts || []
   properties = properties || {}
   if (typeof properties === 'string') {
@@ -92,8 +98,8 @@ export function createBlob (parts, properties) {
     }
     var Builder = typeof BlobBuilder !== 'undefined'
       ? BlobBuilder : typeof MSBlobBuilder !== 'undefined'
-        ? MSBlobBuilder : typeof MozBlobBuilder !== 'undefined'
-          ? MozBlobBuilder : WebKitBlobBuilder
+      ? MSBlobBuilder : typeof MozBlobBuilder !== 'undefined'
+      ? MozBlobBuilder : WebKitBlobBuilder
     var builder = new Builder()
     for (var i = 0; i < parts.length; i += 1) {
       builder.append(parts[i])
@@ -104,36 +110,34 @@ export function createBlob (parts, properties) {
 
 /**
  * Shim for
- * [URL.createObjectURL()]{@link https://developer.mozilla.org/en-US/docs/Web/API/URL.createObjectURL}
+ * {@link https://developer.mozilla.org/en-US/docs/Web/API/URL.createObjectURL | <code>URL.createObjectURL()</code>}
  * to support browsers that only have the prefixed
  * <code>webkitURL</code> (e.g. Android <4.4).
- * @param {Blob} blob
- * @returns {string} url
+ * @param blob
+ * @returns url
  */
-export function createObjectURL (blob) {
-  /* global webkitURL */
+export function createObjectURL (blob: Blob): string {
   return (typeof URL !== 'undefined' ? URL : webkitURL).createObjectURL(blob)
 }
 
 /**
  * Shim for
- * [URL.revokeObjectURL()]{@link https://developer.mozilla.org/en-US/docs/Web/API/URL.revokeObjectURL}
+ * {@link https://developer.mozilla.org/en-US/docs/Web/API/URL.revokeObjectURL | <code>URL.revokeObjectURL()</code>}
  * to support browsers that only have the prefixed
  * <code>webkitURL</code> (e.g. Android <4.4).
- * @param {string} url
+ * @param url
  */
-export function revokeObjectURL (url) {
-  /* global webkitURL */
+export function revokeObjectURL (url: string): void {
   return (typeof URL !== 'undefined' ? URL : webkitURL).revokeObjectURL(url)
 }
 
 /**
  * Convert a <code>Blob</code> to a binary string.
  *
- * @param {Blob} blob
- * @returns {Promise} Promise that resolves with the binary string
+ * @param blob
+ * @returns Promise that resolves with the binary string
  */
-export function blobToBinaryString (blob) {
+export function blobToBinaryString (blob: Blob): Promise<string> {
   return new Promise(function (resolve, reject) {
     var reader = new FileReader()
     var hasBinaryString = typeof reader.readAsBinaryString === 'function'
@@ -155,31 +159,31 @@ export function blobToBinaryString (blob) {
 
 /**
  * Convert a base64-encoded string to a <code>Blob</code>.
- * @param {string} base64
- * @param {string|undefined} type - the content type (optional)
- * @returns {Blob}
+ * @param base64 - base64-encoded string
+ * @param type - the content type (optional)
+ * @returns Blob
  */
-export function base64StringToBlob (base64, type) {
+export function base64StringToBlob (base64: string, type?: string): Blob {
   var parts = [binaryStringToArrayBuffer(atob(base64))]
   return type ? createBlob(parts, { type: type }) : createBlob(parts)
 }
 
 /**
  * Convert a binary string to a <code>Blob</code>.
- * @param {string} binary
- * @param {string|undefined} type - the content type (optional)
- * @returns {Blob}
+ * @param binary - binary string
+ * @param type - the content type (optional)
+ * @returns Blob
  */
-export function binaryStringToBlob (binary, type) {
+export function binaryStringToBlob (binary: string, type?: string): Blob {
   return base64StringToBlob(btoa(binary), type)
 }
 
 /**
  * Convert a <code>Blob</code> to a binary string.
- * @param {Blob} blob
- * @returns {Promise} Promise that resolves with the binary string
+ * @param blob
+ * @returns Promise that resolves with the binary string
  */
-export function blobToBase64String (blob) {
+export function blobToBase64String (blob: Blob): Promise<string> {
   return blobToBinaryString(blob).then(btoa)
 }
 
@@ -187,10 +191,10 @@ export function blobToBase64String (blob) {
  * Convert a data URL string
  * (e.g. <code>'data:image/png;base64,iVBORw0KG...'</code>)
  * to a <code>Blob</code>.
- * @param {string} dataURL
- * @returns {Blob}
+ * @param dataURL - dataURL-encoded string
+ * @returns Blob
  */
-export function dataURLToBlob (dataURL) {
+export function dataURLToBlob (dataURL: string): Blob {
   var type = dataURL.match(/data:([^;]+)/)[1]
   var base64 = dataURL.replace(/^[^,]+,/, '')
 
@@ -201,10 +205,10 @@ export function dataURLToBlob (dataURL) {
 /**
  * Convert a <code>Blob</code> to a data URL string
  * (e.g. <code>'data:image/png;base64,iVBORw0KG...'</code>).
- * @param {Blob} blob
- * @returns {Promise} Promise that resolves with the data URL string
+ * @param blob
+ * @returns Promise that resolves with the data URL string
  */
-export function blobToDataURL (blob) {
+export function blobToDataURL (blob: Blob): Promise<string> {
   return blobToBase64String(blob).then(function (base64String) {
     return 'data:' + blob.type + ';base64,' + base64String
   })
@@ -217,15 +221,15 @@ export function blobToDataURL (blob) {
  * <p/>Note: this will coerce the image to the desired content type, and it
  * will only paint the first frame of an animated GIF.
  *
- * @param {string} src
- * @param {string|undefined} type - the content type (optional, defaults to 'image/png')
- * @param {string|undefined} crossOrigin - for CORS-enabled images, set this to
+ * @param src - image src
+ * @param type - the content type (optional, defaults to 'image/png')
+ * @param crossOrigin - for CORS-enabled images, set this to
  *                                         'Anonymous' to avoid "tainted canvas" errors
- * @param {number|undefined} quality - a number between 0 and 1 indicating image quality
+ * @param quality - a number between 0 and 1 indicating image quality
  *                                     if the requested type is 'image/jpeg' or 'image/webp'
- * @returns {Promise} Promise that resolves with the data URL string
+ * @returns Promise that resolves with the data URL string
  */
-export function imgSrcToDataURL (src, type, crossOrigin, quality) {
+export function imgSrcToDataURL (src: string, type?: string, crossOrigin?: string, quality?: number): Promise<string> {
   type = type || 'image/png'
 
   return loadImage(src, crossOrigin).then(imgToCanvas).then(function (canvas) {
@@ -235,13 +239,13 @@ export function imgSrcToDataURL (src, type, crossOrigin, quality) {
 
 /**
  * Convert a <code>canvas</code> to a <code>Blob</code>.
- * @param {string} canvas
- * @param {string|undefined} type - the content type (optional, defaults to 'image/png')
- * @param {number|undefined} quality - a number between 0 and 1 indicating image quality
+ * @param canvas
+ * @param type - the content type (optional, defaults to 'image/png')
+ * @param quality - a number between 0 and 1 indicating image quality
  *                                     if the requested type is 'image/jpeg' or 'image/webp'
- * @returns {Promise} Promise that resolves with the <code>Blob</code>
+ * @returns Promise that resolves with the <code>Blob</code>
  */
-export function canvasToBlob (canvas, type, quality) {
+export function canvasToBlob (canvas: HTMLCanvasElement, type?: string, quality?: number): Promise<Blob> {
   if (typeof canvas.toBlob === 'function') {
     return new Promise(function (resolve) {
       canvas.toBlob(resolve, type, quality)
@@ -257,15 +261,15 @@ export function canvasToBlob (canvas, type, quality) {
  * <p/>Note: this will coerce the image to the desired content type, and it
  * will only paint the first frame of an animated GIF.
  *
- * @param {string} src
- * @param {string|undefined} type - the content type (optional, defaults to 'image/png')
- * @param {string|undefined} crossOrigin - for CORS-enabled images, set this to
+ * @param src - image src
+ * @param type - the content type (optional, defaults to 'image/png')
+ * @param crossOrigin - for CORS-enabled images, set this to
  *                                         'Anonymous' to avoid "tainted canvas" errors
- * @param {number|undefined} quality - a number between 0 and 1 indicating image quality
+ * @param quality - a number between 0 and 1 indicating image quality
  *                                     if the requested type is 'image/jpeg' or 'image/webp'
- * @returns {Promise} Promise that resolves with the <code>Blob</code>
+ * @returns Promise that resolves with the <code>Blob</code>
  */
-export function imgSrcToBlob (src, type, crossOrigin, quality) {
+export function imgSrcToBlob (src: string, type?: string, crossOrigin?: string, quality?: number): Promise<Blob> {
   type = type || 'image/png'
 
   return loadImage(src, crossOrigin).then(imgToCanvas).then(function (canvas) {
@@ -276,20 +280,20 @@ export function imgSrcToBlob (src, type, crossOrigin, quality) {
 /**
  * Convert an <code>ArrayBuffer</code> to a <code>Blob</code>.
  *
- * @param {ArrayBuffer} buffer
- * @param {string|undefined} type - the content type (optional)
- * @returns {Blob}
+ * @param buffer
+ * @param type - the content type (optional)
+ * @returns Blob
  */
-export function arrayBufferToBlob (buffer, type) {
+export function arrayBufferToBlob (buffer: ArrayBuffer, type?: string): Blob {
   return createBlob([buffer], type)
 }
 
 /**
  * Convert a <code>Blob</code> to an <code>ArrayBuffer</code>.
- * @param {Blob} blob
- * @returns {Promise} Promise that resolves with the <code>ArrayBuffer</code>
+ * @param blob
+ * @returns Promise that resolves with the <code>ArrayBuffer</code>
  */
-export function blobToArrayBuffer (blob) {
+export function blobToArrayBuffer (blob: Blob): Promise<ArrayBuffer> {
   return new Promise(function (resolve, reject) {
     var reader = new FileReader()
     reader.onloadend = function (e) {

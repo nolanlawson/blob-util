@@ -4,6 +4,7 @@
   "description": "Utilities for working with Blob objects in the browser",
   "main": "dist/blob-util.cjs.js",
   "module": "dist/blob-util.es.js",
+  "types": "./dist/blob-util.d.ts",
   "repository": {
     "type": "git",
     "url": "git://github.com/nolanlawson/blob-util.git"
@@ -21,13 +22,13 @@
     "url": "https://github.com/nolanlawson/blob-util/issues"
   },
   "scripts": {
-    "lint": "standard test/*js && tslint -c .tslint.json src/*ts",
+    "lint": "standard test/*js && tslint src/*ts",
     "test": "npm run build && npm run lint && zuul --no-coverage ./test/test.js",
     "test-local": "npm run build && zuul ./test/test.js --local 9000 --no-coverage",
     "clean": "rimraf dist lib && mkdirp dist lib",
     "build": "run-s clean build-ts build-js min",
-    "build-ts": "tsc src/blob-util.ts --target ES6 --module es2015 --outDir lib -d && cp lib/blob-util.d.ts dist/",
-    "build-js": "run-p build-es build-cjs build-umd",
+    "build-ts": "tsc src/blob-util.ts --target ES6 --module es2015 --outDir lib -d && cpy lib/blob-util.d.ts dist/",
+    "build-js": "run-p build-es build-cjs build-umd && rimraf lib",
     "build-es": "rollup -i lib/blob-util.js -f es -o dist/blob-util.es.js",
     "build-cjs": "rollup -i lib/blob-util.js -f cjs -o dist/blob-util.cjs.js",
     "build-umd": "rollup -i lib/blob-util.js -f umd -n blobUtil -o dist/blob-util.js",
@@ -37,6 +38,7 @@
     "bundle-collapser": "^1.1.4",
     "chai": "~1.8.1",
     "chai-as-promised": "~4.1.0",
+    "cpy-cli": "^1.0.1",
     "istanbul": "^0.2.7",
     "mkdirp": "^0.5.0",
     "mocha": "~1.18",

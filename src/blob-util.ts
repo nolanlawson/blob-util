@@ -1,37 +1,37 @@
-/* global Promise */
+/* global Promise, Image, Blob, FileReader, atob, btoa */
 /* exported createObjectURL, revokeObjectURL, binaryStringToBlob, blobToDataURL,
    imgSrcToDataURL, imgSrcToBlob, arrayBufferToBlob, blobToArrayBuffer */
 
-function loadImage(src, crossOrigin) {
+function loadImage (src, crossOrigin) {
   return new Promise(function (resolve, reject) {
-    var img = new Image();
+    var img = new Image()
     if (crossOrigin) {
-      img.crossOrigin = crossOrigin;
+      img.crossOrigin = crossOrigin
     }
     img.onload = function () {
-      resolve(img);
-    };
-    img.onerror = reject;
-    img.src = src;
-  });
+      resolve(img)
+    }
+    img.onerror = reject
+    img.src = src
+  })
 }
 
-function imgToCanvas(img) {
-  var canvas = document.createElement('canvas');
+function imgToCanvas (img) {
+  var canvas = document.createElement('canvas')
 
-  canvas.width = img.width;
-  canvas.height = img.height;
+  canvas.width = img.width
+  canvas.height = img.height
 
   // copy the image contents to the canvas
-  var context = canvas.getContext('2d');
+  var context = canvas.getContext('2d')
   context.drawImage(
     img,
     0, 0,
     img.width, img.height,
     0, 0,
-    img.width, img.height);
+    img.width, img.height)
 
-  return canvas;
+  return canvas
 }
 
 /**
@@ -39,15 +39,15 @@ function imgToCanvas(img) {
  * @param {string} binary - binary string
  * @returns {ArrayBuffer}
  */
-export function binaryStringToArrayBuffer(binary) {
-  var length = binary.length;
-  var buf = new ArrayBuffer(length);
-  var arr = new Uint8Array(buf);
-  var i = -1;
+export function binaryStringToArrayBuffer (binary) {
+  var length = binary.length
+  var buf = new ArrayBuffer(length)
+  var arr = new Uint8Array(buf)
+  var i = -1
   while (++i < length) {
-    arr[i] = binary.charCodeAt(i);
+    arr[i] = binary.charCodeAt(i)
   }
-  return buf;
+  return buf
 }
 
 /**
@@ -55,15 +55,15 @@ export function binaryStringToArrayBuffer(binary) {
  * @param {ArrayBuffer} buffer - array buffer
  * @returns {string}
  */
-export function arrayBufferToBinaryString(buffer) {
-  var binary = '';
-  var bytes = new Uint8Array(buffer);
-  var length = bytes.byteLength;
-  var i = -1;
+export function arrayBufferToBinaryString (buffer) {
+  var binary = ''
+  var bytes = new Uint8Array(buffer)
+  var length = bytes.byteLength
+  var i = -1
   while (++i < length) {
-    binary += String.fromCharCode(bytes[i]);
+    binary += String.fromCharCode(bytes[i])
   }
-  return binary;
+  return binary
 }
 
 /**
@@ -77,28 +77,28 @@ export function arrayBufferToBinaryString(buffer) {
  *                           you can also pass a string for the content type
  * @returns {Blob}
  */
-export function createBlob(parts, properties) {
+export function createBlob (parts, properties) {
   /* global BlobBuilder,MSBlobBuilder,MozBlobBuilder,WebKitBlobBuilder */
-  parts = parts || [];
-  properties = properties || {};
+  parts = parts || []
+  properties = properties || {}
   if (typeof properties === 'string') {
-    properties = {type: properties}; // infer content type
+    properties = { type: properties } // infer content type
   }
   try {
-    return new Blob(parts, properties);
+    return new Blob(parts, properties)
   } catch (e) {
     if (e.name !== 'TypeError') {
-      throw e;
+      throw e
     }
-    var Builder = typeof BlobBuilder !== 'undefined' ?
-      BlobBuilder : typeof MSBlobBuilder !== 'undefined' ?
-      MSBlobBuilder : typeof MozBlobBuilder !== 'undefined' ?
-      MozBlobBuilder : WebKitBlobBuilder;
-    var builder = new Builder();
+    var Builder = typeof BlobBuilder !== 'undefined'
+      ? BlobBuilder : typeof MSBlobBuilder !== 'undefined'
+        ? MSBlobBuilder : typeof MozBlobBuilder !== 'undefined'
+          ? MozBlobBuilder : WebKitBlobBuilder
+    var builder = new Builder()
     for (var i = 0; i < parts.length; i += 1) {
-      builder.append(parts[i]);
+      builder.append(parts[i])
     }
-    return builder.getBlob(properties.type);
+    return builder.getBlob(properties.type)
   }
 }
 
@@ -110,9 +110,9 @@ export function createBlob(parts, properties) {
  * @param {Blob} blob
  * @returns {string} url
  */
-export function createObjectURL(blob) {
+export function createObjectURL (blob) {
   /* global webkitURL */
-  return (typeof URL !== 'undefined' ? URL : webkitURL).createObjectURL(blob);
+  return (typeof URL !== 'undefined' ? URL : webkitURL).createObjectURL(blob)
 }
 
 /**
@@ -122,9 +122,9 @@ export function createObjectURL(blob) {
  * <code>webkitURL</code> (e.g. Android <4.4).
  * @param {string} url
  */
-export function revokeObjectURL(url) {
+export function revokeObjectURL (url) {
   /* global webkitURL */
-  return (typeof URL !== 'undefined' ? URL : webkitURL).revokeObjectURL(url);
+  return (typeof URL !== 'undefined' ? URL : webkitURL).revokeObjectURL(url)
 }
 
 /**
@@ -133,24 +133,24 @@ export function revokeObjectURL(url) {
  * @param {Blob} blob
  * @returns {Promise} Promise that resolves with the binary string
  */
-export function blobToBinaryString(blob) {
+export function blobToBinaryString (blob) {
   return new Promise(function (resolve, reject) {
-    var reader = new FileReader();
-    var hasBinaryString = typeof reader.readAsBinaryString === 'function';
+    var reader = new FileReader()
+    var hasBinaryString = typeof reader.readAsBinaryString === 'function'
     reader.onloadend = function (e) {
-      var result = e.target.result || '';
+      var result = e.target.result || ''
       if (hasBinaryString) {
-        return resolve(result);
+        return resolve(result)
       }
-      resolve(arrayBufferToBinaryString(result));
-    };
-    reader.onerror = reject;
-    if (hasBinaryString) {
-      reader.readAsBinaryString(blob);
-    } else {
-      reader.readAsArrayBuffer(blob);
+      resolve(arrayBufferToBinaryString(result))
     }
-  });
+    reader.onerror = reject
+    if (hasBinaryString) {
+      reader.readAsBinaryString(blob)
+    } else {
+      reader.readAsArrayBuffer(blob)
+    }
+  })
 }
 
 /**
@@ -159,9 +159,9 @@ export function blobToBinaryString(blob) {
  * @param {string|undefined} type - the content type (optional)
  * @returns {Blob}
  */
-export function base64StringToBlob(base64, type) {
-  var parts = [binaryStringToArrayBuffer(atob(base64))];
-  return type ? createBlob(parts, {type: type}) : createBlob(parts);
+export function base64StringToBlob (base64, type) {
+  var parts = [binaryStringToArrayBuffer(atob(base64))]
+  return type ? createBlob(parts, { type: type }) : createBlob(parts)
 }
 
 /**
@@ -170,8 +170,8 @@ export function base64StringToBlob(base64, type) {
  * @param {string|undefined} type - the content type (optional)
  * @returns {Blob}
  */
-export function binaryStringToBlob(binary, type) {
-  return base64StringToBlob(btoa(binary), type);
+export function binaryStringToBlob (binary, type) {
+  return base64StringToBlob(btoa(binary), type)
 }
 
 /**
@@ -179,8 +179,8 @@ export function binaryStringToBlob(binary, type) {
  * @param {Blob} blob
  * @returns {Promise} Promise that resolves with the binary string
  */
-export function blobToBase64String(blob) {
-  return blobToBinaryString(blob).then(btoa);
+export function blobToBase64String (blob) {
+  return blobToBinaryString(blob).then(btoa)
 }
 
 /**
@@ -190,12 +190,12 @@ export function blobToBase64String(blob) {
  * @param {string} dataURL
  * @returns {Blob}
  */
-export function dataURLToBlob(dataURL) {
-  var type = dataURL.match(/data:([^;]+)/)[1];
-  var base64 = dataURL.replace(/^[^,]+,/, '');
+export function dataURLToBlob (dataURL) {
+  var type = dataURL.match(/data:([^;]+)/)[1]
+  var base64 = dataURL.replace(/^[^,]+,/, '')
 
-  var buff = binaryStringToArrayBuffer(atob(base64));
-  return createBlob([buff], {type: type});
+  var buff = binaryStringToArrayBuffer(atob(base64))
+  return createBlob([buff], { type: type })
 }
 
 /**
@@ -204,10 +204,10 @@ export function dataURLToBlob(dataURL) {
  * @param {Blob} blob
  * @returns {Promise} Promise that resolves with the data URL string
  */
-export function blobToDataURL(blob) {
+export function blobToDataURL (blob) {
   return blobToBase64String(blob).then(function (base64String) {
-    return 'data:' + blob.type + ';base64,' + base64String;
-  });
+    return 'data:' + blob.type + ';base64,' + base64String
+  })
 }
 
 /**
@@ -225,12 +225,12 @@ export function blobToDataURL(blob) {
  *                                     if the requested type is 'image/jpeg' or 'image/webp'
  * @returns {Promise} Promise that resolves with the data URL string
  */
-export function imgSrcToDataURL(src, type, crossOrigin, quality) {
-  type = type || 'image/png';
+export function imgSrcToDataURL (src, type, crossOrigin, quality) {
+  type = type || 'image/png'
 
   return loadImage(src, crossOrigin).then(imgToCanvas).then(function (canvas) {
-    return canvas.toDataURL(type, quality);
-  });
+    return canvas.toDataURL(type, quality)
+  })
 }
 
 /**
@@ -241,13 +241,13 @@ export function imgSrcToDataURL(src, type, crossOrigin, quality) {
  *                                     if the requested type is 'image/jpeg' or 'image/webp'
  * @returns {Promise} Promise that resolves with the <code>Blob</code>
  */
-export function canvasToBlob(canvas, type, quality) {
+export function canvasToBlob (canvas, type, quality) {
   if (typeof canvas.toBlob === 'function') {
     return new Promise(function (resolve) {
-      canvas.toBlob(resolve, type, quality);
-    });
+      canvas.toBlob(resolve, type, quality)
+    })
   }
-  return Promise.resolve(dataURLToBlob(canvas.toDataURL(type, quality)));
+  return Promise.resolve(dataURLToBlob(canvas.toDataURL(type, quality)))
 }
 
 /**
@@ -265,12 +265,12 @@ export function canvasToBlob(canvas, type, quality) {
  *                                     if the requested type is 'image/jpeg' or 'image/webp'
  * @returns {Promise} Promise that resolves with the <code>Blob</code>
  */
-export function imgSrcToBlob(src, type, crossOrigin, quality) {
-  type = type || 'image/png';
+export function imgSrcToBlob (src, type, crossOrigin, quality) {
+  type = type || 'image/png'
 
   return loadImage(src, crossOrigin).then(imgToCanvas).then(function (canvas) {
-    return canvasToBlob(canvas, type, quality);
-  });
+    return canvasToBlob(canvas, type, quality)
+  })
 }
 
 /**
@@ -280,8 +280,8 @@ export function imgSrcToBlob(src, type, crossOrigin, quality) {
  * @param {string|undefined} type - the content type (optional)
  * @returns {Blob}
  */
-export function arrayBufferToBlob(buffer, type) {
-  return createBlob([buffer], type);
+export function arrayBufferToBlob (buffer, type) {
+  return createBlob([buffer], type)
 }
 
 /**
@@ -289,14 +289,14 @@ export function arrayBufferToBlob(buffer, type) {
  * @param {Blob} blob
  * @returns {Promise} Promise that resolves with the <code>ArrayBuffer</code>
  */
-export function blobToArrayBuffer(blob) {
+export function blobToArrayBuffer (blob) {
   return new Promise(function (resolve, reject) {
-    var reader = new FileReader();
+    var reader = new FileReader()
     reader.onloadend = function (e) {
-      var result = e.target.result || new ArrayBuffer(0);
-      resolve(result);
-    };
-    reader.onerror = reject;
-    reader.readAsArrayBuffer(blob);
-  });
+      var result = e.target.result || new ArrayBuffer(0)
+      resolve(result)
+    }
+    reader.onerror = reject
+    reader.readAsArrayBuffer(blob)
+  })
 }

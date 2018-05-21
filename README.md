@@ -27,24 +27,35 @@ It's also a good pairing with the attachment API in [PouchDB](http://pouchdb.com
 Install
 ------
 
-Download it from the `dist/` folder above, or use NPM:
+Via npm:
 
 ```bash
-$ npm install blob-util
+npm install blob-util
 ```
 
-Then stick it in your HTML:
+ES modules are supported:
+
+```js
+import { canvasToBlob } from 'blob-util'
+canvasToBlob(canvas, 'image/png').then(/* ... */)
+```
+
+Or as a script tag:
 
 ```html
-<script src="blob-util.js"></script>
+<script src="https://unpkg.com/blob-util/dist/blob-util.min.js"></script>
 ```
 
-Now you have a `window.blobUtil` object. Or if you don't like globals, you can use Browserify.
+Then it's available as a global `blobUtil` object:
+
+```js
+blobUtil.canvasToBlob(canvas, 'image/png').then(/* ... */)
+```
 
 Browser support
 -----
 
-As of v2.0.0, a built-in `Promise` polyfill is no longer provided. Assuming you provide a Promise
+As of v2.0.0, a built-in `Promise` polyfill is no longer provided. Assuming you provide a `Promise`
 polyfill, the supported browsers are:
 
 * Firefox

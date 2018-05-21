@@ -144,7 +144,7 @@ to support
 **Params**
 
 - parts `Array` - content of the <code>Blob</code>  
-- options `Object` - usually just <code>{type: myContentType}</code>  
+- options `Object` - usually just <code>{type: myContentType}</code>, you can also pass a string for the content type
 
 **Returns**: `Blob`  
 

@@ -32,7 +32,8 @@
     "build-es": "rollup -i lib/blob-util.js -f es -o dist/blob-util.es.js",
     "build-cjs": "rollup -i lib/blob-util.js -f cjs -o dist/blob-util.cjs.js",
     "build-umd": "rollup -i lib/blob-util.js -f umd -n blobUtil -o dist/blob-util.js",
-    "min": "uglifyjs dist/blob-util.js -mc > dist/blob-util.min.js"
+    "min": "uglifyjs dist/blob-util.js -mc > dist/blob-util.min.js",
+    "doc": "typedoc --out docs-tmp --target ES6 --theme markdown --mdHideSources src"
   },
   "devDependencies": {
     "bundle-collapser": "^1.1.4",

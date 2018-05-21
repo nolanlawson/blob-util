@@ -141,8 +141,8 @@ export function blobToBinaryString (blob: Blob): Promise<string> {
   return new Promise(function (resolve, reject) {
     var reader = new FileReader()
     var hasBinaryString = typeof reader.readAsBinaryString === 'function'
-    reader.onloadend = function (e) {
-      var result = e.target.result || ''
+    reader.onloadend = function () {
+      var result = reader.result || ''
       if (hasBinaryString) {
         return resolve(result)
       }
@@ -296,8 +296,8 @@ export function arrayBufferToBlob (buffer: ArrayBuffer, type?: string): Blob {
 export function blobToArrayBuffer (blob: Blob): Promise<ArrayBuffer> {
   return new Promise(function (resolve, reject) {
     var reader = new FileReader()
-    reader.onloadend = function (e) {
-      var result = e.target.result || new ArrayBuffer(0)
+    reader.onloadend = function () {
+      var result = reader.result || new ArrayBuffer(0)
       resolve(result)
     }
     reader.onerror = reject

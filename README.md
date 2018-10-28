@@ -27,20 +27,36 @@ It's also a good pairing with the attachment API in [PouchDB](http://pouchdb.com
 Install
 ------
 
-Via npm:
+### Using Webpack/Rollup/Babel/TypeScript/etc.
+
+Install via npm:
 
 ```bash
 npm install blob-util
 ```
 
-ES modules are supported:
+ES module format:
+
+```js
+import * as blobUtil from 'blob-util'
+blobUtil.canvasToBlob(canvas, 'image/png').then(/* ... */)
+```
+
+Or:
 
 ```js
 import { canvasToBlob } from 'blob-util'
 canvasToBlob(canvas, 'image/png').then(/* ... */)
 ```
 
-Or as a script tag:
+CommonJS format:
+
+```js
+var blobUtil = require('blob-util')
+blobUtil.canvasToBlob(canvas, 'image/png').then(/* ... */)
+```
+
+### As a script tag
 
 ```html
 <script src="https://unpkg.com/blob-util/dist/blob-util.min.js"></script>
